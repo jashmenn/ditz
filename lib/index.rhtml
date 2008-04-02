@@ -1,0 +1,83 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title><%= project.name %> Issue Tracker</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+
+<h1><%= project.name %> Issue Tracker</h1>
+
+<h2>Upcoming Releases</h2>
+<% if upcoming_releases.empty? %>
+  <p>No upcoming releases.</p>
+<% else %>
+  <ul>
+  <% upcoming_releases.each do |r| %>
+    <%
+      issues = project.issues_for_release r
+      num_done = issues.count_of { |i| i.closed? }
+      pct_done = issues.size == 0 ? 100 : (100.0 * num_done / issues.size)
+      num_bugs_todo = issues.count_of { |i| i.bug? && i.open? }
+      num_feats_todo = issues.count_of { |i| i.feature? && i.open? }
+    %>
+    <li>
+      <%= link_to r, "Release #{r.name}" %>: 
+      <% if issues.empty? %>
+        no issues
+      <% else %>
+        <%= sprintf "%.0f%%", pct_done %> complete;
+        <%= "bug".pluralize num_bugs_todo %> and 
+        <%= "feature".pluralize num_feats_todo %> open.
+      <% end %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
+<h2>Past Releases</h2>
+<% if past_releases.empty? %>
+  <p>No past releases.</p>
+<% else %>
+  <ul>
+  <% past_releases.each do |r| %>
+    <li><%= link_to r, "Release #{r.name}" %>, released <%= r.release_time.pretty_date %>. </li>
+  <% end %>
+  </ul>
+<% end %>
+
+<h2>Unassigned issues</h2>
+<%
+  issues = project.unassigned_issues
+  open_issues = issues.select { |i| i.open? }
+%>
+<p>
+  <%= link_to "unassigned", "unassigned issue".pluralize(issues.size).ucfirst %>; <%= open_issues.size.to_pretty_s %> open.
+</p>
+
+<% if components.size > 1 %>
+  <h2>Open Issues by component</h2>
+  <ul>
+  <% components.each do |c| %>
+    <%
+      open_issues = project.issues_for_component(c).select { |i| i.open? }
+      num_bugs_todo = open_issues.count_of { |i| i.bug? }
+      num_feats_todo = open_issues.count_of { |i| i.feature? }
+    %>
+    <li>
+      <%= link_to c, c.name %>:
+      <% if open_issues.empty? %>
+        no open issues.
+      <% else %>
+        <%= "open bug".pluralize num_bugs_todo %> and
+        <%= "open feature".pluralize num_feats_todo %>.
+      <% end %>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
+<p class="footer">Generated <%= Time.now %> by <a href="http://ditz.rubyforge.org/">ditz</a>.
+
+</body>
+</html>

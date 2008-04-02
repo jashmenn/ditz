@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Component <%= component.name %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+<%= link_to "index", "&laquo; #{project.name} project page" %>
+
+<h1><%= project.name %> component: <%= component.name %></h1>
+
+<%= render "issue_table", :show_component => false, :show_release => true %>
+
+<p class="footer">Generated <%= Time.now %> by <a href="http://ditz.rubyforge.org/">ditz</a>.
+</body>
+</html>

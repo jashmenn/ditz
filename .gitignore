@@ -1,0 +1,4 @@
+# i use vi
+*.swp
+bugs.yaml~
+.wiggum-config

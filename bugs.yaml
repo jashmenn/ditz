@@ -1,0 +1,577 @@
+--- !ditz.rubyforge.org,2008-03-06/project 
+name: ditz
+version: 0.0.1
+issues: 
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: commands needs full argument parsing
+  desc: todo -v, show -v, for example
+  type: :feature
+  component: ditz
+  release: 
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :unstarted
+  disposition: 
+  creation_time: 2008-03-06 21:02:17.710050 -08:00
+  references: []
+
+  id: 3d18eaab4e6099cd38f1cdee06698564e638e87d
+  log_events: 
+  - - 2008-03-06 21:02:17.710083 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-06 21:02:33.058861 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - assigned to release 0.1 from unassigned
+    - ""
+  - - 2008-03-30 19:18:58.112845 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - unassigned from release 0.1
+    - |-
+      not critical for 0.1, and i want to get that out, and this will probably
+      require another trollop release, so... this is deprioritized for now.
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: changelog shouldn't abort if there are unclosed issues, just skip them
+  desc: ""
+  type: :bugfix
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: fixed
+  creation_time: 2008-03-06 21:03:22.972968 -08:00
+  references: []
+
+  id: 0811bb984a2f25a49a96763efe2f86f0c59ce1f4
+  log_events: 
+  - - 2008-03-06 21:03:22.973004 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-06 23:52:57.176787 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: status-like html generator
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-06 21:03:55.739201 -08:00
+  references: []
+
+  id: 85da8df84df1c2c2484c9b63b69c4918d5fb0079
+  log_events: 
+  - - 2008-03-06 21:03:55.739238 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-08 14:04:02.973872 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to in_progress
+    - ""
+  - - 2008-03-30 15:18:31.484325 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - closed issue with disposition fixed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: "'archive' command"
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.2"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :unstarted
+  disposition: 
+  creation_time: 2008-03-06 21:04:08.771047 -08:00
+  references: []
+
+  id: 308e3794685e4bdb6c7acaf8461ff37e195da14d
+  log_events: 
+  - - 2008-03-06 21:04:08.771082 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-30 20:27:49.843846 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - assigned to release 0.2 from 0.1
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: extensibility
+  desc: |-
+    you should be able to extend ditz for things like tighter SCM integration.
+    
+    basic extension points: adding fields and model objects, changing the
+    html and screen output accordingly, adding operations.
+    
+    use cases: integrate with git. integrate with a mailing list like sup-talk.
+    
+    currently {issue be0b8ee4588407615e2ba3acd0edeca08ed24df5} gives the ability to add field and model objects, and
+    adding operations can be done by reopening Ditz::Operator. that's a starting
+    point, at least.
+  type: :feature
+  component: ditz
+  release: 
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :unstarted
+  disposition: 
+  creation_time: 2008-03-06 21:05:04.339450 -08:00
+  references: []
+
+  id: 0704dafe4aef96279364013aba177a0971d425cb
+  log_events: 
+  - - 2008-03-06 21:05:04.339483 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-31 15:51:57.239776 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed title, changed description
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: ask :limit option not enforcing single characters
+  desc: "try with (b)ugfix or (f)eature question: multi-char answers work"
+  type: :bugfix
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-06 21:05:51.062451 -08:00
+  references: []
+
+  id: 78db61d32e8c88ed79b67336de94996b0b564303
+  log_events: 
+  - - 2008-03-06 21:05:51.062489 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-08 14:24:49.761605 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: better error handling
+  desc: |
+    many exceptions simple uncaught atm. ideally they would be turned into
+    nice messages for the user.
+
+  type: :feature
+  component: ditz
+  release: 
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :unstarted
+  disposition: 
+  creation_time: 2008-03-06 23:51:30.841406 -08:00
+  references: []
+
+  id: 8e1077da43aa2524316e99642c634a42c4abcd52
+  log_events: 
+  - - 2008-03-06 23:51:30.841444 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-30 16:45:58.090512 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed description
+    - ""
+  - - 2008-03-30 19:54:11.740042 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - unassigned from release 0.1
+    - backtrace is fine for an initial version
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: "'grep' command"
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-08 14:04:19.738131 -08:00
+  references: []
+
+  id: f038048d313cdccccc99b031c6819769a1f56abf
+  log_events: 
+  - - 2008-03-08 14:04:19.738171 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-08 14:24:32.072902 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed title
+    - ""
+  - - 2008-03-08 17:57:50.264412 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: issue ids need to be non-colliding
+  desc: ""
+  type: :bugfix
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-08 14:04:45.872440 -08:00
+  references: []
+
+  id: 7ebb9b1d042fa496fe2d4ab7ff4ba9d6a6e82f46
+  log_events: 
+  - - 2008-03-08 14:04:45.872475 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-08 16:02:51.425770 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - |-
+      decided best approach is going to be sequential naming combined with
+      strong validation. the merger/conflict resolver is going to have to
+      deal with collisions. it's either this or git-style full hashes, and
+      i think this is a better fit for the usage cases i imagine.
+  - - 2008-03-09 12:53:29.261275 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from fixed to in_progress
+    - nope, going to do git-style hashes and generate quick names at runtime
+  - - 2008-03-10 19:47:12.092309 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from in_progress to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: issues have url references
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-08 14:05:29.570596 -08:00
+  references: []
+
+  id: 898bf967e5e21dbbbb30720c8e9484badef8a92c
+  log_events: 
+  - - 2008-03-08 14:05:29.570634 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-08 14:25:01.413714 -08:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: email addresses in html should be obscured
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-10 19:11:15.534100 -07:00
+  references: []
+
+  id: bf4fd6094173867938f2f78be4d7e0598ad22ba0
+  log_events: 
+  - - 2008-03-10 19:11:15.534206 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-12 09:09:55.886420 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: issue name not being set in 'add' command
+  desc: final line of output is clearly trying to print a nil value.
+  type: :bugfix
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-10 19:11:59.902302 -07:00
+  references: []
+
+  id: b9b91c9735b618c76405f0f7068c1e8fa7ea8923
+  log_events: 
+  - - 2008-03-10 19:11:59.902410 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-12 10:54:05.228838 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: ids are being changed of all new issues
+  desc: ""
+  type: :bugfix
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-10 19:12:29.886509 -07:00
+  references: []
+
+  id: 1ec281f46878943306e1871e7d87bae1d61cdb4c
+  log_events: 
+  - - 2008-03-10 19:12:29.886617 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-12 09:09:22.670289 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: "closed issue dispositions: fixed, wontfix, duplicate"
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-10 23:25:57.383208 -07:00
+  references: []
+
+  id: 543b757a6c20d0af9014625ac4023ea396daa824
+  log_events: 
+  - - 2008-03-10 23:25:57.383386 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-10 23:36:58.495078 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: render :partial equivalent for sharing erb blocks
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-12 10:43:49.994436 -07:00
+  references: []
+
+  id: 6878ab120ff56e764ea3de5ca8d6abeda8c7e425
+  log_events: 
+  - - 2008-03-12 10:43:49.994622 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-12 11:58:09.195965 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: "'drop' command"
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-12 10:45:41.578806 -07:00
+  references: []
+
+  id: eca1f3dbb04225c200bfd6d85969795fff8dfced
+  log_events: 
+  - - 2008-03-12 10:45:41.578969 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-12 10:48:37.835975 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed title
+    - drop-issue => drop
+  - - 2008-03-12 10:48:44.947579 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+  - - 2008-03-12 10:53:34.292676 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - assigned to release 0.1 from 0.1
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: local .ditz-config should override global on a per-field basis
+  desc: |-
+    rather than replacing the entire configuration, setting a field in a
+    project's .ditz-config should override that field, and everything
+    else should inherit from the global .ditz-config.
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-12 21:16:10.974843 -07:00
+  references: []
+
+  id: 09cae428c83aa19cbd2a192f28cd7baa3084de6a
+  log_events: 
+  - - 2008-03-12 21:16:10.975114 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-30 11:24:37.974257 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - assigned to release 0.1 from unassigned
+    - ""
+  - - 2008-03-30 11:32:00.089383 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - closed issue with disposition fixed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: config variables should be overridable on a per-project basis
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-12 21:21:54.289272 -07:00
+  references: []
+
+  id: 57ac8f247aabbec42bce254e0514787f6977dffa
+  log_events: 
+  - - 2008-03-12 21:21:54.289537 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-12 21:21:59.346830 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to closed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: model fields and objects need to be extensible
+  desc: ""
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-24 09:17:14.158609 -07:00
+  references: []
+
+  id: be0b8ee4588407615e2ba3acd0edeca08ed24df5
+  log_events: 
+  - - 2008-03-24 09:17:14.158873 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-30 11:43:05.030569 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to in_progress
+    - ""
+  - - 2008-03-30 11:46:46.798362 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - closed issue with disposition fixed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: make it easy to refer to other features
+  desc: |
+    need some way of make this easy to do, and the end result should involve
+    translating into feature name for text output and hyperlink for web output.
+    example case: want to split an existing feature into two. so mark it as
+    closed with disposition other (or something else?) and in the comment,
+    mention the two features that you want.
+    
+    probably the best way is simple to parse the desc and comments for
+    other feature names.
+
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-24 09:29:12.709599 -07:00
+  references: []
+
+  id: ec8d47978ba902cd5018782a1be6a922af0ba7ef
+  log_events: 
+  - - 2008-03-24 09:29:12.709873 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-24 09:29:54.693386 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed title, changed description
+    - ""
+  - - 2008-03-30 12:57:14.672916 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to in_progress
+    - ""
+  - - 2008-03-30 16:44:30.561539 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - closed issue with disposition fixed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: README file
+  desc: |-
+    add some documentation to a README. there isn't really any documentation at
+    all yet.
+  type: :feature
+  component: ditz
+  release: "0.1"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :closed
+  disposition: :fixed
+  creation_time: 2008-03-31 14:18:54.472051 -07:00
+  references: []
+
+  id: c8925e7b0ecd443f1c669172d5ad9e6186afe50d
+  log_events: 
+  - - 2008-03-31 14:18:55.519862 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-03-31 15:46:53.246973 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed status from unstarted to in_progress
+    - ""
+  - - 2008-04-02 09:09:36.265534 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - closed issue with disposition fixed
+    - ""
+components: 
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: ditz
+releases: 
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: "0.1"
+  status: :released
+  release_time: 2008-04-02 09:09:47.819141 -07:00
+  log_events: 
+  - - 2008-03-09 12:50:00.877882 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-04-02 09:09:47.819201 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: "0.2"
+  status: :unreleased
+  release_time: 
+  log_events: 
+  - - 2008-03-30 20:27:33.598703 -07:00
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""

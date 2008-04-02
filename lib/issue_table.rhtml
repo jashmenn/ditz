@@ -1,0 +1,29 @@
+<table>
+<% issues.sort_by { |i| i.sort_order }.each do |i| %>
+  <tr>
+    <td class="issuestatus_<%= i.status %>">
+      <%= i.status_string %><% if i.closed? %>: <%= i.disposition_string %><% end %>
+    </td>
+    <td class="issuename">
+      <%= link_to i, i.title %>
+      <%= i.bug? ? '(bug)' : '' %>
+    </td>
+    <% if show_release %>
+      <td class="issuerelease">
+        <% if i.release %>
+          <% r = project.release_for i.release %>
+          in <%= link_to r, "release #{i.release}" %>
+          (<%= r.status %>)
+        <% else %>
+        <% end %>
+      </td>
+    <% end %>
+    <% if show_component %>
+      <td class="issuecomponent">
+        component <%= link_to project.component_for(i.component), i.component %>
+      </td>
+    <% end %>
+  </tr>
+<% end %>
+</table>
+

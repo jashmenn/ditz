@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title><%= project.name %> release <%= release.name %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+
+<%= link_to "index", "&laquo; #{project.name} project page" %>
+
+<h1><%= project.name %> release <%= release.name %></h1>
+
+<p>
+<table>
+  <tr>
+    <td class="attrname">Status:</td>
+    <td class="attrval"><%= release.status %></td>
+  </tr>
+  <% if release.released? %>
+    <tr>
+      <td class="attrname">Release time:</td>
+      <td class="attrval"><%= release.release_time %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <%
+      num_done = issues.count_of { |i| i.closed? }
+      pct_done = issues.size == 0 ? 100 : (100.0 * num_done / issues.size)
+    %>
+    <td class="attrname">Completion:</td>
+    <td class="attrval"><%= sprintf "%.0f%%", pct_done %></td>
+  </tr>
+</table>
+</p>
+
+<h2>Issues</h2>
+<% if issues.empty? %>
+  <p>No issues assigned to this release.</p>
+<% else %>
+  <%= render "issue_table", :show_component => false, :show_release => false %>
+<% end %>
+
+<h2>Release log</h2>
+<table>
+<% release.log_events.each_with_index do |(time, who, what, comment), i| %>
+<% if i % 2 == 0 %>
+  <tr class="logentryeven">
+<% else %>
+  <tr class="logentryodd">
+<% end %>
+  <td class="logtime"><%=h time %></td>
+  <td class="logwho"><%=obscured_email who %></td>
+  <td class="logwhat"><%=h what %></td>
+  </tr>
+  <tr><td colspan="3" class="logcomment">
+    <% if comment.empty? %>
+    <% else %>
+      <%=p comment %>
+    <% end %>
+  </td></tr>
+<% end %>
+</table>
+
+<p class="footer">Generated <%= Time.now %> by <a href="http://ditz.rubyforge.org/">ditz</a>.
+
+</body>
+</html>

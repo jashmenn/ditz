@@ -1,0 +1,106 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title><%= issue.title %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+<%= link_to "index", "&laquo; #{project.name} project page" %>
+
+<h1><%= issue.title %></h1>
+
+<%=
+  project.issues.inject(p(issue.desc)) do |s, i|
+    s.gsub(/\{issue #{i.id}\}/, link_to(i, i.title))
+  end.gsub(/\{issue \w+\}/, "[unknown issue]")
+%>
+
+<table>
+  <tr>
+    <td class="attrname">Id:</td>
+    <td class="attrval"><%= issue.id %></td>
+  </tr>
+
+  <tr>
+    <td class="attrname">Type:</td>
+    <td class="attrval"><%= issue.type %></td>
+  </tr>
+
+  <tr>
+    <td class="attrname">Creation time:</td>
+    <td class="attrval"><%= issue.creation_time %></td>
+  </tr>
+
+  <tr>
+    <td class="attrname">Creator:</td>
+    <td class="attrval"><%=obscured_email issue.reporter %></td>
+  </tr>
+
+  <% unless issue.references.empty? %>
+  <tr>
+    <td class="attrname">References:</td>
+    <td class="attrval">
+      <% issue.references.each_with_index do |r, i| %>
+        [<%= i + 1 %>] <%= link_to r, r %><br/>
+      <% end %>
+    </td>
+  </tr>
+
+  <% end %>
+
+  <tr>
+    <td class="attrname">Release:</td>
+    <td class="attrval">
+      <% if release %>
+        <%= link_to release, release.name %>
+        <% if release.released? %>
+          (released <%= release.release_time.pretty_date %>)
+        <% else %>
+          (unreleased)
+        <% end %>
+      <% else %>
+        <%= link_to "unassigned", "unassigned" %>
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <td class="attrname">Component:</td>
+    <td class="attrval"><%= link_to component, component.name %></td>
+  </tr>
+
+  <tr>
+    <td class="attrname">Status:</td>
+    <td class="attrval"> 
+      <%= issue.status_string %><% if issue.closed? %>: <%= issue.disposition_string %><% end %>
+    </td>
+  </tr>
+</table>
+
+<h2>Issue log</h2>
+
+<table>
+<% issue.log_events.each_with_index do |(time, who, what, comment), i| %>
+<% if i % 2 == 0 %>
+  <tr class="logentryeven">
+<% else %>
+  <tr class="logentryodd">
+<% end %>
+  <td class="logtime"><%=h time %></td>
+  <td class="logwho"><%=obscured_email who %></td>
+  <td class="logwhat"><%=h what %></td>
+  </tr>
+  <tr><td colspan="3" class="logcomment">
+    <% if comment.empty? %>
+    <% else %>
+      <%=p comment %>
+    <% end %>
+  </td></tr>
+<% end %>
+</table>
+
+<p class="footer">Generated <%= Time.now %> by <a href="http://ditz.rubyforge.org/">ditz</a>.
+</body>
+</html>

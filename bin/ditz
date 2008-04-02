@@ -1,0 +1,77 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'trollop'; include Trollop
+require "ditz"
+
+$opts = options do
+  version "ditz #{Ditz::VERSION} (c) 2008 William Morgan"
+  opt :issue_file, "Issue database file", :default => "bugs.yaml"
+  opt :config_file, "Configuration file", :default => File.join(ENV["HOME"], ".ditz-config")
+  opt :verbose, "Verbose output", :default => false
+end
+
+cmd = ARGV.shift or die "expecting a ditz command"
+op = Ditz::Operator.new
+
+case cmd # special cases: init and help
+when "init"
+  fn = $opts[:issue_file]
+  die "#{fn} already exists" if File.exists? fn
+  project = op.init
+  project.save! fn
+  puts "Ok, #{fn} created successfully."
+  exit
+when "help"
+  op.help
+  exit
+end
+
+Ditz::debug "loading issues from #{$opts[:issue_file]}"
+project = begin
+  Ditz::Project.from $opts[:issue_file]
+rescue SystemCallError, Ditz::Project::Error => e
+  die "#{e.message} (use 'init' to initialize)"
+end
+
+project.validate!
+project.assign_issue_names!
+project.each_modelobject { |o| o.after_deserialize project }
+
+config = begin
+  fn = ".ditz-config"
+  if File.exists? fn
+    Ditz::debug "loading config from #{fn}"
+    Ditz::Config.from fn
+  else
+    Ditz::debug "loading config from #{$opts[:config_file]}"
+    Ditz::Config.from $opts[:config_file]
+  end
+rescue SystemCallError, Ditz::ModelObject::ModelError => e
+  puts <<EOS
+I wasn't able to find a configuration file #{$opts[:config_file]}.
+We'll set it up right now.
+EOS
+  Ditz::Config.create_interactively
+end
+
+unless op.has_operation? cmd
+  die "no such command: #{cmd}"
+end
+
+## talk about the law of unintended consequences. 'gets' requires this.
+args = []
+args << ARGV.shift until ARGV.empty?
+
+Ditz::debug "executing command #{cmd}"
+op.do cmd, project, config, *args
+
+dirty = project.each_modelobject { |o| break true if o.changed? } || false
+if dirty
+  Ditz::debug "project is dirty, saving"
+  project.each_modelobject { |o| o.before_serialize project }
+  project.save! $opts[:issue_file]
+end
+config.save! $opts[:config_file] if config.changed?
+
+# vim: syntax=ruby
