@@ -13,7 +13,7 @@ Hoe.new('ditz', Ditz::VERSION) do |p|
   p.author = "William Morgan"
   p.summary = "A simple issue tracker designed to integrate well with distributed version control systems like git and darcs. State is saved to a YAML file kept under version control, allowing issues to be closed/added/modified as part of a commit."
 
-  p.description = p.paragraphs_of('README.txt', 4..5, 9..18).join("\n\n").gsub(/== SYNOPSIS/, "Synopsis")
+  p.description = p.paragraphs_of('README.txt', 4..11).join("\n\n").gsub(/== SYNOPSIS/, "Synopsis:")
   p.url = "http://ditz.rubyforge.org"
   p.changes = p.paragraphs_of('Changelog', 0..0).join("\n\n")
   p.email = "wmorgan-ditz@masanjin.net"
