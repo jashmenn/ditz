@@ -12,18 +12,39 @@ class Operator
     def method_to_op meth; meth.to_s.gsub("_", "-") end
     def op_to_method op; op.gsub("-", "_").intern end
 
-    def operation method, desc
+    def operation method, desc, *args_spec
       @operations ||= {}
-      @operations[method] = desc
+      @operations[method] = { :desc => desc, :args_spec => args_spec }
     end
 
     def operations
       @operations.map { |k, v| [method_to_op(k), v] }.sort_by { |k, v| k }
     end
     def has_operation? op; @operations.member? op_to_method(op) end
+
+    def check_args method, *a
+      op = @operations[method]
+      args_spec = op[:args_spec]
+      a.shift # shift project if any
+      a.shift # shift config  if any
+      count = a.size
+      for arg_spec in args_spec do
+        case arg_spec
+        when :issue, :release
+          die "wrong number of arguments, <#{arg_spec}> expected" unless a.shift
+        when :maybe_release
+          a.shift
+        end
+      end
+      die "two many arguments (#{count} for #{args_spec.size})" unless a.empty?
+    end
   end
 
-  def do op, *a; send self.class.op_to_method(op), *a end
+  def do op, *a
+    meth = self.class.op_to_method(op)
+    self.class.check_args meth, *a
+    send meth, *a
+  end
   %w(operations has_operation?).each do |m|
     define_method(m) { |*a| self.class.send m, *a }
   end
@@ -39,8 +60,12 @@ class Operator
 Registered commands:
 EOS
     ops = self.class.operations
-    len = ops.map { |name, desc| name.to_s.length }.max
-    ops.each { |name, desc| printf "%#{len}s: %s\n", name, desc }
+    len_name = ops.map { |name, op| name.to_s.length }.max
+    len_args = ops.map { |name, op| op[:args_spec].map { |a| a.to_s.length + 3 }.max || 0 }.max
+    ops.each do |name, op|
+      args = op[:args_spec].map { |x| " <#{x}>" }.join
+      printf "%#{len_name}s%-#{len_args}s: %s\n", name, args, op[:desc]
+    end
     puts
   end
 
@@ -54,7 +79,7 @@ EOS
     puts "Added issue #{issue.name}."
   end
 
-  operation :drop, "Drop a bug/feature request"
+  operation :drop, "Drop a bug/feature request", :issue
   def drop project, config, issue_name
     issue = project.issue_for issue_name
     project.drop_issue issue
@@ -77,7 +102,7 @@ EOS
     puts "Added component #{component.name}."
   end
 
-  operation :add_reference, "Add a reference to an issue"
+  operation :add_reference, "Add a reference to an issue", :issue
   def add_reference project, config, issue_name
     issue = project.issue_for issue_name
     reference = ask "Reference"
@@ -119,7 +144,7 @@ EOS
     ret << [nil, bugs, feats]
   end
 
-  operation :status, "Show project status"
+  operation :status, "Show project status", :maybe_release
   def status project, config, release=nil
     if project.releases.empty?
       puts "No releases."
@@ -164,12 +189,12 @@ EOS
     end.join
   end
 
-  operation :todo, "Generate todo list"
+  operation :todo, "Generate todo list", :maybe_release
   def todo project, config, release=nil
     actually_do_todo project, config, release, false
   end
 
-  operation :todo_full, "Generate full todo list, including completed items"
+  operation :todo_full, "Generate full todo list, including completed items", :maybe_release
   def todo_full project, config, release=nil
     actually_do_todo project, config, release, true
   end
@@ -188,7 +213,7 @@ EOS
     end
   end
 
-  operation :show, "Describe a single issue"
+  operation :show, "Describe a single issue", :issue
   def show project, config, name
     issue = project.issue_for name
     status = case issue.status
@@ -219,7 +244,7 @@ EOS
     end.join("\n")
   end
 
-  operation :start, "Start work on an issue"
+  operation :start, "Start work on an issue", :issue
   def start project, config, name
     issue = project.issue_for name
     comment = ask_multiline "Comments"
@@ -227,7 +252,7 @@ EOS
     puts "Recorded start of work for #{issue.name}."
   end
 
-  operation :stop, "Stop work on an issue"
+  operation :stop, "Stop work on an issue", :issue
   def stop project, config, name
     issue = project.issue_for name
     comment = ask_multiline "Comments"
@@ -235,7 +260,7 @@ EOS
     puts "Recorded work stop for #{issue.name}."
   end
 
-  operation :close, "Close an issue"
+  operation :close, "Close an issue", :issue
   def close project, config, name
     issue = project.issue_for name
     puts "Closing issue #{issue.name}: #{issue.title}."
@@ -245,7 +270,7 @@ EOS
     puts "Closed issue #{issue.name} with disposition #{issue.disposition_string}."
   end
 
-  operation :assign, "Assign an issue to a release"
+  operation :assign, "Assign an issue to a release", :issue
   def assign project, config, issue_name
     issue = project.issue_for issue_name
     puts "Issue #{issue.name} currently " + if issue.release
@@ -259,7 +284,7 @@ EOS
     puts "Assigned #{issue.name} to #{release.name}"
   end
 
-  operation :unassign, "Unassign an issue from any releases"
+  operation :unassign, "Unassign an issue from any releases", :issue
   def unassign project, config, issue_name
     issue = project.issue_for issue_name
     comment = ask_multiline "Comments"
@@ -267,7 +292,7 @@ EOS
     puts "Unassigned #{issue.name}."
   end
 
-  operation :comment, "Comment on an issue"
+  operation :comment, "Comment on an issue", :issue
   def comment project, config, issue_name
     issue = project.issue_for issue_name
     comment = ask_multiline "Comments"
@@ -284,7 +309,7 @@ EOS
     end
   end
 
-  operation :release, "Release a release"
+  operation :release, "Release a release", :release
   def release project, config, release_name
     release = project.release_for release_name
     comment = ask_multiline "Comments"
@@ -292,7 +317,7 @@ EOS
     puts "Release #{release.name} released!"
   end
 
-  operation :changelog, "Generate a changelog for a release"
+  operation :changelog, "Generate a changelog for a release", :release
   def changelog project, config, relnames
     parse_releases_arg(project, relnames).each do |r, bugs, feats|
       puts "== #{r.name} / #{r.release_time.pretty_date}" if r.released?
@@ -371,14 +396,14 @@ EOS
     ## a no-op
   end
 
-  operation :grep, "Show issues matching a string or regular expression"
+  operation :grep, "Show issues matching a string or regular expression", :issue
   def grep project, config, match
     re = /#{match}/
     issues = project.issues.select { |i| i.title =~ re || i.desc =~ re }
     print todo_list_for(issues)
   end
 
-  operation :edit, "Edit an issue"
+  operation :edit, "Edit an issue", :issue
   def edit project, config, issue_name
     issue = project.issue_for issue_name
     data = { :title => issue.title, :description => issue.desc,
