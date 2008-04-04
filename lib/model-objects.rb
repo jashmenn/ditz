@@ -209,7 +209,7 @@ class Issue < ModelObject
   end
 
   def get_type config, project
-    ask "Is this a (b)ugfix or a (f)eature?", :restrict => /^[bf]$/
+    type = ask "Is this a (b)ugfix or a (f)eature?", :restrict => /^[bf]$/
     type == "b" ? :bugfix : :feature
   end
 
