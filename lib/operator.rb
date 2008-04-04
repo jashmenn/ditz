@@ -82,7 +82,8 @@ EOS
     issue = project.issue_for issue_name
     reference = ask "Reference"
     comment = ask_multiline "Comments"
-    issue.add_reference reference, config.user, comment
+    issue.add_reference reference
+    issue.log "added reference #{issue.references.size}", config.user, comment
     puts "Added reference to #{issue.name}"
   end
 
