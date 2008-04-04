@@ -40,7 +40,7 @@
   <p>No past releases.</p>
 <% else %>
   <ul>
-  <% past_releases.each do |r| %>
+  <% past_releases.sort_by { |r| r.release_time }.reverse.each do |r| %>
     <li><%= link_to r, "Release #{r.name}" %>, released <%= r.release_time.pretty_date %>. </li>
   <% end %>
   </ul>
