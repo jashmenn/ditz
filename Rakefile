@@ -41,7 +41,7 @@ task :upload_webpage_images => (SCREENSHOTS + SCREENSHOTS_SMALL) do |t|
 end
 
 task :upload_report do |t|
-  sh "ditz html ditz"
+  sh "ruby -Ilib bin/ditz html ditz"
   sh "scp -Cr ditz wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
 end
 
