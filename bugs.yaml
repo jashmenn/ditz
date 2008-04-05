@@ -582,7 +582,7 @@ issues:
     munged together
   type: :bugfix
   component: ditz
-  release: "0.2"
+  release: 0.1.2
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
@@ -598,6 +598,10 @@ issues:
   - - 2008-04-04 10:38:12.631814 -07:00
     - William Morgan <wmorgan-ditz@masanjin.net>
     - closed issue with disposition fixed
+    - ""
+  - - 2008-04-04 18:19:05.249991 -07:00
+    - William Morgan <w@adap.tv>
+    - assigned to release 0.1.2 from 0.2
     - ""
 components: 
 - !ditz.rubyforge.org,2008-03-06/component 
@@ -636,5 +640,18 @@ releases:
     - ""
   - - 2008-04-04 10:12:03.870791 -07:00
     - William Morgan <wmorgan-ditz@masanjin.net>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: 0.1.2
+  status: :released
+  release_time: 2008-04-04 18:19:48.042308 -07:00
+  log_events: 
+  - - 2008-04-04 18:18:42.258081 -07:00
+    - William Morgan <w@adap.tv>
+    - created
+    - ""
+  - - 2008-04-04 18:19:48.042346 -07:00
+    - William Morgan <w@adap.tv>
     - released
     - ""

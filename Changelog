@@ -1,3 +1,5 @@
+== 0.1.2 / 2008-04-04
+* bugfix: add_reference very broken
 == 0.1.1 / 2008-04-04
 * bugfix: bugfix/feature question always returns feature
 == 0.1 / 2008-04-02
