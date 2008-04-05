@@ -3,6 +3,13 @@ require "lowline"; include Lowline
 require "util"
 require 'sha1'
 
+class Time
+  alias :old_to_yaml :to_yaml
+  def to_yaml(opts = {})
+    self.utc.old_to_yaml(opts)
+  end
+end
+
 module Ditz
 
 class ModelObject
