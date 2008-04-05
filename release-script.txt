@@ -1,0 +1,14 @@
+Just a few simple steps to make a new release.
+
+ruby -Ilib bin/ditz release <releasename>
+ruby -Ilib bin/ditz changelog <releasename> > tmp.txt
+cat Changelog >> tmp.txt
+mv tmp.txt Changelog
+vi Changelog    # and cleanup
+vi lib/ditz.rb  # and bump version number
+rake release VERSION=<releasename>
+git commit -a -v
+git tag -a release-<releasename> -m "release <releasename>"
+git push
+git push --tags
+rake upload_report
