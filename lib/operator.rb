@@ -274,7 +274,8 @@ EOS
 
   operation :releases, "Show releases"
   def releases project, config
-    project.releases.each do |r|
+    a, b = project.releases.partition { |r| r.released? }
+    (b + a.sort_by { |r| r.release_time }).each do |r|
       status = r.released? ? "released #{r.release_time.pretty_date}" : r.status
       puts "#{r.name} (#{status})"
     end
