@@ -5,7 +5,7 @@ require 'trollop'; include Trollop
 require "ditz"
 
 $opts = options do
-  version "ditz #{Ditz::VERSION} (c) 2008 William Morgan"
+  version "ditz #{Ditz::VERSION}"
   opt :issue_file, "Issue database file", :default => "bugs.yaml"
   opt :config_file, "Configuration file", :default => File.join(ENV["HOME"], ".ditz-config")
   opt :verbose, "Verbose output", :default => false
