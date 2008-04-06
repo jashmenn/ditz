@@ -11,20 +11,20 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :unstarted
   disposition: 
-  creation_time: 2008-03-06 21:02:17.710050 -08:00
+  creation_time: 2008-03-07 05:02:17.710050 Z
   references: []
 
   id: 3d18eaab4e6099cd38f1cdee06698564e638e87d
   log_events: 
-  - - 2008-03-06 21:02:17.710083 -08:00
+  - - 2008-03-07 05:02:17.710083 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-06 21:02:33.058861 -08:00
+  - - 2008-03-07 05:02:33.058861 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - assigned to release 0.1 from unassigned
     - ""
-  - - 2008-03-30 19:18:58.112845 -07:00
+  - - 2008-03-31 02:18:58.112845 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - unassigned from release 0.1
     - |-
@@ -39,16 +39,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: fixed
-  creation_time: 2008-03-06 21:03:22.972968 -08:00
+  creation_time: 2008-03-07 05:03:22.972968 Z
   references: []
 
   id: 0811bb984a2f25a49a96763efe2f86f0c59ce1f4
   log_events: 
-  - - 2008-03-06 21:03:22.973004 -08:00
+  - - 2008-03-07 05:03:22.973004 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-06 23:52:57.176787 -08:00
+  - - 2008-03-07 07:52:57.176787 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -61,20 +61,20 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-06 21:03:55.739201 -08:00
+  creation_time: 2008-03-07 05:03:55.739201 Z
   references: []
 
   id: 85da8df84df1c2c2484c9b63b69c4918d5fb0079
   log_events: 
-  - - 2008-03-06 21:03:55.739238 -08:00
+  - - 2008-03-07 05:03:55.739238 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-08 14:04:02.973872 -08:00
+  - - 2008-03-08 22:04:02.973872 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to in_progress
     - ""
-  - - 2008-03-30 15:18:31.484325 -07:00
+  - - 2008-03-30 22:18:31.484325 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - closed issue with disposition fixed
     - ""
@@ -87,16 +87,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :unstarted
   disposition: 
-  creation_time: 2008-03-06 21:04:08.771047 -08:00
+  creation_time: 2008-03-07 05:04:08.771047 Z
   references: []
 
   id: 308e3794685e4bdb6c7acaf8461ff37e195da14d
   log_events: 
-  - - 2008-03-06 21:04:08.771082 -08:00
+  - - 2008-03-07 05:04:08.771082 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-30 20:27:49.843846 -07:00
+  - - 2008-03-31 03:27:49.843846 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - assigned to release 0.2 from 0.1
     - ""
@@ -119,16 +119,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :unstarted
   disposition: 
-  creation_time: 2008-03-06 21:05:04.339450 -08:00
+  creation_time: 2008-03-07 05:05:04.339450 Z
   references: []
 
   id: 0704dafe4aef96279364013aba177a0971d425cb
   log_events: 
-  - - 2008-03-06 21:05:04.339483 -08:00
+  - - 2008-03-07 05:05:04.339483 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-31 15:51:57.239776 -07:00
+  - - 2008-03-31 22:51:57.239776 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed title, changed description
     - ""
@@ -141,16 +141,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-06 21:05:51.062451 -08:00
+  creation_time: 2008-03-07 05:05:51.062451 Z
   references: []
 
   id: 78db61d32e8c88ed79b67336de94996b0b564303
   log_events: 
-  - - 2008-03-06 21:05:51.062489 -08:00
+  - - 2008-03-07 05:05:51.062489 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-08 14:24:49.761605 -08:00
+  - - 2008-03-08 22:24:49.761605 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -166,20 +166,20 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :unstarted
   disposition: 
-  creation_time: 2008-03-06 23:51:30.841406 -08:00
+  creation_time: 2008-03-07 07:51:30.841406 Z
   references: []
 
   id: 8e1077da43aa2524316e99642c634a42c4abcd52
   log_events: 
-  - - 2008-03-06 23:51:30.841444 -08:00
+  - - 2008-03-07 07:51:30.841444 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-30 16:45:58.090512 -07:00
+  - - 2008-03-30 23:45:58.090512 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed description
     - ""
-  - - 2008-03-30 19:54:11.740042 -07:00
+  - - 2008-03-31 02:54:11.740042 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - unassigned from release 0.1
     - backtrace is fine for an initial version
@@ -192,20 +192,20 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-08 14:04:19.738131 -08:00
+  creation_time: 2008-03-08 22:04:19.738131 Z
   references: []
 
   id: f038048d313cdccccc99b031c6819769a1f56abf
   log_events: 
-  - - 2008-03-08 14:04:19.738171 -08:00
+  - - 2008-03-08 22:04:19.738171 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-08 14:24:32.072902 -08:00
+  - - 2008-03-08 22:24:32.072902 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed title
     - ""
-  - - 2008-03-08 17:57:50.264412 -08:00
+  - - 2008-03-09 01:57:50.264412 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -218,16 +218,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-08 14:04:45.872440 -08:00
+  creation_time: 2008-03-08 22:04:45.872440 Z
   references: []
 
   id: 7ebb9b1d042fa496fe2d4ab7ff4ba9d6a6e82f46
   log_events: 
-  - - 2008-03-08 14:04:45.872475 -08:00
+  - - 2008-03-08 22:04:45.872475 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-08 16:02:51.425770 -08:00
+  - - 2008-03-09 00:02:51.425770 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - |-
@@ -235,11 +235,11 @@ issues:
       strong validation. the merger/conflict resolver is going to have to
       deal with collisions. it's either this or git-style full hashes, and
       i think this is a better fit for the usage cases i imagine.
-  - - 2008-03-09 12:53:29.261275 -07:00
+  - - 2008-03-09 19:53:29.261275 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from fixed to in_progress
     - nope, going to do git-style hashes and generate quick names at runtime
-  - - 2008-03-10 19:47:12.092309 -07:00
+  - - 2008-03-11 02:47:12.092309 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from in_progress to closed
     - ""
@@ -252,16 +252,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-08 14:05:29.570596 -08:00
+  creation_time: 2008-03-08 22:05:29.570596 Z
   references: []
 
   id: 898bf967e5e21dbbbb30720c8e9484badef8a92c
   log_events: 
-  - - 2008-03-08 14:05:29.570634 -08:00
+  - - 2008-03-08 22:05:29.570634 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-08 14:25:01.413714 -08:00
+  - - 2008-03-08 22:25:01.413714 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -274,16 +274,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-10 19:11:15.534100 -07:00
+  creation_time: 2008-03-11 02:11:15.534100 Z
   references: []
 
   id: bf4fd6094173867938f2f78be4d7e0598ad22ba0
   log_events: 
-  - - 2008-03-10 19:11:15.534206 -07:00
+  - - 2008-03-11 02:11:15.534206 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-12 09:09:55.886420 -07:00
+  - - 2008-03-12 16:09:55.886420 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -296,16 +296,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-10 19:11:59.902302 -07:00
+  creation_time: 2008-03-11 02:11:59.902302 Z
   references: []
 
   id: b9b91c9735b618c76405f0f7068c1e8fa7ea8923
   log_events: 
-  - - 2008-03-10 19:11:59.902410 -07:00
+  - - 2008-03-11 02:11:59.902410 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-12 10:54:05.228838 -07:00
+  - - 2008-03-12 17:54:05.228838 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -318,16 +318,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-10 19:12:29.886509 -07:00
+  creation_time: 2008-03-11 02:12:29.886509 Z
   references: []
 
   id: 1ec281f46878943306e1871e7d87bae1d61cdb4c
   log_events: 
-  - - 2008-03-10 19:12:29.886617 -07:00
+  - - 2008-03-11 02:12:29.886617 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-12 09:09:22.670289 -07:00
+  - - 2008-03-12 16:09:22.670289 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -340,16 +340,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-10 23:25:57.383208 -07:00
+  creation_time: 2008-03-11 06:25:57.383208 Z
   references: []
 
   id: 543b757a6c20d0af9014625ac4023ea396daa824
   log_events: 
-  - - 2008-03-10 23:25:57.383386 -07:00
+  - - 2008-03-11 06:25:57.383386 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-10 23:36:58.495078 -07:00
+  - - 2008-03-11 06:36:58.495078 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -362,16 +362,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-12 10:43:49.994436 -07:00
+  creation_time: 2008-03-12 17:43:49.994436 Z
   references: []
 
   id: 6878ab120ff56e764ea3de5ca8d6abeda8c7e425
   log_events: 
-  - - 2008-03-12 10:43:49.994622 -07:00
+  - - 2008-03-12 17:43:49.994622 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-12 11:58:09.195965 -07:00
+  - - 2008-03-12 18:58:09.195965 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -384,24 +384,24 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-12 10:45:41.578806 -07:00
+  creation_time: 2008-03-12 17:45:41.578806 Z
   references: []
 
   id: eca1f3dbb04225c200bfd6d85969795fff8dfced
   log_events: 
-  - - 2008-03-12 10:45:41.578969 -07:00
+  - - 2008-03-12 17:45:41.578969 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-12 10:48:37.835975 -07:00
+  - - 2008-03-12 17:48:37.835975 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed title
     - drop-issue => drop
-  - - 2008-03-12 10:48:44.947579 -07:00
+  - - 2008-03-12 17:48:44.947579 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
-  - - 2008-03-12 10:53:34.292676 -07:00
+  - - 2008-03-12 17:53:34.292676 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - assigned to release 0.1 from 0.1
     - ""
@@ -417,20 +417,20 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-12 21:16:10.974843 -07:00
+  creation_time: 2008-03-13 04:16:10.974843 Z
   references: []
 
   id: 09cae428c83aa19cbd2a192f28cd7baa3084de6a
   log_events: 
-  - - 2008-03-12 21:16:10.975114 -07:00
+  - - 2008-03-13 04:16:10.975114 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-30 11:24:37.974257 -07:00
+  - - 2008-03-30 18:24:37.974257 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - assigned to release 0.1 from unassigned
     - ""
-  - - 2008-03-30 11:32:00.089383 -07:00
+  - - 2008-03-30 18:32:00.089383 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - closed issue with disposition fixed
     - ""
@@ -443,16 +443,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-12 21:21:54.289272 -07:00
+  creation_time: 2008-03-13 04:21:54.289272 Z
   references: []
 
   id: 57ac8f247aabbec42bce254e0514787f6977dffa
   log_events: 
-  - - 2008-03-12 21:21:54.289537 -07:00
+  - - 2008-03-13 04:21:54.289537 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-12 21:21:59.346830 -07:00
+  - - 2008-03-13 04:21:59.346830 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to closed
     - ""
@@ -465,20 +465,20 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-24 09:17:14.158609 -07:00
+  creation_time: 2008-03-24 16:17:14.158609 Z
   references: []
 
   id: be0b8ee4588407615e2ba3acd0edeca08ed24df5
   log_events: 
-  - - 2008-03-24 09:17:14.158873 -07:00
+  - - 2008-03-24 16:17:14.158873 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-30 11:43:05.030569 -07:00
+  - - 2008-03-30 18:43:05.030569 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to in_progress
     - ""
-  - - 2008-03-30 11:46:46.798362 -07:00
+  - - 2008-03-30 18:46:46.798362 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - closed issue with disposition fixed
     - ""
@@ -500,24 +500,24 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-24 09:29:12.709599 -07:00
+  creation_time: 2008-03-24 16:29:12.709599 Z
   references: []
 
   id: ec8d47978ba902cd5018782a1be6a922af0ba7ef
   log_events: 
-  - - 2008-03-24 09:29:12.709873 -07:00
+  - - 2008-03-24 16:29:12.709873 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-24 09:29:54.693386 -07:00
+  - - 2008-03-24 16:29:54.693386 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed title, changed description
     - ""
-  - - 2008-03-30 12:57:14.672916 -07:00
+  - - 2008-03-30 19:57:14.672916 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to in_progress
     - ""
-  - - 2008-03-30 16:44:30.561539 -07:00
+  - - 2008-03-30 23:44:30.561539 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - closed issue with disposition fixed
     - ""
@@ -532,20 +532,20 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-03-31 14:18:54.472051 -07:00
+  creation_time: 2008-03-31 21:18:54.472051 Z
   references: []
 
   id: c8925e7b0ecd443f1c669172d5ad9e6186afe50d
   log_events: 
-  - - 2008-03-31 14:18:55.519862 -07:00
+  - - 2008-03-31 21:18:55.519862 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-03-31 15:46:53.246973 -07:00
+  - - 2008-03-31 22:46:53.246973 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed status from unstarted to in_progress
     - ""
-  - - 2008-04-02 09:09:36.265534 -07:00
+  - - 2008-04-02 16:09:36.265534 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - closed issue with disposition fixed
     - ""
@@ -558,20 +558,20 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-04-04 10:07:33.897005 -07:00
+  creation_time: 2008-04-04 17:07:33.897005 Z
   references: []
 
   id: 9fa74eea182afa7eeabb8114cccbe8d31d3d1912
   log_events: 
-  - - 2008-04-04 10:07:34.893791 -07:00
+  - - 2008-04-04 17:07:34.893791 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-04-04 10:09:12.285703 -07:00
+  - - 2008-04-04 17:09:12.285703 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - closed issue with disposition fixed
     - ""
-  - - 2008-04-04 10:09:45.741374 -07:00
+  - - 2008-04-04 17:09:45.741374 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - assigned to release 0.1.1 from 0.2
     - ""
@@ -586,20 +586,20 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :closed
   disposition: :fixed
-  creation_time: 2008-04-04 10:33:51.770406 -07:00
+  creation_time: 2008-04-04 17:33:51.770406 Z
   references: []
 
   id: 0b0b1a1903c72180b284741f230f3109b41d3d4f
   log_events: 
-  - - 2008-04-04 10:33:52.341431 -07:00
+  - - 2008-04-04 17:33:52.341431 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-04-04 10:38:12.631814 -07:00
+  - - 2008-04-04 17:38:12.631814 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - closed issue with disposition fixed
     - ""
-  - - 2008-04-04 18:19:05.249991 -07:00
+  - - 2008-04-05 01:19:05.249991 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - assigned to release 0.1.2 from 0.2
     - ""
@@ -615,16 +615,16 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :unstarted
   disposition: 
-  creation_time: 2008-04-05 18:27:01.450553 -07:00
+  creation_time: 2008-04-06 01:27:01.450553 Z
   references: 
   - http://rubyforge.org/pipermail/ditz-talk/2008-April/000006.html
   id: f6b3392f7705f042ca35203fc6edf089842a1ca3
   log_events: 
-  - - 2008-04-05 18:27:02.697911 -07:00
+  - - 2008-04-06 01:27:02.697911 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-04-05 18:27:11.246860 -07:00
+  - - 2008-04-06 01:27:11.246860 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - added reference 1
     - ""
@@ -637,12 +637,12 @@ issues:
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :unstarted
   disposition: 
-  creation_time: 2008-04-05 19:11:07.393344 -07:00
+  creation_time: 2008-04-06 02:11:07.393344 Z
   references: []
 
   id: 6925bd19c14d60e419398ac985c0621b3175ead0
   log_events: 
-  - - 2008-04-05 19:11:08.133055 -07:00
+  - - 2008-04-06 02:11:08.133055 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
@@ -653,13 +653,13 @@ releases:
 - !ditz.rubyforge.org,2008-03-06/release 
   name: "0.1"
   status: :released
-  release_time: 2008-04-02 09:09:47.819141 -07:00
+  release_time: 2008-04-02 16:09:47.819141 Z
   log_events: 
-  - - 2008-03-09 12:50:00.877882 -07:00
+  - - 2008-03-09 19:50:00.877882 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-04-02 09:09:47.819201 -07:00
+  - - 2008-04-02 16:09:47.819201 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - released
     - ""
@@ -668,33 +668,33 @@ releases:
   status: :unreleased
   release_time: 
   log_events: 
-  - - 2008-03-30 20:27:33.598703 -07:00
+  - - 2008-03-31 03:27:33.598703 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
 - !ditz.rubyforge.org,2008-03-06/release 
   name: 0.1.1
   status: :released
-  release_time: 2008-04-04 10:12:03.870735 -07:00
+  release_time: 2008-04-04 17:12:03.870735 Z
   log_events: 
-  - - 2008-04-04 10:09:36.524612 -07:00
+  - - 2008-04-04 17:09:36.524612 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-04-04 10:12:03.870791 -07:00
+  - - 2008-04-04 17:12:03.870791 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - released
     - ""
 - !ditz.rubyforge.org,2008-03-06/release 
   name: 0.1.2
   status: :released
-  release_time: 2008-04-04 18:19:48.042308 -07:00
+  release_time: 2008-04-05 01:19:48.042308 Z
   log_events: 
-  - - 2008-04-04 18:18:42.258081 -07:00
+  - - 2008-04-05 01:18:42.258081 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
-  - - 2008-04-04 18:19:48.042346 -07:00
+  - - 2008-04-05 01:19:48.042346 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - released
     - ""
