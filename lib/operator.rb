@@ -22,29 +22,72 @@ class Operator
     end
     def has_operation? op; @operations.member? op_to_method(op) end
 
-    def check_args method, *a
-      op = @operations[method]
-      args_spec = op[:args_spec]
-      a.shift # shift project if any
-      a.shift # shift config  if any
-      count = a.size
-      for arg_spec in args_spec do
-        case arg_spec
-        when :issue, :release
-          die "wrong number of arguments, <#{arg_spec}> expected" unless a.shift
+    def parse_releases_arg project, releases_arg
+      ret = []
+
+      releases, show_unassigned, force_show = case releases_arg
+        when nil; [project.releases, true, false]
+        when "unassigned"; [[], true, true]
+        else
+          release = project.release_for(releases_arg)
+          raise Error, "no release with name #{releases_arg}" unless release
+          [[release], false, true]
+        end
+
+      releases.each do |r|
+        next if r.released? unless force_show
+
+        bugs = project.issues.
+          select { |i| i.type == :bugfix && i.release == r.name }
+        feats = project.issues.
+          select { |i| i.type == :feature && i.release == r.name }
+
+        #next if bugs.empty? && feats.empty? unless force_show
+
+        ret << [r, bugs, feats]
+      end
+
+      return ret unless show_unassigned
+
+      bugs = project.issues.select { |i| i.type == :bugfix && i.release.nil? }
+      feats = project.issues.select { |i| i.type == :feature && i.release.nil? }
+
+      return ret if bugs.empty? && feats.empty? unless force_show
+      ret << [nil, bugs, feats]
+    end
+    private :parse_releases_arg
+
+    def build_args project, method, args
+      command = "command '#{method_to_op method}'"
+      built_args = @operations[method][:args_spec].map do |spec|
+        val = args.shift
+        case spec
+        when :issue
+          raise Error, "#{command} requires an issue name" unless val
+          project.issue_for(val) or raise Error, "no issue with name #{val}"
+        when :release
+          raise Error, "#{command} requires a release name" unless val
+          project.release_for(val) or raise Error, "no release with name #{val}"
         when :maybe_release
-          a.shift
+          parse_releases_arg project, val
+        when :string
+          raise Error, "#{command} requires a string" unless val
+          val
+        else
+          val # no translation for other types
         end
       end
-      die "two many arguments (#{count} for #{args_spec.size})" unless a.empty?
+      raise Error, "too many arguments for #{command}" unless args.empty?
+      built_args
     end
   end
 
-  def do op, *a
+  def do op, project, config, args
     meth = self.class.op_to_method(op)
-    self.class.check_args meth, *a
-    send meth, *a
+    built_args = self.class.build_args project, meth, args
+    send meth, project, config, *built_args
   end
+
   %w(operations has_operation?).each do |m|
     define_method(m) { |*a| self.class.send m, *a }
   end
@@ -80,8 +123,7 @@ EOS
   end
 
   operation :drop, "Drop a bug/feature request", :issue
-  def drop project, config, issue_name
-    issue = project.issue_for issue_name
+  def drop project, config, issue
     project.drop_issue issue
     puts "Dropped #{issue.name}. Note that other issue names may have changed."
   end
@@ -103,8 +145,7 @@ EOS
   end
 
   operation :add_reference, "Add a reference to an issue", :issue
-  def add_reference project, config, issue_name
-    issue = project.issue_for issue_name
+  def add_reference project, config, issue
     reference = ask "Reference"
     comment = ask_multiline "Comments"
     issue.add_reference reference
@@ -112,46 +153,9 @@ EOS
     puts "Added reference to #{issue.name}"
   end
 
-  def parse_releases_arg project, releases_arg
-    ret = []
-
-    releases, show_unassigned, force_show = case releases_arg
-      when nil; [project.releases, true, false]
-      when "unassigned"; [[], true, true]
-      else
-        [[project.release_for(releases_arg)], false, true]
-      end
-
-    releases.each do |r|
-      next if r.released? unless force_show
-
-      bugs = project.issues.
-        select { |i| i.type == :bugfix && i.release == r.name }
-      feats = project.issues.
-        select { |i| i.type == :feature && i.release == r.name }
-
-      #next if bugs.empty? && feats.empty? unless force_show
-
-      ret << [r, bugs, feats]
-    end
-
-    return ret unless show_unassigned
-
-    bugs = project.issues.select { |i| i.type == :bugfix && i.release.nil? }
-    feats = project.issues.select { |i| i.type == :feature && i.release.nil? }
-
-    return ret if bugs.empty? && feats.empty? unless force_show
-    ret << [nil, bugs, feats]
-  end
-
   operation :status, "Show project status", :maybe_release
-  def status project, config, release=nil
-    if project.releases.empty?
-      puts "No releases."
-      return
-    end
-
-    parse_releases_arg(project, release).each do |r, bugs, feats|
+  def status project, config, releases
+    releases.each do |r, bugs, feats|
       title, bar = [r ? r.name : "unassigned", status_bar_for(bugs + feats)]
 
       ncbugs = bugs.count_of { |b| b.closed? }
@@ -172,6 +176,11 @@ EOS
       printf "%-10s %2d/%2d (%3.0f%%) bugs, %2d/%2d (%3.0f%%) features %s\n",
         title, ncbugs, bugs.size, pcbugs, ncfeats, feats.size, pcfeats, special
     end
+
+    if project.releases.empty?
+      puts "No releases."
+      return
+    end
   end
 
   def status_bar_for issues
@@ -182,7 +191,7 @@ EOS
   end
 
   def todo_list_for issues
-    return "No open issues." if issues.empty?
+    return if issues.empty?
     name_len = issues.max_of { |i| i.name.length }
     issues.map do |i|
       sprintf "%s %#{name_len}s: %s\n", i.status_widget, i.name, i.title
@@ -190,17 +199,17 @@ EOS
   end
 
   operation :todo, "Generate todo list", :maybe_release
-  def todo project, config, release=nil
-    actually_do_todo project, config, release, false
+  def todo project, config, releases
+    actually_do_todo project, config, releases, false
   end
 
   operation :todo_full, "Generate full todo list, including completed items", :maybe_release
-  def todo_full project, config, release=nil
-    actually_do_todo project, config, release, true
+  def todo_full project, config, releases
+    actually_do_todo project, config, releases, true
   end
 
-  def actually_do_todo project, config, release, full
-    parse_releases_arg(project, release).each do |r, bugs, feats|
+  def actually_do_todo project, config, releases, full
+    releases.each do |r, bugs, feats|
       if r
         puts "Version #{r.name} (#{r.status}):"
       else
@@ -208,14 +217,13 @@ EOS
       end
       issues = bugs + feats
       issues = issues.select { |i| i.open? } unless full
-      print todo_list_for(issues.sort_by { |i| i.sort_order })
+      puts(todo_list_for(issues.sort_by { |i| i.sort_order }) || "No open issues.")
       puts
     end
   end
 
   operation :show, "Describe a single issue", :issue
-  def show project, config, name
-    issue = project.issue_for name
+  def show project, config, issue
     status = case issue.status
     when :closed
       "#{issue.status_string}: #{issue.disposition_string}"
@@ -245,24 +253,21 @@ EOS
   end
 
   operation :start, "Start work on an issue", :issue
-  def start project, config, name
-    issue = project.issue_for name
+  def start project, config, issue
     comment = ask_multiline "Comments"
     issue.start_work config.user, comment
     puts "Recorded start of work for #{issue.name}."
   end
 
   operation :stop, "Stop work on an issue", :issue
-  def stop project, config, name
-    issue = project.issue_for name
+  def stop project, config, issue
     comment = ask_multiline "Comments"
     issue.stop_work config.user, comment
     puts "Recorded work stop for #{issue.name}."
   end
 
   operation :close, "Close an issue", :issue
-  def close project, config, name
-    issue = project.issue_for name
+  def close project, config, issue
     puts "Closing issue #{issue.name}: #{issue.title}."
     disp = ask_for_selection Issue::DISPOSITIONS, "disposition", lambda { |x| Issue::DISPOSITION_STRINGS[x] || x.to_s }
     comment = ask_multiline "Comments"
@@ -271,8 +276,7 @@ EOS
   end
 
   operation :assign, "Assign an issue to a release", :issue
-  def assign project, config, issue_name
-    issue = project.issue_for issue_name
+  def assign project, config, issue
     puts "Issue #{issue.name} currently " + if issue.release
       "assigned to release #{issue.release}."
     else
@@ -285,16 +289,14 @@ EOS
   end
 
   operation :unassign, "Unassign an issue from any releases", :issue
-  def unassign project, config, issue_name
-    issue = project.issue_for issue_name
+  def unassign project, config, issue
     comment = ask_multiline "Comments"
     issue.unassign config.user, comment
     puts "Unassigned #{issue.name}."
   end
 
   operation :comment, "Comment on an issue", :issue
-  def comment project, config, issue_name
-    issue = project.issue_for issue_name
+  def comment project, config, issue
     comment = ask_multiline "Comments"
     issue.log "commented", config.user, comment
     puts "Comments recorded for #{issue.name}."
@@ -310,23 +312,21 @@ EOS
   end
 
   operation :release, "Release a release", :release
-  def release project, config, release_name
-    release = project.release_for release_name
+  def release project, config, release
     comment = ask_multiline "Comments"
     release.release! project, config.user, comment
     puts "Release #{release.name} released!"
   end
 
   operation :changelog, "Generate a changelog for a release", :release
-  def changelog project, config, relnames
-    parse_releases_arg(project, relnames).each do |r, bugs, feats|
-      puts "== #{r.name} / #{r.release_time.pretty_date}" if r.released?
-      feats.select { |f| f.closed? }.each { |i| puts "* #{i.title}" }
-      bugs.select { |f| f.closed? }.each { |i| puts "* bugfix: #{i.title}" }
-    end
+  def changelog project, config, r
+    feats, bugs = project.issues_for_release(r).partition { |i| i.feature? }
+    puts "== #{r.name} / #{r.released? ? r.release_time.pretty_date : 'unreleased'}"
+    feats.select { |f| f.closed? }.each { |i| puts "* #{i.title}" }
+    bugs.select { |f| f.closed? }.each { |i| puts "* bugfix: #{i.title}" }
   end
 
-  operation :html, "Generate html status pages"
+  operation :html, "Generate html status pages", :dir
   def html project, config, dir="html"
     #FileUtils.rm_rf dir
     Dir.mkdir dir unless File.exists? dir
@@ -396,16 +396,15 @@ EOS
     ## a no-op
   end
 
-  operation :grep, "Show issues matching a string or regular expression", :issue
+  operation :grep, "Show issues matching a string or regular expression", :string
   def grep project, config, match
     re = /#{match}/
     issues = project.issues.select { |i| i.title =~ re || i.desc =~ re }
-    print todo_list_for(issues)
+    puts(todo_list_for(issues) || "No matching issues.")
   end
 
   operation :edit, "Edit an issue", :issue
-  def edit project, config, issue_name
-    issue = project.issue_for issue_name
+  def edit project, config, issue
     data = { :title => issue.title, :description => issue.desc,
              :reporter => issue.reporter }
 

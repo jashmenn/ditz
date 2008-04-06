@@ -54,18 +54,15 @@ EOS
   end
 
   def issue_for issue_name
-    issues.find { |i| i.name == issue_name } or
-      raise Error, "has no issue with name #{issue_name.inspect}"
+    issues.find { |i| i.name == issue_name }
   end
 
   def component_for component_name
-    components.find { |i| i.name == component_name } or
-      raise Error, "has no component with name #{component_name.inspect}"
+    components.find { |i| i.name == component_name }
   end
 
   def release_for release_name
-    releases.find { |i| i.name == release_name } or
-      raise Error, "has no release with name #{release_name.inspect}"
+    releases.find { |i| i.name == release_name }
   end
 
   def issues_for_release release

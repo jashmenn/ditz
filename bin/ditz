@@ -64,7 +64,11 @@ args = []
 args << ARGV.shift until ARGV.empty?
 
 Ditz::debug "executing command #{cmd}"
-op.do cmd, project, config, *args
+begin
+  op.do cmd, project, config, args
+rescue Ditz::Operator::Error => e
+  die e.message
+end
 
 dirty = project.each_modelobject { |o| break true if o.changed? } || false
 if dirty
