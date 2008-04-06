@@ -600,7 +600,7 @@ issues:
     - closed issue with disposition fixed
     - ""
   - - 2008-04-04 18:19:05.249991 -07:00
-    - William Morgan <w@adap.tv>
+    - William Morgan <wmorgan-ditz@masanjin.net>
     - assigned to release 0.1.2 from 0.2
     - ""
 - !ditz.rubyforge.org,2008-03-06/issue 
@@ -691,10 +691,10 @@ releases:
   release_time: 2008-04-04 18:19:48.042308 -07:00
   log_events: 
   - - 2008-04-04 18:18:42.258081 -07:00
-    - William Morgan <w@adap.tv>
+    - William Morgan <wmorgan-ditz@masanjin.net>
     - created
     - ""
   - - 2008-04-04 18:19:48.042346 -07:00
-    - William Morgan <w@adap.tv>
+    - William Morgan <wmorgan-ditz@masanjin.net>
     - released
     - ""
