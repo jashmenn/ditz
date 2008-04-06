@@ -371,7 +371,7 @@ EOS
   def grep project, config, match
     re = /#{match}/
     issues = project.issues.select { |i| i.title =~ re || i.desc =~ re }
-    print_todo issues
+    print todo_list_for(issues)
   end
 
   operation :edit, "Edit an issue"
