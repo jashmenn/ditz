@@ -1,0 +1,21 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: text-area commands like /edit, /reset, etc
+desc: |-
+  add commands to text-area editing (i.e. the thing used for issue descriptions,
+  log comments, etc). /reset should discard everything and restart the editing for
+  that field. /edit should take everything and dump it into $EDITOR. etc.
+type: :feature
+component: ditz
+release: "0.2"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-04-07 16:55:05.159686 Z
+references: []
+
+id: ae56a7296f3270591f5e83c534da8fcca529d39d
+log_events: 
+- - 2008-04-07 16:55:06.443371 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""

@@ -12,8 +12,8 @@ type: :bugfix
 component: ditz
 release: "0.2"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-04-07 04:32:28.579248 Z
 references: 
 - http://rubyforge.org/pipermail/ditz-talk/2008-April/000004.html
@@ -26,4 +26,8 @@ log_events:
 - - 2008-04-07 04:32:37.959476 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - added reference 1
+  - ""
+- - 2008-04-07 16:57:47.725161 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
   - ""
