@@ -100,14 +100,23 @@ class Operator
   operation :help, "List all registered commands"
   def help
     puts <<EOS
-Registered commands:
+Ditz commands:
 EOS
     ops = self.class.operations
+    args = ops.map do |name, op|
+      op[:args_spec].map do |spec|
+        case spec.to_s
+        when /^maybe_(.*)$/
+          "[#{$1}]"
+        else
+          "<#{spec.to_s}>"
+        end
+      end.join(" ")
+    end
     len_name = ops.map { |name, op| name.to_s.length }.max
-    len_args = ops.map { |name, op| op[:args_spec].map { |a| a.to_s.length + 3 }.max || 0 }.max
-    ops.each do |name, op|
-      args = op[:args_spec].map { |x| " <#{x}>" }.join
-      printf "%#{len_name}s%-#{len_args}s: %s\n", name, args, op[:desc]
+    len_args = args.map { |name, op| name.to_s.length }.max
+    ops.zip(args).each do |(name, op), args|
+      printf "%#{len_name}s %-#{len_args}s: %s\n", name, args, op[:desc]
     end
     puts
   end
