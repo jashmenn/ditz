@@ -38,9 +38,15 @@ class Project < ModelObject
 
   field :name, :default_generator => lambda { File.basename(Dir.pwd) }
   field :version, :default => Ditz::VERSION, :ask => false
-  field :issues, :multi => true, :ask => false
   field :components, :multi => true, :generator => :get_components
   field :releases, :multi => true, :ask => false
+
+  ## issues are not model fields proper, so we build up their interface here.
+  attr_accessor :issues
+  def add_issue issue; added_issues << issue; issues << issue end
+  def drop_issue issue; deleted_issues << issue if issues.delete issue end
+  def added_issues; @added_issues ||= [] end
+  def deleted_issues; @deleted_issues ||= [] end
 
   def get_components
     puts <<EOS

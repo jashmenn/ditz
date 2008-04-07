@@ -89,8 +89,7 @@ class ModelObject
   end
 
   def save! fn
-    Ditz::debug "saving configuration to #{fn}"
-    FileUtils.mv fn, "#{fn}~", :force => true rescue nil
+    #FileUtils.mv fn, "#{fn}~", :force => true rescue nil
     File.open(fn, "w") { |f| f.puts to_yaml }
   end
 
@@ -99,12 +98,7 @@ class ModelObject
     self
   end
 
-  def initialize
-    @changed = false
-    @log_events = []
-  end
-
-  def changed?; @changed end
+  def changed?; @changed ||= false end
   def changed!; @changed = true end
 
   def self.create_interactively opts={}

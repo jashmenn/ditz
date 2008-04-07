@@ -1,35 +1,50 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
+require 'fileutils'
 require 'trollop'; include Trollop
 require "ditz"
 
+PROJECT_FN = "project.yaml"
+CONFIG_FN = ".ditz-config"
+def ISSUE_TO_FN i; "issue-#{i.id}.yaml" end
+
 $opts = options do
   version "ditz #{Ditz::VERSION}"
-  opt :issue_file, "Issue database file", :default => "bugs.yaml"
-  opt :config_file, "Configuration file", :default => File.join(ENV["HOME"], ".ditz-config")
+  opt :issue_dir, "Issue database dir", :default => "bugs"
+  opt :config_file, "Configuration file", :default => File.join(ENV["HOME"], CONFIG_FN)
   opt :verbose, "Verbose output", :default => false
 end
 
 cmd = ARGV.shift or die "expecting a ditz command"
 op = Ditz::Operator.new
+dir = $opts[:issue_dir]
 
-case cmd # special cases: init and help
+case cmd # some special cases not handled by Ditz::Operator
 when "init"
-  fn = $opts[:issue_file]
-  die "#{fn} already exists" if File.exists? fn
+  die "#{dir} directory already exists" if File.exists? dir
+  FileUtils.mkdir dir
   project = op.init
-  project.save! fn
-  puts "Ok, #{fn} created successfully."
+  project.save! dir
+  puts "Ok, #{dir} directory created successfully."
   exit
 when "help"
   op.help
   exit
 end
 
-Ditz::debug "loading issues from #{$opts[:issue_file]}"
+die "No #{dir} directory---use 'ditz init' to initialize" unless File.exists? dir
+
 project = begin
-  Ditz::Project.from $opts[:issue_file]
+  fn = File.join dir, PROJECT_FN
+  Ditz::debug "loading project from #{fn}"
+  project = Ditz::Project.from fn
+
+  fn = File.join dir, "issue-*.yaml"
+  Ditz::debug "loading issues from #{fn}"
+  project.issues = Dir[fn].map { |fn| Ditz::Issue.from fn }
+  Ditz::debug "found #{project.issues.size} issues"
+  project
 rescue SystemCallError, Ditz::Project::Error => e
   die "#{e.message} (use 'init' to initialize)"
 end
@@ -39,12 +54,11 @@ project.assign_issue_names!
 project.each_modelobject { |o| o.after_deserialize project }
 
 config = begin
-  fn = ".ditz-config"
-  if File.exists? fn
-    Ditz::debug "loading config from #{fn}"
-    Ditz::Config.from fn
+  if File.exists? CONFIG_FN
+    Ditz::debug "loading local config from #{CONFIG_FN}"
+    Ditz::Config.from CONFIG_FN
   else
-    Ditz::debug "loading config from #{$opts[:config_file]}"
+    Ditz::debug "loading global config from #{$opts[:config_file]}"
     Ditz::Config.from $opts[:config_file]
   end
 rescue SystemCallError, Ditz::ModelObject::ModelError => e
@@ -70,12 +84,42 @@ rescue Ditz::Operator::Error => e
   die e.message
 end
 
+## save project.yaml
 dirty = project.each_modelobject { |o| break true if o.changed? } || false
 if dirty
-  Ditz::debug "project is dirty, saving"
+  fn = File.join dir, PROJECT_FN
+  Ditz::debug "project is dirty, saving #{fn}"
   project.each_modelobject { |o| o.before_serialize project }
-  project.save! $opts[:issue_file]
+  project.save! fn
 end
+
+## project issues are not model fields proper, so they must be
+## saved independently.
+project.issues.each do |i|
+  if i.changed?
+    i.before_serialize project
+    fn = File.join dir, ISSUE_TO_FN(i)
+    Ditz::debug "issue #{i.name} is dirty, saving #{fn}"
+    i.save! fn
+  end
+end
+
+project.deleted_issues.each do |i|
+  fn = File.join dir, ISSUE_TO_FN(i)
+  Ditz::debug "issue #{i.name} has been deleted, deleting #{fn}"
+  FileUtils.rm fn
+end
+
+unless project.added_issues.empty?
+  puts "You may have to inform your SCM that the following files have been added:"
+  project.added_issues.each { |i| puts "  " + File.join(dir, ISSUE_TO_FN(i)) }
+end
+
+unless project.deleted_issues.empty?
+  puts "You may have to inform your SCM that the following files have been deleted:"
+  project.deleted_issues.each { |i| puts "  " + File.join(dir, ISSUE_TO_FN(i)) }
+end
+
 config.save! $opts[:config_file] if config.changed?
 
 # vim: syntax=ruby
