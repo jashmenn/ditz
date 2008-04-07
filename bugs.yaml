@@ -101,7 +101,7 @@ issues:
     - assigned to release 0.2 from 0.1
     - ""
 - !ditz.rubyforge.org,2008-03-06/issue 
-  title: extensibility
+  title: plugin architecture for tighter SCM integration, etc
   desc: |-
     you should be able to extend ditz for things like tighter SCM integration.
     
@@ -132,6 +132,10 @@ issues:
     - William Morgan <wmorgan-ditz@masanjin.net>
     - changed title, changed description
     - ""
+  - - 2008-04-07 04:27:28.490589 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed title
+    - ""
 - !ditz.rubyforge.org,2008-03-06/issue 
   title: ask :limit option not enforcing single characters
   desc: "try with (b)ugfix or (f)eature question: multi-char answers work"
@@ -155,17 +159,17 @@ issues:
     - changed status from unstarted to closed
     - ""
 - !ditz.rubyforge.org,2008-03-06/issue 
-  title: better error handling
+  title: better exception handling---turn into pretty error messages
   desc: |
     many exceptions simple uncaught atm. ideally they would be turned into
     nice messages for the user.
 
   type: :feature
   component: ditz
-  release: 
+  release: "0.2"
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
-  status: :unstarted
-  disposition: 
+  status: :closed
+  disposition: :fixed
   creation_time: 2008-03-07 07:51:30.841406 Z
   references: []
 
@@ -183,6 +187,18 @@ issues:
     - William Morgan <wmorgan-ditz@masanjin.net>
     - unassigned from release 0.1
     - backtrace is fine for an initial version
+  - - 2008-04-07 04:19:04.266518 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - assigned to release 0.2 from unassigned
+    - ""
+  - - 2008-04-07 04:19:31.959738 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - closed issue with disposition fixed
+    - fixed by new argument parsing code
+  - - 2008-04-07 04:24:34.491958 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - changed title
+    - ""
 - !ditz.rubyforge.org,2008-03-06/issue 
   title: "'grep' command"
   desc: ""
@@ -613,11 +629,12 @@ issues:
   component: ditz
   release: 
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
-  status: :unstarted
-  disposition: 
+  status: :closed
+  disposition: :wontfix
   creation_time: 2008-04-06 01:27:01.450553 Z
   references: 
   - http://rubyforge.org/pipermail/ditz-talk/2008-April/000006.html
+  - http://rubyforge.org/pipermail/ditz-talk/2008-April/000004.html
   id: f6b3392f7705f042ca35203fc6edf089842a1ca3
   log_events: 
   - - 2008-04-06 01:27:02.697911 Z
@@ -628,12 +645,22 @@ issues:
     - William Morgan <wmorgan-ditz@masanjin.net>
     - added reference 1
     - ""
+  - - 2008-04-07 04:28:29.098894 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - closed issue with disposition wontfix
+    - |-
+      instead, going to do one file per issue, which should automagically
+      take care of all the issues this was going to address.
+  - - 2008-04-07 04:29:33.608402 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - added reference 2
+    - ""
 - !ditz.rubyforge.org,2008-03-06/issue 
   title: "'log' command for recent activity"
   desc: idea stolen from 'ticgit recent'
   type: :feature
   component: ditz
-  release: 
+  release: "0.2"
   reporter: William Morgan <wmorgan-ditz@masanjin.net>
   status: :unstarted
   disposition: 
@@ -645,6 +672,10 @@ issues:
   - - 2008-04-06 02:11:08.133055 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - created
+    - ""
+  - - 2008-04-07 04:27:50.546532 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - assigned to release 0.2 from unassigned
     - ""
 - !ditz.rubyforge.org,2008-03-06/issue 
   title: store all times in UTC
@@ -667,6 +698,35 @@ issues:
   - - 2008-04-06 22:07:36.894000 Z
     - William Morgan <wmorgan-ditz@masanjin.net>
     - closed issue with disposition fixed
+    - ""
+- !ditz.rubyforge.org,2008-03-06/issue 
+  title: store each issue in a separate file to avoid false conflicts
+  desc: |-
+    the problem with one monolithic file is that two issues added
+    at the same time still generate a conflict, because the SCM
+    can't determine an order (even though it doesn't matter). having
+    one file per issue avoids this entirely, as well as solving the
+    case where issues are added in different orders (e.g. when issues
+    are posted as mailing list patches and different repos add the
+    patches in different orders).
+  type: :bugfix
+  component: ditz
+  release: "0.2"
+  reporter: William Morgan <wmorgan-ditz@masanjin.net>
+  status: :unstarted
+  disposition: 
+  creation_time: 2008-04-07 04:32:28.579248 Z
+  references: 
+  - http://rubyforge.org/pipermail/ditz-talk/2008-April/000004.html
+  id: 18dc912cceaa48a22a08abd7c44a00f703adb9bc
+  log_events: 
+  - - 2008-04-07 04:32:30.683416 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-04-07 04:32:37.959476 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - added reference 1
     - ""
 components: 
 - !ditz.rubyforge.org,2008-03-06/component 
