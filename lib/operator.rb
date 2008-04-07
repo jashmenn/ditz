@@ -336,8 +336,9 @@ EOS
   end
 
   operation :html, "Generate html status pages", :dir
-  def html project, config, dir="html"
+  def html project, config, dir
     #FileUtils.rm_rf dir
+    dir ||= "html"
     Dir.mkdir dir unless File.exists? dir
 
     ## find the ERB templates. this is my brilliant approach
