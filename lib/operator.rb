@@ -155,6 +155,7 @@ EOS
   end
 
   def todo_list_for issues
+    return "No open issues." if issues.empty?
     name_len = issues.max_of { |i| i.name.length }
     issues.map do |i|
       sprintf "%s %#{name_len}s: %s\n", i.status_widget, i.name, i.title
