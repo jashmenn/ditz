@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "'archive' command"
+desc: ""
+type: :feature
+component: ditz
+release: "0.2"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-03-07 05:04:08.771047 Z
+references: []
+
+id: 308e3794685e4bdb6c7acaf8461ff37e195da14d
+log_events: 
+- - 2008-03-07 05:04:08.771082 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-03-31 03:27:49.843846 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.2 from 0.1
+  - ""

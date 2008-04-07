@@ -1,0 +1,29 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: store each issue in a separate file to avoid false conflicts
+desc: |-
+  the problem with one monolithic file is that two issues added
+  at the same time still generate a conflict, because the SCM
+  can't determine an order (even though it doesn't matter). having
+  one file per issue avoids this entirely, as well as solving the
+  case where issues are added in different orders (e.g. when issues
+  are posted as mailing list patches and different repos add the
+  patches in different orders).
+type: :bugfix
+component: ditz
+release: "0.2"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-04-07 04:32:28.579248 Z
+references: 
+- http://rubyforge.org/pipermail/ditz-talk/2008-April/000004.html
+id: 18dc912cceaa48a22a08abd7c44a00f703adb9bc
+log_events: 
+- - 2008-04-07 04:32:30.683416 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-07 04:32:37.959476 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - added reference 1
+  - ""

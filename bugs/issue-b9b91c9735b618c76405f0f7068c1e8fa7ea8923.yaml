@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: issue name not being set in 'add' command
+desc: final line of output is clearly trying to print a nil value.
+type: :bugfix
+component: ditz
+release: "0.1"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-03-11 02:11:59.902302 Z
+references: []
+
+id: b9b91c9735b618c76405f0f7068c1e8fa7ea8923
+log_events: 
+- - 2008-03-11 02:11:59.902410 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-03-12 17:54:05.228838 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to closed
+  - ""
