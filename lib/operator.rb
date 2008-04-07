@@ -134,7 +134,9 @@ EOS
       pcbugs = 100.0 * (bugs.empty? ? 1.0 : ncbugs.to_f / bugs.size)
       pcfeats = 100.0 * (feats.empty? ? 1.0 : ncfeats.to_f / feats.size)
 
-      special = if bugs.empty? && feats.empty?
+      special = if r && r.released?
+        "(released)"
+      elsif bugs.empty? && feats.empty?
         "(no issues)"
       elsif ncbugs == bugs.size && ncfeats == feats.size
         "(ready for release)"
