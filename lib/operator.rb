@@ -155,11 +155,12 @@ EOS
 
   operation :add_reference, "Add a reference to an issue", :issue
   def add_reference project, config, issue
+    puts "Adding a reference to #{issue.name}: #{issue.title}."
     reference = ask "Reference"
     comment = ask_multiline "Comments"
     issue.add_reference reference
     issue.log "added reference #{issue.references.size}", config.user, comment
-    puts "Added reference to #{issue.name}"
+    puts "Added reference to #{issue.name}."
   end
 
   operation :status, "Show project status", :maybe_release
@@ -243,11 +244,13 @@ EOS
 #{"Issue #{issue.name}".underline}
       Title: #{issue.title}
 Description: #{issue.interpolated_desc(project.issues).multiline "  "}
+       Type: #{issue.type}
      Status: #{status}
     Creator: #{issue.reporter}
         Age: #{issue.creation_time.ago}
     Release: #{issue.release}
  References: #{issue.references.listify "  "}
+ Identifier: #{issue.id}
 
 Event log:
 #{format_log_events issue.log_events}
@@ -263,6 +266,7 @@ EOS
 
   operation :start, "Start work on an issue", :issue
   def start project, config, issue
+    puts "Start working on issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments"
     issue.start_work config.user, comment
     puts "Recorded start of work for #{issue.name}."
@@ -270,6 +274,7 @@ EOS
 
   operation :stop, "Stop work on an issue", :issue
   def stop project, config, issue
+    puts "Stop working on issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments"
     issue.stop_work config.user, comment
     puts "Recorded work stop for #{issue.name}."
@@ -294,11 +299,12 @@ EOS
     release = ask_for_selection project.releases, "release", :name
     comment = ask_multiline "Comments"
     issue.assign_to_release release, config.user, comment
-    puts "Assigned #{issue.name} to #{release.name}"
+    puts "Assigned #{issue.name} to #{release.name}."
   end
 
   operation :unassign, "Unassign an issue from any releases", :issue
   def unassign project, config, issue
+    puts "Unassign issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments"
     issue.unassign config.user, comment
     puts "Unassigned #{issue.name}."
@@ -306,6 +312,7 @@ EOS
 
   operation :comment, "Comment on an issue", :issue
   def comment project, config, issue
+    puts "Comment on issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments"
     issue.log "commented", config.user, comment
     puts "Comments recorded for #{issue.name}."
@@ -399,6 +406,7 @@ EOS
         :past_releases => past_rels, :upcoming_releases => upcoming_rels,
         :components => project.components)
     end
+    puts "You can browse the generated pages at: file://#{File.expand_path(fn)}"
   end
 
   operation :validate, "Validate project status"
