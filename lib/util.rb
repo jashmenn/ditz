@@ -30,4 +30,15 @@ class Array
   def to_h
     Hash[*flatten]
   end
+
+  def flatten_one_level
+    inject([]) do |ret, e|
+      case e
+      when Array
+        ret + e
+      else
+        ret << e
+      end
+    end
+  end
 end

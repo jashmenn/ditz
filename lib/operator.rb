@@ -421,6 +421,23 @@ EOS
     puts(todo_list_for(issues) || "No matching issues.")
   end
 
+  operation :log, "Show recent activity"
+  def log project, config
+    project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
+      flatten_one_level.sort_by { |e| e.first.first }.reverse.
+      each do |(date, author, what, comment), i|
+      puts <<EOS
+  date: #{date} (#{date.ago} ago)
+ issue: [#{i.name}] #{i.title}
+author: #{author}
+
+#{what}
+#{comment}
+
+EOS
+    end
+  end
+
   operation :edit, "Edit an issue", :issue
   def edit project, config, issue
     data = { :title => issue.title, :description => issue.desc,
