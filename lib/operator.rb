@@ -266,7 +266,7 @@ EOS
 
   operation :start, "Start work on an issue", :issue
   def start project, config, issue
-    puts "Start working on issue #{issue.name}: #{issue.title}."
+    puts "Starting work on issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments"
     issue.start_work config.user, comment
     puts "Recorded start of work for #{issue.name}."
@@ -274,7 +274,7 @@ EOS
 
   operation :stop, "Stop work on an issue", :issue
   def stop project, config, issue
-    puts "Stop working on issue #{issue.name}: #{issue.title}."
+    puts "Stopping work on issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments"
     issue.stop_work config.user, comment
     puts "Recorded work stop for #{issue.name}."
@@ -304,7 +304,7 @@ EOS
 
   operation :unassign, "Unassign an issue from any releases", :issue
   def unassign project, config, issue
-    puts "Unassign issue #{issue.name}: #{issue.title}."
+    puts "Unassigning issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments"
     issue.unassign config.user, comment
     puts "Unassigned #{issue.name}."
@@ -312,7 +312,7 @@ EOS
 
   operation :comment, "Comment on an issue", :issue
   def comment project, config, issue
-    puts "Comment on issue #{issue.name}: #{issue.title}."
+    puts "Commenting on issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments"
     issue.log "commented", config.user, comment
     puts "Comments recorded for #{issue.name}."
