@@ -7,6 +7,10 @@ class Numeric
   end
 end
 
+class NilClass
+  def multiline prefix=nil; "" end
+end
+
 class String
   def ucfirst; self[0..0].upcase + self[1..-1] end
   def dcfirst; self[0..0].downcase + self[1..-1] end
