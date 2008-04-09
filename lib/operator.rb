@@ -59,10 +59,12 @@ class Operator
       command = "command '#{method_to_op method}'"
       built_args = @operations[method][:args_spec].map do |spec|
         val = args.shift
+        generate_choices(project, method, spec) if val == '<options>'
         case spec
         when :issue
           raise Error, "#{command} requires an issue name" unless val
-          project.issue_for(val) or raise Error, "no issue with name #{val}"
+          valr = val.sub(/\A(\w+-\d+)_.*$/,'\1')
+          project.issue_for(valr) or raise Error, "no issue with name #{val}"
         when :release
           raise Error, "#{command} requires a release name" unless val
           project.release_for(val) or raise Error, "no release with name #{val}"
@@ -75,8 +77,19 @@ class Operator
           val # no translation for other types
         end
       end
+      generate_choices(project, method, nil) if args.include? '<options>'
       raise Error, "too many arguments for #{command}" unless args.empty?
       built_args
+    end
+
+    def generate_choices project, method, spec
+      case spec
+      when :issue
+        puts project.issues.map { |i| "#{i.name}_#{i.title.gsub(/\W+/, '-')}" }
+      when :release, :maybe_release
+        puts project.releases.map { |r| r.name }
+      end
+      exit 0
     end
   end
 

@@ -1,5 +1,18 @@
 #!/usr/bin/env ruby
 
+# requires are splitted in two for efficiency reasons
+# ditz should be really fast when using it for
+# completion.
+require 'operator'
+
+op = Ditz::Operator.new
+
+# a secret option for shell completion
+if ARGV.include? '--commands'
+  puts op.class.operations.map { |name, _| name }
+  exit 0
+end
+
 require 'rubygems'
 require 'fileutils'
 require 'trollop'; include Trollop
@@ -17,7 +30,6 @@ $opts = options do
 end
 
 cmd = ARGV.shift or die "expecting a ditz command"
-op = Ditz::Operator.new
 dir = $opts[:issue_dir]
 
 case cmd # some special cases not handled by Ditz::Operator
