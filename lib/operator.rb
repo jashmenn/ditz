@@ -427,14 +427,14 @@ EOS
       flatten_one_level.sort_by { |e| e.first.first }.reverse.
       each do |(date, author, what, comment), i|
       puts <<EOS
-  date: #{date} (#{date.ago} ago)
- issue: [#{i.name}] #{i.title}
+date  : #{date} (#{date.ago} ago)
 author: #{author}
 
-#{what}
-#{comment}
-
+  #{i.name}: #{i.title}
+  #{what}
+  #{comment.multiline "  "}
 EOS
+    puts unless comment.blank?
     end
   end
 
