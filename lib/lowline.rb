@@ -88,14 +88,33 @@ module Lowline
     end
   end
 
+  def ask_via_editor q, default=nil
+    fn = run_editor do |f|
+      f.puts q.gsub(/^/, "## ")
+      f.puts "##"
+      f.puts "## Enter your answer below. Lines starting with a '#' will be ignored."
+      f.puts
+      f.puts default if default
+    end
+    return unless fn
+    IO.read(fn).gsub(/^#.*$/, "")
+  end
+
   def ask_multiline q
-    puts "#{q} (ctrl-d or . by itself to stop):"
+    puts "#{q} (ctrl-d, ., or /stop to stop, /edit to edit, /reset to reset):"
     ans = ""
     while true
       print "> "
-      line = gets
-      break if line =~ /^\.$/ || line.nil?
-      ans << line.strip + "\n"
+      case(line = gets) && line.strip!
+      when /^\.$/, nil, "/stop"
+        break
+      when "/reset"
+        return ask_multiline(q)
+      when "/edit"
+        return ask_via_editor(q, ans)
+      else
+        ans << line + "\n"
+      end
     end
     ans.sub(/\n+$/, "")
   end
