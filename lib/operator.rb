@@ -1,6 +1,4 @@
-require 'tempfile'
 require 'fileutils'
-
 require "html"
 
 module Ditz
@@ -443,23 +441,17 @@ EOS
     data = { :title => issue.title, :description => issue.desc,
              :reporter => issue.reporter }
 
-    f = Tempfile.new("ditz")
-    f.puts data.to_yaml
-    f.close
-    editor = ENV["EDITOR"] || "/usr/bin/vi"
-    cmd = "#{editor} #{f.path.inspect}"
-    Ditz::debug "running: #{cmd}"
+    fn = run_editor { |f| f.puts data.to_yaml }
 
-    mtime = File.mtime f.path
-    system cmd or raise Error, "cannot execute command: #{cmd.inspect}"
-    if File.mtime(f.path) == mtime
+    unless fn
       puts "Aborted."
       return
     end
 
     comment = ask_multiline "Comments"
+
     begin
-      edits = YAML.load_file f.path
+      edits = YAML.load_file fn
       if issue.change edits, config.user, comment
         puts "Changed recorded."
       else

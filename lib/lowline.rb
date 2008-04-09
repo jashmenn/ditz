@@ -1,4 +1,5 @@
-require 'util'
+require 'tempfile'
+require "util"
 
 class Numeric
   def to_pretty_s
@@ -48,6 +49,20 @@ class Time
 end
 
 module Lowline
+  def run_editor
+    f = Tempfile.new "ditz"
+    yield f
+    f.close
+
+    editor = ENV["EDITOR"] || "/usr/bin/vi"
+    cmd = "#{editor} #{f.path.inspect}"
+
+    mtime = File.mtime f.path
+    system cmd or raise Error, "cannot execute command: #{cmd.inspect}"
+
+    File.mtime(f.path) == mtime ? nil : f.path
+  end
+
   def ask q, opts={}
     default_s = case opts[:default]
       when nil; nil
