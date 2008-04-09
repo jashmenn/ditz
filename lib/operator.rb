@@ -427,7 +427,7 @@ EOS
       flatten_one_level.sort_by { |e| e.first.first }.reverse.
       each do |(date, author, what, comment), i|
       puts <<EOS
-date  : #{date} (#{date.ago} ago)
+date  : #{date.localtime} (#{date.ago} ago)
 author: #{author}
 
   #{i.name}: #{i.title}
