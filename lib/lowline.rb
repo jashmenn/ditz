@@ -2,11 +2,7 @@ require 'util'
 
 class Numeric
   def to_pretty_s
-    if self < 20
-      %w(no one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen)[self]
-    else
-      to_s
-    end
+    %w(no one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen)[self] || to_s
   end
 end
 
