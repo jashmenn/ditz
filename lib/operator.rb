@@ -340,9 +340,8 @@ EOS
     bugs.select { |f| f.closed? }.each { |i| puts "* bugfix: #{i.title}" }
   end
 
-  operation :html, "Generate html status pages", :dir
+  operation :html, "Generate html status pages", :maybe_dir
   def html project, config, dir
-    #FileUtils.rm_rf dir
     dir ||= "html"
     Dir.mkdir dir unless File.exists? dir
 
