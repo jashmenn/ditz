@@ -5,7 +5,7 @@ type: :feature
 component: ditz
 release: "0.2"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2008-03-07 05:04:08.771047 Z
 references: []
@@ -20,3 +20,7 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - assigned to release 0.2 from 0.1
   - ""
+- - 2008-04-10 17:23:49.647761 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - have a stub and some ideas.

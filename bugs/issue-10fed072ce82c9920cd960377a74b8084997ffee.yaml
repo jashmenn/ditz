@@ -1,0 +1,28 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: allow local config to specify bugs directory location
+desc: |
+  Here's a git-specific use-case for this: you want to keep issues in a separate
+  branch so as not to clutter your precious development history. It's annoying to
+  switch back and forth between branches all the time, so you make another repo
+  close of just that branch (or whatever the git lingo is) and put it in a
+  directory somewhere.
+  
+  If you could then tell ditz that the bugs directory is over there, you could
+  run ditz directly from your coding directory, keep your development history
+  pure, and not worry about switching branches all the time.
+
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-04-10 16:31:56.660634 Z
+references: []
+
+id: 10fed072ce82c9920cd960377a74b8084997ffee
+log_events: 
+- - 2008-04-10 16:31:57.570021 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
