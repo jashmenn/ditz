@@ -403,7 +403,7 @@ EOS
         :past_releases => past_rels, :upcoming_releases => upcoming_rels,
         :components => project.components)
     end
-    puts "You can browse the generated pages at: file://#{File.expand_path(fn)}"
+    puts "Local generated URL: file://#{File.expand_path(fn)}"
   end
 
   operation :validate, "Validate project status"
