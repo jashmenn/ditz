@@ -42,7 +42,7 @@ end
 
 task :upload_report do |t|
   sh "ruby -Ilib bin/ditz html ditz"
-  sh "scp -Cr ditz wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
+  sh "rsync -essh -cavz ditz wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
 end
 
 # vim: syntax=ruby
