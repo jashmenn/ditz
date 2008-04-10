@@ -510,6 +510,12 @@ EOS
     end
   end
 
+  operation :archive, "Archive a release", :release, :maybe_dir
+  def archive project, config, release
+    project.issues_for_release(release).each do |i|
+    end
+  end
+
   operation :edit, "Edit an issue", :issue
   def edit project, config, issue
     data = { :title => issue.title, :description => issue.desc,
