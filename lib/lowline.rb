@@ -14,6 +14,7 @@ class String
   def underline; self + "\n" + ("-" * self.length) end
   def multiline prefix=""; blank? ? "" : "\n" + self.gsub(/^/, prefix) end
   def pluralize n; n.to_pretty_s + " " + (n == 1 ? self : self + "s") end # oh yeah
+  def multistrip; strip.gsub(/\n\n+/, "\n\n") end
 end
 
 class Array
@@ -92,12 +93,12 @@ module Lowline
     fn = run_editor do |f|
       f.puts q.gsub(/^/, "## ")
       f.puts "##"
-      f.puts "## Enter your answer below. Lines starting with a '#' will be ignored."
+      f.puts "## Enter your text below. Lines starting with a '#' will be ignored."
       f.puts
       f.puts default if default
     end
     return unless fn
-    IO.read(fn).gsub(/^#.*$/, "")
+    IO.read(fn).gsub(/^#.*$/, "").multistrip
   end
 
   def ask_multiline q
@@ -116,7 +117,7 @@ module Lowline
         ans << line + "\n"
       end
     end
-    ans.sub(/\n+$/, "")
+    ans.multistrip
   end
 
   def ask_yon q
