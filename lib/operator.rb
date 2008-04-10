@@ -95,28 +95,40 @@ class Operator
     Project.create_interactively
   end
 
-  operation :help, "List all registered commands"
-  def help
+  operation :help, "List all registered commands", :maybe_command
+  def help project, config, command
+    return help_single(command) if command
     puts <<EOS
 Ditz commands:
+
 EOS
     ops = self.class.operations
-    args = ops.map do |name, op|
-      op[:args_spec].map do |spec|
-        case spec.to_s
-        when /^maybe_(.*)$/
-          "[#{$1}]"
-        else
-          "<#{spec.to_s}>"
-        end
-      end.join(" ")
+    len = ops.map { |name, op| name.to_s.length }.max
+    ops.each do |name, opts|
+      printf "  %#{len}s: %s\n", name, opts[:desc]
     end
-    len_name = ops.map { |name, op| name.to_s.length }.max
-    len_args = args.map { |name, op| name.to_s.length }.max
-    ops.zip(args).each do |(name, op), args|
-      printf "%#{len_name}s %-#{len_args}s: %s\n", name, args, op[:desc]
-    end
-    puts
+    puts <<EOS
+
+Use 'ditz help <command>' for details.
+EOS
+  end
+
+  def help_single command
+    name, opts = self.class.operations.find { |name, spec| name == command }
+    raise Error, "no such ditz command '#{command}'" unless name
+    args = opts[:args_spec].map do |spec|
+      case spec.to_s
+      when /^maybe_(.*)$/
+        "[#{$1}]"
+      else
+        "<#{spec.to_s}>"
+      end
+    end.join(" ")
+
+    puts <<EOS
+#{opts[:desc]}.
+Usage: ditz #{name} #{args}
+EOS
   end
 
   operation :add, "Add a bug/feature request"

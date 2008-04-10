@@ -29,7 +29,7 @@ when "init"
   puts "Ok, #{dir} directory created successfully."
   exit
 when "help"
-  op.help
+  op.do "help", nil, nil, ARGV
   exit
 end
 
