@@ -5,6 +5,7 @@ ruby -Ilib bin/ditz changelog <releasename> > tmp.txt
 cat Changelog >> tmp.txt
 mv tmp.txt Changelog
 vi Changelog    # and cleanup
+vi ReleaseNotes # and add whatever's necessary
 vi lib/ditz.rb  # and bump version number
 rake release VERSION=<releasename>
 git commit -a -v
