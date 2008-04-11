@@ -1,0 +1,8 @@
+0.2
+---
+
+In ditz 0.2, we store issues per file. This avoids many unnecessary conflicts
+that occur in the single-file case.
+
+To upgrade your bugs.yaml to a bugs/ directory, you must run
+ditz-convert-from-monolith.
