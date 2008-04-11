@@ -1,3 +1,10 @@
+== 0.2 / 2008-04-11
+* bugfix: store each issue in a separate file to avoid false conflicts
+* added per-command help
+* added 'log' command for recent activity
+* added better exception handling---turn into pretty error messages
+* added text-area commands like /edit, /reset, etc
+* all times now stored in UTC
 == 0.1.2 / 2008-04-04
 * bugfix: add_reference very broken
 == 0.1.1 / 2008-04-04
