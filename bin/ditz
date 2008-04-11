@@ -24,8 +24,9 @@ case cmd # some special cases not handled by Ditz::Operator
 when "init"
   die "#{dir} directory already exists" if File.exists? dir
   FileUtils.mkdir dir
+  fn = File.join dir, PROJECT_FN
   project = op.init
-  project.save! dir
+  project.save! fn
   puts "Ok, #{dir} directory created successfully."
   exit
 when "help"
