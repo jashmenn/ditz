@@ -3,7 +3,7 @@ title: "'archive' command"
 desc: ""
 type: :feature
 component: ditz
-release: "0.2"
+release: "0.3"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :in_progress
 disposition: 
@@ -24,3 +24,7 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - changed status from unstarted to in_progress
   - have a stub and some ideas.
+- - 2008-04-11 03:19:35.397757 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.3 from 0.2
+  - ""
