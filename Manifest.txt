@@ -2,6 +2,7 @@ Changelog
 README.txt
 Rakefile
 bin/ditz
+bin/ditz-convert-from-monolith
 lib/component.rhtml
 lib/ditz.rb
 lib/html.rb
