@@ -306,7 +306,16 @@ EOS
     else
       "not assigned to any release."
     end
-    release = ask_for_selection project.releases, "release", :name
+
+    releases = project.releases.sort_by { |r| (r.release_time || 0).to_i }
+    releases -= [releases.find { |r| r.name == issue.release }] if issue.release
+    release = ask_for_selection(releases, "release") do |r|
+      r.name + if r.released?
+        " (released #{r.release_time.pretty_date})"
+      else
+        " (unreleased)"
+      end
+    end
     comment = ask_multiline "Comments"
     issue.assign_to_release release, config.user, comment
     puts "Assigned #{issue.name} to #{release.name}."

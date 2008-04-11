@@ -160,6 +160,8 @@ module Lowline
     puts "Choose a #{name}:"
     stuff.each_with_index do |c, i|
       pretty = case to_string
+      when block_given? && to_string # heh
+        yield c
       when Symbol
         c.send to_string
       when Proc
