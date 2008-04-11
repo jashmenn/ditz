@@ -83,6 +83,8 @@ begin
   op.do cmd, project, config, args
 rescue Ditz::Operator::Error => e
   die e.message
+rescue Interrupt
+  exit 1
 end
 
 ## save project.yaml
