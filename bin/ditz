@@ -7,7 +7,6 @@ require "ditz"
 
 PROJECT_FN = "project.yaml"
 CONFIG_FN = ".ditz-config"
-def ISSUE_TO_FN i; "issue-#{i.id}.yaml" end
 
 $opts = options do
   version "ditz #{Ditz::VERSION}"
@@ -19,6 +18,7 @@ end
 cmd = ARGV.shift or die "expecting a ditz command"
 op = Ditz::Operator.new
 dir = $opts[:issue_dir]
+Ditz::Issue::ISSUE_DIR = dir
 
 case cmd # some special cases not handled by Ditz::Operator
 when "init"
@@ -96,31 +96,31 @@ if dirty
   project.save! fn
 end
 
+changed_issues = project.issues.select { |i| i.changed? }
+
 ## project issues are not model fields proper, so they must be
 ## saved independently.
-project.issues.each do |i|
-  if i.changed?
-    i.before_serialize project
-    fn = File.join dir, ISSUE_TO_FN(i)
-    Ditz::debug "issue #{i.name} is dirty, saving #{fn}"
-    i.save! fn
-  end
+changed_issues.each do |i|
+  i.before_serialize project
+  fn = i.pathname
+  Ditz::debug "issue #{i.name} is dirty, saving #{fn}"
+  i.save! fn
 end
 
 project.deleted_issues.each do |i|
-  fn = File.join dir, ISSUE_TO_FN(i)
+  fn = i.pathname
   Ditz::debug "issue #{i.name} has been deleted, deleting #{fn}"
   FileUtils.rm fn
 end
 
 unless project.added_issues.empty?
   puts "You may have to inform your SCM that the following files have been added:"
-  project.added_issues.each { |i| puts "  " + File.join(dir, ISSUE_TO_FN(i)) }
+  project.added_issues.each { |i| puts "  " + i.pathname }
 end
 
 unless project.deleted_issues.empty?
   puts "You may have to inform your SCM that the following files have been deleted:"
-  project.deleted_issues.each { |i| puts "  " + File.join(dir, ISSUE_TO_FN(i)) }
+  project.deleted_issues.each { |i| puts "  " + i.pathname }
 end
 
 config.save! $opts[:config_file] if config.changed?
