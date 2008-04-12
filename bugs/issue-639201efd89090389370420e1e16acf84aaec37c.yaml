@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Add hooks to handle changes in project.yaml.
+desc: ""
+type: :feature
+component: ditz
+release: 
+reporter: Nicolas Pouillard <nicolas.pouillard@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-04-12 20:04:34.044157 Z
+references: []
+
+id: 639201efd89090389370420e1e16acf84aaec37c
+log_events: 
+- - 2008-04-12 20:04:35.308121 Z
+  - Nicolas Pouillard <nicolas.pouillard@gmail.com>
+  - created
+  - ""
