@@ -125,9 +125,9 @@ class Issue < ModelObject
   STATUS_SORT_ORDER = { :unstarted => 2, :paused => 1, :in_progress => 0, :closed => 3 }
   STATUS_WIDGET = { :unstarted => "_", :in_progress => ">", :paused => "=", :closed => "x" }
   DISPOSITIONS = [ :fixed, :wontfix, :reorg ]
-  TYPES = [ :bugfix, :feature ]
-  TYPE_ORDER = { :bugfix => 0, :feature => 1 }
-  TYPE_LETTER = { 'b' => :bugfix, 'f' => :feature }
+  TYPES = [ :bugfix, :feature, :task ]
+  TYPE_ORDER = { :bugfix => 0, :feature => 1, :task => 2 }
+  TYPE_LETTER = { 'b' => :bugfix, 'f' => :feature, 't' => :task }
   STATUSES = STATUS_WIDGET.keys
 
   STATUS_STRINGS = { :in_progress => "in progress", :wontfix => "won't fix" }
@@ -218,7 +218,7 @@ class Issue < ModelObject
   end
 
   def get_type config, project
-    type = ask "Is this a (b)ugfix or a (f)eature?", :restrict => /^[bf]$/
+    type = ask "Is this a (b)ugfix, a (f)eature, or a (t)ask?", :restrict => /^[bft]$/
     TYPE_LETTER[type]
   end
 
