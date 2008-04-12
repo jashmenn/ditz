@@ -168,7 +168,10 @@ unless project.deleted_issues.empty?
   end
 end
 
-Ditz::HookManager.run :after_update, project, config, changed_issues - project.added_issues
+changed_not_added_issues = changed_issues - project.added_issues
+unless changed_not_added_issues.empty?
+  Ditz::HookManager.run :after_update, project, config, changed_not_added_issues
+end
 
 config.save! $opts[:config_file] if config.changed?
 
