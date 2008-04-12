@@ -11,3 +11,4 @@ end
 
 require 'model-objects'
 require 'operator'
+require 'hook'

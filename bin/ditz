@@ -13,8 +13,47 @@ $opts = options do
   opt :issue_dir, "Issue database dir", :default => "bugs"
   opt :config_file, "Configuration file", :default => File.join(ENV["HOME"], CONFIG_FN)
   opt :verbose, "Verbose output", :default => false
+  opt :list_hooks, "List all hooks and descriptions, and quit.", :short => 'l', :default => false
 end
 
+Ditz::HookManager.register :startup, <<EOS
+Executes at startup
+
+Variables: project, config
+No return value.
+EOS
+
+Ditz::HookManager.register :after_add, <<EOS
+Executes before terminating if new issue files has been created.
+Basically you want to instruct your SCM that these files has
+been added.
+
+Variables: project, config, issues
+No return value.
+EOS
+
+Ditz::HookManager.register :after_delete, <<EOS
+Executes before terminating if new issue files has been deleted.
+Basically you want to instruct your SCM that these files has
+been deleted.
+
+Variables: project, config, issues
+No return value.
+EOS
+
+Ditz::HookManager.register :after_update, <<EOS
+Executes before terminating if new issue files has been updated.
+You may want to instruct your SCM about these changes.
+Note that new issues are not considered updated.
+
+Variables: project, config, issues
+No return value.
+EOS
+
+if $opts[:list_hooks]
+  Ditz::HookManager.print_hooks
+  exit 0
+end
 cmd = ARGV.shift or die "expecting a ditz command"
 op = Ditz::Operator.new
 dir = $opts[:issue_dir]
@@ -74,6 +113,8 @@ unless op.has_operation? cmd
   die "no such command: #{cmd}"
 end
 
+Ditz::HookManager.run :startup, project, config
+
 ## talk about the law of unintended consequences. 'gets' requires this.
 args = []
 args << ARGV.shift until ARGV.empty?
@@ -114,14 +155,20 @@ project.deleted_issues.each do |i|
 end
 
 unless project.added_issues.empty?
-  puts "You may have to inform your SCM that the following files have been added:"
-  project.added_issues.each { |i| puts "  " + i.pathname }
+  unless Ditz::HookManager.run :after_add, project, config, project.added_issues
+    puts "You may have to inform your SCM that the following files have been added:"
+    project.added_issues.each { |i| puts "  " + i.pathname }
+  end
 end
 
 unless project.deleted_issues.empty?
-  puts "You may have to inform your SCM that the following files have been deleted:"
-  project.deleted_issues.each { |i| puts "  " + i.pathname }
+  unless Ditz::HookManager.run :after_delete, project, config, project.deleted_issues
+    puts "You may have to inform your SCM that the following files have been deleted:"
+    project.deleted_issues.each { |i| puts "  " + i.pathname }
+  end
 end
+
+Ditz::HookManager.run :after_update, project, config, changed_issues - project.added_issues
 
 config.save! $opts[:config_file] if config.changed?
 

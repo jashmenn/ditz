@@ -5,7 +5,7 @@ type: :feature
 component: ditz
 release: "0.1"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :closed
+status: :in_progress
 disposition: :fixed
 creation_time: 2008-03-24 16:17:14.158609 Z
 references: []
@@ -24,3 +24,7 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - closed issue with disposition fixed
   - ""
+- - 2008-04-12 17:28:11.495417 Z
+  - Nicolas Pouillard <nicolas.pouillard@gmail.com>
+  - changed status from closed to in_progress
+  - Add a simple hook system (see an example at examples/ditz-darcs-hooks.rb).
