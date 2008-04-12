@@ -19,6 +19,14 @@ module Enumerable
     each { |e| x = yield(e); return x if x }
     nil
   end
+
+  def group_by
+    inject({}) do |groups, element|
+      (groups[yield(element)] ||= []) << element
+      groups
+    end
+  end if RUBY_VERSION < '1.9'
+
 end
 
 class Array

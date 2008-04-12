@@ -83,6 +83,10 @@ EOS
     issues.select { |i| i.release.nil? }
   end
 
+  def group_issues these_issues=issues
+    these_issues.group_by { |i| i.type }.sort_by { |(t,g)| Issue::TYPE_ORDER[t] }
+  end
+
   def assign_issue_names!
     prefixes = components.map { |c| [c.name, c.name.gsub(/^\s+/, "-").downcase] }.to_h
     ids = components.map { |c| [c.name, 0] }.to_h
@@ -122,6 +126,8 @@ class Issue < ModelObject
   STATUS_WIDGET = { :unstarted => "_", :in_progress => ">", :paused => "=", :closed => "x" }
   DISPOSITIONS = [ :fixed, :wontfix, :reorg ]
   TYPES = [ :bugfix, :feature ]
+  TYPE_ORDER = { :bugfix => 0, :feature => 1 }
+  TYPE_LETTER = { 'b' => :bugfix, 'f' => :feature }
   STATUSES = STATUS_WIDGET.keys
 
   STATUS_STRINGS = { :in_progress => "in progress", :wontfix => "won't fix" }
@@ -213,7 +219,7 @@ class Issue < ModelObject
 
   def get_type config, project
     type = ask "Is this a (b)ugfix or a (f)eature?", :restrict => /^[bf]$/
-    type == "b" ? :bugfix : :feature
+    TYPE_LETTER[type]
   end
 
   def get_component config, project

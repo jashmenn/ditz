@@ -35,23 +35,20 @@ class Operator
       releases.each do |r|
         next if r.released? unless force_show
 
-        bugs = project.issues.
-          select { |i| i.type == :bugfix && i.release == r.name }
-        feats = project.issues.
-          select { |i| i.type == :feature && i.release == r.name }
+        groups = project.group_issues(project.issues_for_release(r))
 
-        #next if bugs.empty? && feats.empty? unless force_show
+        #next if groups.empty? unless force_show
 
-        ret << [r, bugs, feats]
+        ret << [r, groups]
       end
 
       return ret unless show_unassigned
 
-      bugs = project.issues.select { |i| i.type == :bugfix && i.release.nil? }
-      feats = project.issues.select { |i| i.type == :feature && i.release.nil? }
+      groups = project.group_issues(project.unassigned_issues)
 
-      return ret if bugs.empty? && feats.empty? unless force_show
-      ret << [nil, bugs, feats]
+      return ret if groups.empty? unless force_show
+
+      ret << [nil, groups]
     end
     private :parse_releases_arg
 
@@ -131,7 +128,7 @@ Usage: ditz #{name} #{args}
 EOS
   end
 
-  operation :add, "Add a bug/feature request"
+  operation :add, "Add an issue"
   def add project, config
     issue = Issue.create_interactively(:args => [config, project]) or return
     comment = ask_multiline "Comments"
@@ -141,7 +138,7 @@ EOS
     puts "Added issue #{issue.name}."
   end
 
-  operation :drop, "Drop a bug/feature request", :issue
+  operation :drop, "Drop an issue", :issue
   def drop project, config, issue
     project.drop_issue issue
     puts "Dropped #{issue.name}. Note that other issue names may have changed."
@@ -175,26 +172,30 @@ EOS
 
   operation :status, "Show project status", :maybe_release
   def status project, config, releases
-    releases.each do |r, bugs, feats|
-      title, bar = [r ? r.name : "unassigned", status_bar_for(bugs + feats)]
+    releases.each do |r, groups|
+      issues = groups.map { |_,g| g }.flatten
+      title = r ? r.name : "unassigned"
 
-      ncbugs = bugs.count_of { |b| b.closed? }
-      ncfeats = feats.count_of { |f| f.closed? }
-      pcbugs = 100.0 * (bugs.empty? ? 1.0 : ncbugs.to_f / bugs.size)
-      pcfeats = 100.0 * (feats.empty? ? 1.0 : ncfeats.to_f / feats.size)
+      groups = groups.map do |t,g|
+        nc = g.count_of { |i| i.closed? }
+        pc = 100.0 * (g.empty? ? 1.0 : nc.to_f / g.size)
+        [t, g, nc, pc]
+      end
 
       special = if r && r.released?
         "(released)"
-      elsif bugs.empty? && feats.empty?
+      elsif groups.empty?
         "(no issues)"
-      elsif ncbugs == bugs.size && ncfeats == feats.size
+      elsif issues.all? { |i| i.closed? }
         "(ready for release)"
       else
-        bar
+        status_bar_for(issues)
       end
 
-      printf "%-10s %2d/%2d (%3.0f%%) bugs, %2d/%2d (%3.0f%%) features %s\n",
-        title, ncbugs, bugs.size, pcbugs, ncfeats, feats.size, pcfeats, special
+      middle = groups.map do |(t,g,nc,pc)|
+        "%2d/%2d (%3.0f%%) %s" % [nc, g.size, pc, t.to_s.pluralize(g.size, false)]
+      end.join(', ')
+      printf "%-10s %s %s\n", title, middle, special
     end
 
     if project.releases.empty?
@@ -229,13 +230,13 @@ EOS
   end
 
   def actually_do_todo project, config, releases, full
-    releases.each do |r, bugs, feats|
+    releases.each do |r, groups|
       if r
         puts "Version #{r.name} (#{r.status}):"
       else
         puts "Unassigned:"
       end
-      issues = bugs + feats
+      issues = groups.map { |_,g| g }.flatten
       issues = issues.select { |i| i.open? } unless full
       puts(todo_list_for(issues.sort_by { |i| i.sort_order }) || "No open issues.")
       puts
@@ -355,10 +356,9 @@ EOS
 
   operation :changelog, "Generate a changelog for a release", :release
   def changelog project, config, r
-    feats, bugs = project.issues_for_release(r).partition { |i| i.feature? }
     puts "== #{r.name} / #{r.released? ? r.release_time.pretty_date : 'unreleased'}"
-    feats.select { |f| f.closed? }.each { |i| puts "* #{i.title}" }
-    bugs.select { |f| f.closed? }.each { |i| puts "* bugfix: #{i.title}" }
+    project.group_issues(project.issues_for_release(r)).
+      each { |t,g| g.select { |i| i.closed? }.each { |i| puts "* #{t}: #{i.title}" } }
   end
 
   operation :html, "Generate html status pages", :maybe_dir
