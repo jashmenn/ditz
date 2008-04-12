@@ -11,9 +11,11 @@ module Ditz
       @@blocks[name] = []
     end
 
-    def on name, &block
-      raise "unregistered hook #{name.inspect}" unless @@descs[name]
-      @@blocks[name] << block
+    def on *names, &block
+      for name in names do
+        raise "unregistered hook #{name.inspect}" unless @@descs[name]
+        @@blocks[name] << block
+      end
     end
 
     def run name, *args
