@@ -347,8 +347,12 @@ EOS
   def comment project, config, issue
     puts "Commenting on issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments"
-    issue.log "commented", config.user, comment
-    puts "Comments recorded for #{issue.name}."
+    if comment.blank?
+      puts "Empty comment, aborted."
+    else
+      issue.log "commented", config.user, comment
+      puts "Comments recorded for #{issue.name}."
+    end
   end
 
   operation :releases, "Show releases"
