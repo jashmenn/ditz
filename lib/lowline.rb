@@ -1,3 +1,4 @@
+require 'readline'
 require 'tempfile'
 require "util"
 
@@ -85,8 +86,8 @@ module Lowline
     end
 
     while true
-      print [q, default_s, tail].compact.join
-      ans = gets.strip
+      prompt = [q, default_s, tail].compact.join
+      ans = Readline::readline(prompt)
       if opts[:default]
         ans = opts[:default] if ans.blank?
       else
@@ -112,16 +113,22 @@ module Lowline
     puts "#{q} (ctrl-d, ., or /stop to stop, /edit to edit, /reset to reset):"
     ans = ""
     while true
-      print "> "
-      case(line = gets) && line.strip!
-      when /^\.$/, nil, "/stop"
-        break
-      when "/reset"
-        return ask_multiline(q)
-      when "/edit"
-        return ask_via_editor(q, ans)
+      line = Readline::readline('> ')
+      if line
+        Readline::HISTORY.push(line)
+        case line
+        when /^\.$/, "/stop"
+          break
+        when "/reset"
+          return ask_multiline(q)
+        when "/edit"
+          return ask_via_editor(q, ans)
+        else
+          ans << line + "\n"
+        end
       else
-        ans << line + "\n"
+        puts
+        break
       end
     end
     ans.multistrip
