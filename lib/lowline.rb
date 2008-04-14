@@ -1,4 +1,3 @@
-require 'readline'
 require 'tempfile'
 require "util"
 
@@ -84,7 +83,12 @@ module Lowline
 
     while true
       prompt = [q, default_s, tail].compact.join
-      ans = Readline::readline(prompt)
+      if Ditz::has_readline?
+        ans = Readline::readline(prompt)
+      else
+        print prompt
+        ans = gets.strip
+      end
       if opts[:default]
         ans = opts[:default] if ans.blank?
       else
@@ -110,9 +114,15 @@ module Lowline
     puts "#{q} (ctrl-d, ., or /stop to stop, /edit to edit, /reset to reset):"
     ans = ""
     while true
-      line = Readline::readline('> ')
+      if Ditz::has_readline?
+        line = Readline::readline('> ')
+      else
+        (line = gets) && line.strip!
+      end
       if line
-        Readline::HISTORY.push(line)
+        if Ditz::has_readline?
+          Readline::HISTORY.push(line)
+        end
         case line
         when /^\.$/, "/stop"
           break
