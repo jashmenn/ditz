@@ -163,7 +163,7 @@ class Issue < ModelObject
   end
 
   def pathname
-    File.join(ISSUE_DIR, "issue-#{id}.yaml")
+    ISSUE_DIR + "issue-#{id}.yaml"
   end
 
   def close disp, who, comment

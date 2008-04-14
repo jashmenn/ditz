@@ -56,13 +56,14 @@ if $opts[:list_hooks]
 end
 cmd = ARGV.shift or die "expecting a ditz command"
 op = Ditz::Operator.new
-dir = $opts[:issue_dir]
+dir = Pathname.new($opts[:issue_dir])
+Ditz::Issue::ISSUE_DIR = dir
 
 case cmd # some special cases not handled by Ditz::Operator
 when "init"
-  die "#{dir} directory already exists" if File.exists? dir
-  FileUtils.mkdir dir
-  fn = File.join dir, PROJECT_FN
+  die "#{dir} directory already exists" if dir.exist?
+  dir.mkdir
+  fn = dir + PROJECT_FN
   project = op.init
   project.save! fn
   puts "Ok, #{dir} directory created successfully."
@@ -72,18 +73,16 @@ when "help"
   exit
 end
 
-project_root = Ditz::find_project_root dir, Dir.pwd
-Ditz::Issue::ISSUE_DIR = project_root
-
-die "No #{dir} directory---use 'ditz init' to initialize" unless project_root != nil and File.exists? project_root
-
+project_root = Ditz::find_project_root Pathname.pwd, Pathname.new('.'), dir
+die "No #{dir} directory---use 'ditz init' to initialize" unless project_root != nil and project_root.exist?
+Dir.chdir project_root
 
 project = begin
-  fn = File.join project_root, PROJECT_FN
+  fn = dir + PROJECT_FN
   Ditz::debug "loading project from #{fn}"
   project = Ditz::Project.from fn
 
-  fn = File.join project_root, "issue-*.yaml"
+  fn = dir + "issue-*.yaml"
   Ditz::debug "loading issues from #{fn}"
   project.issues = Dir[fn].map { |fn| Ditz::Issue.from fn }
   Ditz::debug "found #{project.issues.size} issues"
@@ -134,7 +133,7 @@ end
 ## save project.yaml
 dirty = project.each_modelobject { |o| break true if o.changed? } || false
 if dirty
-  fn = File.join project_root, PROJECT_FN
+  fn = dir + PROJECT_FN
   Ditz::debug "project is dirty, saving #{fn}"
   project.each_modelobject { |o| o.before_serialize project }
   project.save! fn

@@ -9,14 +9,13 @@ end
 module_function :debug
 
 
-def find_project_root(dir, pwd)
-  p = Pathname.new pwd
-  np = p.join dir, "project.yaml"
+def find_project_root(pwd, project_root, dir)
+  np = pwd.join project_root, dir, "project.yaml"
   if np.exist?
-    return np.dirname
+    return project_root
   else
-    if p.dirname != p
-      find_project_root dir, p.dirname
+    if pwd + project_root != pwd + project_root.parent
+      find_project_root pwd, project_root.parent, dir
     else
       return nil
     end
