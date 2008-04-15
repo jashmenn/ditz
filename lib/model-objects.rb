@@ -168,6 +168,10 @@ class Issue < ModelObject
     change_status :paused, who, comment
   end
 
+  def pathname
+    ISSUE_DIR + "issue-#{id}.yaml"
+  end
+
   def close disp, who, comment
     raise Error, "unknown disposition #{disp}" unless DISPOSITIONS.member? disp
     log "closed issue with disposition #{disp}", who, comment

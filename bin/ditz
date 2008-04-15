@@ -20,23 +20,63 @@ require "ditz"
 
 PROJECT_FN = "project.yaml"
 CONFIG_FN = ".ditz-config"
-def ISSUE_TO_FN i; "issue-#{i.id}.yaml" end
 
 $opts = options do
   version "ditz #{Ditz::VERSION}"
   opt :issue_dir, "Issue database dir", :default => "bugs"
   opt :config_file, "Configuration file", :default => File.join(ENV["HOME"], CONFIG_FN)
   opt :verbose, "Verbose output", :default => false
+  opt :list_hooks, "List all hooks and descriptions, and quit.", :short => 'l', :default => false
 end
 
+Ditz::HookManager.register :startup, <<EOS
+Executes at startup
+
+Variables: project, config
+No return value.
+EOS
+
+Ditz::HookManager.register :after_add, <<EOS
+Executes before terminating if new issue files has been created.
+Basically you want to instruct your SCM that these files has
+been added.
+
+Variables: project, config, issues
+No return value.
+EOS
+
+Ditz::HookManager.register :after_delete, <<EOS
+Executes before terminating if new issue files has been deleted.
+Basically you want to instruct your SCM that these files has
+been deleted.
+
+Variables: project, config, issues
+No return value.
+EOS
+
+Ditz::HookManager.register :after_update, <<EOS
+Executes before terminating if new issue files has been updated.
+You may want to instruct your SCM about these changes.
+Note that new issues are not considered updated.
+
+Variables: project, config, issues
+No return value.
+EOS
+
+if $opts[:list_hooks]
+  Ditz::HookManager.print_hooks
+  exit 0
+end
 cmd = ARGV.shift or die "expecting a ditz command"
-dir = $opts[:issue_dir]
+op = Ditz::Operator.new
+dir = Pathname.new($opts[:issue_dir])
+Ditz::Issue::ISSUE_DIR = dir
 
 case cmd # some special cases not handled by Ditz::Operator
 when "init"
-  die "#{dir} directory already exists" if File.exists? dir
-  FileUtils.mkdir dir
-  fn = File.join dir, PROJECT_FN
+  die "#{dir} directory already exists" if dir.exist?
+  dir.mkdir
+  fn = dir + PROJECT_FN
   project = op.init
   project.save! fn
   puts "Ok, #{dir} directory created successfully."
@@ -46,17 +86,16 @@ when "help"
   exit
 end
 
-project_root = Ditz::find_project_root dir, Dir.pwd
-
-die "No #{dir} directory---use 'ditz init' to initialize" unless project_root != nil and File.exists? project_root
-
+project_root = Ditz::find_project_root Pathname.pwd, Pathname.new('.'), dir
+die "No #{dir} directory---use 'ditz init' to initialize" unless project_root != nil and project_root.exist?
+Dir.chdir project_root
 
 project = begin
-  fn = File.join project_root, PROJECT_FN
+  fn = dir + PROJECT_FN
   Ditz::debug "loading project from #{fn}"
   project = Ditz::Project.from fn
 
-  fn = File.join project_root, "issue-*.yaml"
+  fn = dir + "issue-*.yaml"
   Ditz::debug "loading issues from #{fn}"
   project.issues = Dir[fn].map { |fn| Ditz::Issue.from fn }
   Ditz::debug "found #{project.issues.size} issues"
@@ -89,6 +128,8 @@ unless op.has_operation? cmd
   die "no such command: #{cmd}"
 end
 
+Ditz::HookManager.run :startup, project, config
+
 ## talk about the law of unintended consequences. 'gets' requires this.
 args = []
 args << ARGV.shift until ARGV.empty?
@@ -105,37 +146,46 @@ end
 ## save project.yaml
 dirty = project.each_modelobject { |o| break true if o.changed? } || false
 if dirty
-  fn = File.join project_root, PROJECT_FN
+  fn = dir + PROJECT_FN
   Ditz::debug "project is dirty, saving #{fn}"
   project.each_modelobject { |o| o.before_serialize project }
   project.save! fn
 end
 
+changed_issues = project.issues.select { |i| i.changed? }
+
 ## project issues are not model fields proper, so they must be
 ## saved independently.
-project.issues.each do |i|
-  if i.changed?
-    i.before_serialize project
-    fn = File.join project_root, ISSUE_TO_FN(i)
-    Ditz::debug "issue #{i.name} is dirty, saving #{fn}"
-    i.save! fn
-  end
+changed_issues.each do |i|
+  i.before_serialize project
+  fn = i.pathname
+  Ditz::debug "issue #{i.name} is dirty, saving #{fn}"
+  i.save! fn
 end
 
 project.deleted_issues.each do |i|
-  fn = File.join project_root, ISSUE_TO_FN(i)
+  fn = i.pathname
   Ditz::debug "issue #{i.name} has been deleted, deleting #{fn}"
   FileUtils.rm fn
 end
 
 unless project.added_issues.empty?
-  puts "You may have to inform your SCM that the following files have been added:"
-  project.added_issues.each { |i| puts "  " + File.join(project_root, ISSUE_TO_FN(i)) }
+  unless Ditz::HookManager.run :after_add, project, config, project.added_issues
+    puts "You may have to inform your SCM that the following files have been added:"
+    project.added_issues.each { |i| puts "  " + i.pathname }
+  end
 end
 
 unless project.deleted_issues.empty?
-  puts "You may have to inform your SCM that the following files have been deleted:"
-  project.deleted_issues.each { |i| puts "  " + File.join(project_root, ISSUE_TO_FN(i)) }
+  unless Ditz::HookManager.run :after_delete, project, config, project.deleted_issues
+    puts "You may have to inform your SCM that the following files have been deleted:"
+    project.deleted_issues.each { |i| puts "  " + i.pathname }
+  end
+end
+
+changed_not_added_issues = changed_issues - project.added_issues
+unless changed_not_added_issues.empty?
+  Ditz::HookManager.run :after_update, project, config, changed_not_added_issues
 end
 
 config.save! $opts[:config_file] if config.changed?
