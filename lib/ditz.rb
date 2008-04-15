@@ -2,12 +2,16 @@ require 'pathname'
 module Ditz
 
 VERSION = "0.2"
+@has_readline=false
 
 def debug s
   puts "# #{s}" if $opts[:verbose]
 end
 module_function :debug
 
+def self.has_readline?
+  @has_readline
+end
 
 def find_project_root(dir, pwd)
   p = Pathname.new pwd
@@ -23,8 +27,18 @@ def find_project_root(dir, pwd)
   end
 end
 
-module_function :find_project_root
+def self.has_readline=(val)
+  @has_readline=val
+end
 
+module_function :find_project_root
+end
+
+begin
+  require 'readline'
+  Ditz::has_readline=true
+rescue LoadError
+  # do nothing
 end
 
 require 'model-objects'
