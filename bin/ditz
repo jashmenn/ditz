@@ -68,7 +68,6 @@ if $opts[:list_hooks]
   exit 0
 end
 cmd = ARGV.shift or die "expecting a ditz command"
-op = Ditz::Operator.new
 dir = Pathname.new($opts[:issue_dir])
 Ditz::Issue::ISSUE_DIR = dir
 
