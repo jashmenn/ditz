@@ -27,6 +27,7 @@ $opts = options do
   opt :config_file, "Configuration file", :default => File.join(ENV["HOME"], CONFIG_FN)
   opt :verbose, "Verbose output", :default => false
   opt :list_hooks, "List all hooks and descriptions, and quit.", :short => 'l', :default => false
+  opt :no_comment, "Skip asking for a comment", :default => false
 end
 
 Ditz::HookManager.register :startup, <<EOS
