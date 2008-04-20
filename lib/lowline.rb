@@ -168,7 +168,7 @@ module Lowline
         ans = ask "#{name.ucfirst} name", ""
         stuff << ans unless ans =~ /^\s*$/
       when "r", "R"
-        ans = ask "Remove which component? (1--#{stuff.size})"
+        ans = ask "Remove which #{name}? (1--#{stuff.size})"
         stuff.delete_at(ans.to_i - 1) if ans
       when "d", "D"
         break
