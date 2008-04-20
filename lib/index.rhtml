@@ -52,7 +52,7 @@
   open_issues = issues.select { |i| i.open? }
 %>
 <p>
-  <%= link_to "unassigned", "unassigned issue".pluralize(issues.size).ucfirst %>; <%= open_issues.size.to_pretty_s %> open.
+  <%= link_to "unassigned", "unassigned issue".pluralize(issues.size).capitalize %>; <%= open_issues.size.to_pretty_s %> open.
 </p>
 
 <% if components.size > 1 %>
