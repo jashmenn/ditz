@@ -134,7 +134,7 @@ EOS
   operation :add, "Add a bug/feature request"
   def add project, config
     issue = Issue.create_interactively(:args => [config, project]) or return
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
     issue.log "created", config.user, comment
     project.add_issue issue
     project.assign_issue_names!
@@ -150,7 +150,7 @@ EOS
   operation :add_release, "Add a release"
   def add_release project, config
     release = Release.create_interactively(:args => [project, config]) or return
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
     release.log "created", config.user, comment
     project.add_release release
     puts "Added release #{release.name}."
@@ -167,7 +167,7 @@ EOS
   def add_reference project, config, issue
     puts "Adding a reference to #{issue.name}: #{issue.title}."
     reference = ask "Reference"
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
     issue.add_reference reference
     issue.log "added reference #{issue.references.size}", config.user, comment
     puts "Added reference to #{issue.name}."
@@ -277,7 +277,7 @@ EOS
   operation :start, "Start work on an issue", :issue
   def start project, config, issue
     puts "Starting work on issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
     issue.start_work config.user, comment
     puts "Recorded start of work for #{issue.name}."
   end
@@ -285,7 +285,7 @@ EOS
   operation :stop, "Stop work on an issue", :issue
   def stop project, config, issue
     puts "Stopping work on issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
     issue.stop_work config.user, comment
     puts "Recorded work stop for #{issue.name}."
   end
@@ -294,7 +294,7 @@ EOS
   def close project, config, issue
     puts "Closing issue #{issue.name}: #{issue.title}."
     disp = ask_for_selection Issue::DISPOSITIONS, "disposition", lambda { |x| Issue::DISPOSITION_STRINGS[x] || x.to_s }
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
     issue.close disp, config.user, comment
     puts "Closed issue #{issue.name} with disposition #{issue.disposition_string}."
   end
@@ -316,7 +316,7 @@ EOS
         " (unreleased)"
       end
     end
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
     issue.assign_to_release release, config.user, comment
     puts "Assigned #{issue.name} to #{release.name}."
   end
@@ -324,7 +324,7 @@ EOS
   operation :unassign, "Unassign an issue from any releases", :issue
   def unassign project, config, issue
     puts "Unassigning issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
     issue.unassign config.user, comment
     puts "Unassigned #{issue.name}."
   end
@@ -352,7 +352,7 @@ EOS
 
   operation :release, "Release a release", :release
   def release project, config, release
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
     release.release! project, config.user, comment
     puts "Release #{release.name} released!"
   end
@@ -472,7 +472,7 @@ EOS
       return
     end
 
-    comment = ask_multiline "Comments"
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
 
     begin
       edits = YAML.load_file fn
