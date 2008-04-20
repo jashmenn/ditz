@@ -303,21 +303,29 @@ EOS
     puts "Closed issue #{issue.name} with disposition #{issue.disposition_string}."
   end
 
-  operation :assign, "Assign an issue to a release", :issue
-  def assign project, config, issue
+  operation :assign, "Assign an issue to a release", :issue, :maybe_release
+  def assign project, config, issue, maybe_release
+    if maybe_release && maybe_release.name == issue.release
+      raise Error, "issue #{issue.name} already assigned to release #{issue.release}"
+    end
+
     puts "Issue #{issue.name} currently " + if issue.release
       "assigned to release #{issue.release}."
     else
       "not assigned to any release."
     end
 
-    releases = project.releases.sort_by { |r| (r.release_time || 0).to_i }
-    releases -= [releases.find { |r| r.name == issue.release }] if issue.release
-    release = ask_for_selection(releases, "release") do |r|
-      r.name + if r.released?
-        " (released #{r.release_time.pretty_date})"
-      else
-        " (unreleased)"
+    puts "Assigning to release #{maybe_release.name}." if maybe_release
+
+    release = maybe_release || begin
+      releases = project.releases.sort_by { |r| (r.release_time || 0).to_i }
+      releases -= [releases.find { |r| r.name == issue.release }] if issue.release
+      ask_for_selection(releases, "release") do |r|
+        r.name + if r.released?
+          " (released #{r.release_time.pretty_date})"
+        else
+          " (unreleased)"
+        end
       end
     end
     comment = ask_multiline "Comments"
