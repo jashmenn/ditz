@@ -66,6 +66,8 @@ class Operator
         when :release
           raise Error, "#{command} requires a release name" unless val
           project.release_for(val) or raise Error, "no release with name #{val}"
+        when :maybe_release
+          project.release_for(val) or raise Error, "no release with name #{val}" if val
         when :magic_release
           parse_releases_arg project, val
         when :string
