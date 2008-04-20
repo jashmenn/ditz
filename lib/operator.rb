@@ -66,7 +66,7 @@ class Operator
         when :release
           raise Error, "#{command} requires a release name" unless val
           project.release_for(val) or raise Error, "no release with name #{val}"
-        when :maybe_release
+        when :magic_release
           parse_releases_arg project, val
         when :string
           raise Error, "#{command} requires a string" unless val
@@ -118,6 +118,8 @@ EOS
     raise Error, "no such ditz command '#{command}'" unless name
     args = opts[:args_spec].map do |spec|
       case spec.to_s
+      when "magic_release"
+        "[release]"
       when /^maybe_(.*)$/
         "[#{$1}]"
       else
@@ -173,7 +175,7 @@ EOS
     puts "Added reference to #{issue.name}."
   end
 
-  operation :status, "Show project status", :maybe_release
+  operation :status, "Show project status", :magic_release
   def status project, config, releases
     releases.each do |r, bugs, feats|
       title, bar = [r ? r.name : "unassigned", status_bar_for(bugs + feats)]
@@ -218,12 +220,12 @@ EOS
     end.join
   end
 
-  operation :todo, "Generate todo list", :maybe_release
+  operation :todo, "Generate todo list", :magic_release
   def todo project, config, releases
     actually_do_todo project, config, releases, false
   end
 
-  operation :todo_full, "Generate full todo list, including completed items", :maybe_release
+  operation :todo_full, "Generate full todo list, including completed items", :magic_release
   def todo_full project, config, releases
     actually_do_todo project, config, releases, true
   end
