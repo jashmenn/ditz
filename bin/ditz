@@ -14,6 +14,7 @@ $opts = options do
   opt :issue_dir, "Issue database dir", :default => "bugs"
   opt :config_file, "Configuration file", :default => File.join(ENV["HOME"], CONFIG_FN)
   opt :verbose, "Verbose output", :default => false
+  opt :no_comment, "Skip asking for a comment", :default => false
 end
 
 cmd = ARGV.shift or die "expecting a ditz command"

@@ -94,7 +94,7 @@ class ModelObject
   end
 
   def log what, who, comment
-    add_log_event([Time.now, who, what, comment])
+    add_log_event([Time.now, who, what, comment || ""])
     self
   end
 
