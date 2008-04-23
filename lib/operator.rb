@@ -151,9 +151,10 @@ EOS
     puts "Dropped #{issue.name}. Note that other issue names may have changed."
   end
 
-  operation :add_release, "Add a release"
-  def add_release project, config
-    release = Release.create_interactively(:args => [project, config]) or return
+  operation :add_release, "Add a release", :maybe_name
+  def add_release project, config, maybe_name
+    puts "Adding release #{maybe_name}." if maybe_name
+    release = Release.create_interactively(:args => [project, config], :with => { :name => maybe_name }) or return
     comment = ask_multiline "Comments" unless $opts[:no_comment]
     release.log "created", config.user, comment
     project.add_release release
