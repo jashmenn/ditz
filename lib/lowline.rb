@@ -82,8 +82,13 @@ module Lowline
     end
 
     while true
-      print [q, default_s, tail].compact.join
-      ans = gets.strip
+      prompt = [q, default_s, tail].compact.join
+      if Ditz::has_readline?
+        ans = Readline::readline(prompt)
+      else
+        print prompt
+        ans = gets.strip
+      end
       if opts[:default]
         ans = opts[:default] if ans.blank?
       else
@@ -109,16 +114,28 @@ module Lowline
     puts "#{q} (ctrl-d, ., or /stop to stop, /edit to edit, /reset to reset):"
     ans = ""
     while true
-      print "> "
-      case(line = gets) && line.strip!
-      when /^\.$/, nil, "/stop"
-        break
-      when "/reset"
-        return ask_multiline(q)
-      when "/edit"
-        return ask_via_editor(q, ans)
+      if Ditz::has_readline?
+        line = Readline::readline('> ')
       else
-        ans << line + "\n"
+        (line = gets) && line.strip!
+      end
+      if line
+        if Ditz::has_readline?
+          Readline::HISTORY.push(line)
+        end
+        case line
+        when /^\.$/, "/stop"
+          break
+        when "/reset"
+          return ask_multiline(q)
+        when "/edit"
+          return ask_via_editor(q, ans)
+        else
+          ans << line + "\n"
+        end
+      else
+        puts
+        break
       end
     end
     ans.multistrip
