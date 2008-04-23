@@ -35,14 +35,17 @@ when "help"
   exit
 end
 
-die "No #{dir} directory---use 'ditz init' to initialize" unless File.exists? dir
+project_root = Ditz::find_project_root dir, Dir.pwd
+
+die "No #{dir} directory---use 'ditz init' to initialize" unless project_root != nil and File.exists? project_root
+
 
 project = begin
-  fn = File.join dir, PROJECT_FN
+  fn = File.join project_root, PROJECT_FN
   Ditz::debug "loading project from #{fn}"
   project = Ditz::Project.from fn
 
-  fn = File.join dir, "issue-*.yaml"
+  fn = File.join project_root, "issue-*.yaml"
   Ditz::debug "loading issues from #{fn}"
   project.issues = Dir[fn].map { |fn| Ditz::Issue.from fn }
   Ditz::debug "found #{project.issues.size} issues"
@@ -91,7 +94,7 @@ end
 ## save project.yaml
 dirty = project.each_modelobject { |o| break true if o.changed? } || false
 if dirty
-  fn = File.join dir, PROJECT_FN
+  fn = File.join project_root, PROJECT_FN
   Ditz::debug "project is dirty, saving #{fn}"
   project.each_modelobject { |o| o.before_serialize project }
   project.save! fn
@@ -102,26 +105,26 @@ end
 project.issues.each do |i|
   if i.changed?
     i.before_serialize project
-    fn = File.join dir, ISSUE_TO_FN(i)
+    fn = File.join project_root, ISSUE_TO_FN(i)
     Ditz::debug "issue #{i.name} is dirty, saving #{fn}"
     i.save! fn
   end
 end
 
 project.deleted_issues.each do |i|
-  fn = File.join dir, ISSUE_TO_FN(i)
+  fn = File.join project_root, ISSUE_TO_FN(i)
   Ditz::debug "issue #{i.name} has been deleted, deleting #{fn}"
   FileUtils.rm fn
 end
 
 unless project.added_issues.empty?
   puts "You may have to inform your SCM that the following files have been added:"
-  project.added_issues.each { |i| puts "  " + File.join(dir, ISSUE_TO_FN(i)) }
+  project.added_issues.each { |i| puts "  " + File.join(project_root, ISSUE_TO_FN(i)) }
 end
 
 unless project.deleted_issues.empty?
   puts "You may have to inform your SCM that the following files have been deleted:"
-  project.deleted_issues.each { |i| puts "  " + File.join(dir, ISSUE_TO_FN(i)) }
+  project.deleted_issues.each { |i| puts "  " + File.join(project_root, ISSUE_TO_FN(i)) }
 end
 
 config.save! $opts[:config_file] if config.changed?
