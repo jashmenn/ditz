@@ -67,6 +67,8 @@ class Operator
           raise Error, "#{command} requires a release name" unless val
           project.release_for(val) or raise Error, "no release with name #{val}"
         when :maybe_release
+          project.release_for(val) or raise Error, "no release with name #{val}" if val
+        when :magic_release
           parse_releases_arg project, val
         when :string
           raise Error, "#{command} requires a string" unless val
@@ -118,6 +120,8 @@ EOS
     raise Error, "no such ditz command '#{command}'" unless name
     args = opts[:args_spec].map do |spec|
       case spec.to_s
+      when "magic_release"
+        "[release]"
       when /^maybe_(.*)$/
         "[#{$1}]"
       else
@@ -173,7 +177,7 @@ EOS
     puts "Added reference to #{issue.name}."
   end
 
-  operation :status, "Show project status", :maybe_release
+  operation :status, "Show project status", :magic_release
   def status project, config, releases
     releases.each do |r, bugs, feats|
       title, bar = [r ? r.name : "unassigned", status_bar_for(bugs + feats)]
@@ -218,12 +222,12 @@ EOS
     end.join
   end
 
-  operation :todo, "Generate todo list", :maybe_release
+  operation :todo, "Generate todo list", :magic_release
   def todo project, config, releases
     actually_do_todo project, config, releases, false
   end
 
-  operation :todo_full, "Generate full todo list, including completed items", :maybe_release
+  operation :todo_full, "Generate full todo list, including completed items", :magic_release
   def todo_full project, config, releases
     actually_do_todo project, config, releases, true
   end
@@ -299,21 +303,29 @@ EOS
     puts "Closed issue #{issue.name} with disposition #{issue.disposition_string}."
   end
 
-  operation :assign, "Assign an issue to a release", :issue
-  def assign project, config, issue
+  operation :assign, "Assign an issue to a release", :issue, :maybe_release
+  def assign project, config, issue, maybe_release
+    if maybe_release && maybe_release.name == issue.release
+      raise Error, "issue #{issue.name} already assigned to release #{issue.release}"
+    end
+
     puts "Issue #{issue.name} currently " + if issue.release
       "assigned to release #{issue.release}."
     else
       "not assigned to any release."
     end
 
-    releases = project.releases.sort_by { |r| (r.release_time || 0).to_i }
-    releases -= [releases.find { |r| r.name == issue.release }] if issue.release
-    release = ask_for_selection(releases, "release") do |r|
-      r.name + if r.released?
-        " (released #{r.release_time.pretty_date})"
-      else
-        " (unreleased)"
+    puts "Assigning to release #{maybe_release.name}." if maybe_release
+
+    release = maybe_release || begin
+      releases = project.releases.sort_by { |r| (r.release_time || 0).to_i }
+      releases -= [releases.find { |r| r.name == issue.release }] if issue.release
+      ask_for_selection(releases, "release") do |r|
+        r.name + if r.released?
+          " (released #{r.release_time.pretty_date})"
+        else
+          " (unreleased)"
+        end
       end
     end
     comment = ask_multiline "Comments" unless $opts[:no_comment]
