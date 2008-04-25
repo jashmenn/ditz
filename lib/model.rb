@@ -114,7 +114,7 @@ class ModelObject
       elsif field_opts[:ask] == false # nil counts as true here
         field_opts[:default] || (field_opts[:multi] ? [] : nil)
       else
-        q = field_opts[:prompt] || name.to_s.ucfirst
+        q = field_opts[:prompt] || name.to_s.capitalize
         if field_opts[:multiline]
           ask_multiline q
         else
