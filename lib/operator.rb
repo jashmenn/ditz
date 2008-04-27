@@ -172,19 +172,32 @@ EOS
 
   operation :status, "Show project status", :maybe_release
   def status project, config, releases
-    releases.each do |r, groups|
-      issues = groups.map { |_,g| g }.flatten
-      title = r ? r.name : "unassigned"
+    if releases.empty?
+      puts "No releases."
+      return
+    end
 
-      groups = groups.map do |t,g|
-        nc = g.count_of { |i| i.closed? }
-        pc = 100.0 * (g.empty? ? 1.0 : nc.to_f / g.size)
-        [t, g, nc, pc]
+    ## TODO: remove weird and deprecated :maybe_release semantics
+    releases = releases.map { |r, groups| r }
+
+    entries = releases.map do |r|
+      title, issues = if r
+        [r.name, project.issues_for_release(r)]
+      else
+        ["unassigned", project.unassigned_issues]
       end
 
-      special = if r && r.released?
+      middle = Issue::TYPES.map do |type|
+        type_issues = issues.select { |i| i.type == type }
+        num = type_issues.size
+        nc = type_issues.count_of { |i| i.closed? }
+        pc = 100.0 * (type_issues.empty? ? 1.0 : nc.to_f / num)
+        "%2d/%2d %s" % [nc, num, type.to_s.pluralize(num, false)]
+      end
+
+      bar = if r && r.released?
         "(released)"
-      elsif groups.empty?
+      elsif issues.empty?
         "(no issues)"
       elsif issues.all? { |i| i.closed? }
         "(ready for release)"
@@ -192,15 +205,26 @@ EOS
         status_bar_for(issues)
       end
 
-      middle = groups.map do |(t,g,nc,pc)|
-        "%2d/%2d (%3.0f%%) %s" % [nc, g.size, pc, t.to_s.pluralize(g.size, false)]
-      end.join(', ')
-      printf "%-10s %s %s\n", title, middle, special
+      [title, middle, bar]
     end
 
-    if project.releases.empty?
-      puts "No releases."
-      return
+    title_size = 0
+    middle_sizes = []
+
+    entries.each do |title, middle, bar|
+      title_size = [title_size, title.length].max
+      middle_sizes = middle.zip(middle_sizes).map do |e, s|
+        [s || 0, e.length].max
+      end
+    end
+
+    entries.each do |title, middle, bar|
+      printf "%#{title_size}-s ", title
+      middle.zip(middle_sizes).each_with_index do |(e, s), i|
+        sep = i < middle.size - 1 ? "," : ""
+        printf "%#{s + sep.length}-s ", e + sep
+      end
+      puts bar
     end
   end
 
