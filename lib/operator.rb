@@ -219,10 +219,10 @@ EOS
     end
 
     entries.each do |title, middle, bar|
-      printf "%#{title_size}-s ", title
+      printf "%-#{title_size}s ", title
       middle.zip(middle_sizes).each_with_index do |(e, s), i|
         sep = i < middle.size - 1 ? "," : ""
-        printf "%#{s + sep.length}-s ", e + sep
+        printf "%-#{s + sep.length}s ", e + sep
       end
       puts bar
     end
