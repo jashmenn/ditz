@@ -4,11 +4,11 @@ Rakefile
 ReleaseNotes
 bin/ditz
 bin/ditz-convert-from-monolith
-lib/component.rhtml
 lib/ditz.rb
 lib/html.rb
 lib/index.rhtml
 lib/issue.rhtml
+lib/issues.rhtml
 lib/issue_table.rhtml
 lib/lowline.rb
 lib/model-objects.rb
@@ -16,5 +16,4 @@ lib/model.rb
 lib/operator.rb
 lib/release.rhtml
 lib/style.css
-lib/unassigned.rhtml
 lib/util.rb
