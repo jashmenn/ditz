@@ -251,12 +251,13 @@ class Config < ModelObject
   def get_default_name
     require 'etc'
 
-    name = Etc.getpwnam(ENV["USER"]).gecos.split(/,/).first
+    name = Etc.getpwnam(ENV["USER"])
+    name = name ? name.gecos.split(/,/).first : ""
   end
 
   def get_default_email
     require 'socket'
-    email = ENV["USER"] + "@" + 
+    email = (ENV["USER"] || "") + "@" +
       begin
         Socket.gethostbyname(Socket.gethostname).first
       rescue SocketError
