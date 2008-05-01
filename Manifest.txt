@@ -18,3 +18,4 @@ lib/release.rhtml
 lib/style.css
 lib/unassigned.rhtml
 lib/util.rb
+lib/hook.rb
