@@ -18,8 +18,7 @@
       issues = project.issues_for_release r
       num_done = issues.count_of { |i| i.closed? }
       pct_done = issues.size == 0 ? 100 : (100.0 * num_done / issues.size)
-      num_bugs_todo = issues.count_of { |i| i.bug? && i.open? }
-      num_feats_todo = issues.count_of { |i| i.feature? && i.open? }
+      open_issues = project.group_issues(issues.select { |i| i.open? })
     %>
     <li>
       <%= link_to r, "Release #{r.name}" %>: 
@@ -27,8 +26,7 @@
         no issues
       <% else %>
         <%= sprintf "%.0f%%", pct_done %> complete;
-        <%= "bug".pluralize num_bugs_todo %> and 
-        <%= "feature".pluralize num_feats_todo %> open.
+        <%= open_issues.map { |n,is| n.to_s.pluralize is.size }.join(' and ') %> open.
       <% end %>
     </li>
   <% end %>
@@ -60,17 +58,14 @@
   <ul>
   <% components.each do |c| %>
     <%
-      open_issues = project.issues_for_component(c).select { |i| i.open? }
-      num_bugs_todo = open_issues.count_of { |i| i.bug? }
-      num_feats_todo = open_issues.count_of { |i| i.feature? }
+      open_issues = project.group_issues(project.issues_for_component(c).select { |i| i.open? })
     %>
     <li>
       <%= link_to c, c.name %>:
       <% if open_issues.empty? %>
         no open issues.
       <% else %>
-        <%= "open bug".pluralize num_bugs_todo %> and
-        <%= "open feature".pluralize num_feats_todo %>.
+        <%= open_issues.map { |n,is| n.to_s.pluralize is.size }.join(' and ') %> open.
       <% end %>
     </li>
   <% end %>

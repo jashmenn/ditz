@@ -16,7 +16,10 @@ class String
   def blank?; self =~ /\A\s*\z/ end
   def underline; self + "\n" + ("-" * self.length) end
   def multiline prefix=""; blank? ? "" : "\n" + self.gsub(/^/, prefix) end
-  def pluralize n; n.to_pretty_s + " " + (n == 1 ? self : self + "s") end # oh yeah
+  def pluralize n, b=true
+    s = (n == 1 ? self : (self == 'bugfix' ? 'bugfixes' : self + "s")) # oh yeah
+    b ? n.to_pretty_s + " " + s : s
+  end
   def multistrip; strip.gsub(/\n\n+/, "\n\n") end
 end
 
