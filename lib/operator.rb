@@ -458,7 +458,9 @@ EOS
       fn = File.join dir, links[c]
       puts "Generating #{fn}..."
       File.open(fn, "w") do |f|
-        f.puts ErbHtml.new(template_dir, "component", links, :component => c,
+        f.puts ErbHtml.new(template_dir, "issues", links,
+          :title => "#{project.name} component: #{c.name}",
+          :show_component => false, :show_release => true,
           :issues => project.issues_for_component(c), :project => project)
       end
     end
@@ -466,7 +468,9 @@ EOS
     fn = File.join dir, links["unassigned"]
     puts "Generating #{fn}..."
     File.open(fn, "w") do |f|
-      f.puts ErbHtml.new(template_dir, "unassigned", links,
+      f.puts ErbHtml.new(template_dir, "issues", links,
+        :title => "Issues not assigned to any release",
+        :show_component => true, :show_release => true,
         :issues => project.unassigned_issues, :project => project)
     end
 
