@@ -12,7 +12,6 @@ class NilClass
 end
 
 class String
-  def ucfirst; self[0..0].upcase + self[1..-1] end
   def dcfirst; self[0..0].downcase + self[1..-1] end
   def blank?; self =~ /\A\s*\z/ end
   def underline; self + "\n" + ("-" * self.length) end
@@ -168,10 +167,10 @@ module Lowline
       ans = ask "(A)dd #{name}, (r)emove #{name}, or (d)one"
       case ans
       when "a", "A"
-        ans = ask "#{name.ucfirst} name", ""
+        ans = ask "#{name.capitalize} name", ""
         stuff << ans unless ans =~ /^\s*$/
       when "r", "R"
-        ans = ask "Remove which component? (1--#{stuff.size})"
+        ans = ask "Remove which #{name}? (1--#{stuff.size})"
         stuff.delete_at(ans.to_i - 1) if ans
       when "d", "D"
         break
@@ -197,7 +196,7 @@ module Lowline
     end
 
     j = while true
-      i = ask "#{name.ucfirst} (1--#{stuff.size})"
+      i = ask "#{name.capitalize} (1--#{stuff.size})"
       break i.to_i if i && (1 .. stuff.size).member?(i.to_i)
     end
 
