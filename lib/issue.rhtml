@@ -9,13 +9,9 @@
 
 <%= link_to "index", "&laquo; #{project.name} project page" %>
 
-<h1><%= issue.title %></h1>
+<h1><%= link_issue_names project, issue.title %></h1>
 
-<%=
-  project.issues.inject(p(issue.desc)) do |s, i|
-    s.gsub(/\{issue #{i.id}\}/, link_to(i, i.title))
-  end.gsub(/\{issue \w+\}/, "[unknown issue]")
-%>
+<%= link_issue_names project, p(issue.desc) %>
 
 <table>
   <tr>
@@ -95,7 +91,7 @@
   <tr><td colspan="3" class="logcomment">
     <% if comment.empty? %>
     <% else %>
-      <%=p comment %>
+      <%= link_issue_names project, p(comment) %>
     <% end %>
   </td></tr>
 <% end %>

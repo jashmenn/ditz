@@ -87,7 +87,7 @@ when "help"
 end
 
 project_root = Ditz::find_project_root Pathname.pwd, Pathname.new('.'), dir
-die "No #{dir} directory---use 'ditz init' to initialize" unless project_root != nil and project_root.exist?
+die "No #{dir} directory--use 'ditz init' to initialize" unless project_root != nil and project_root.exist?
 Dir.chdir project_root
 
 project = begin
@@ -105,8 +105,8 @@ rescue SystemCallError, Ditz::Project::Error => e
 end
 
 project.validate!
+project.issues.each { |p| p.project = project}
 project.assign_issue_names!
-project.each_modelobject { |o| o.after_deserialize project }
 
 config = begin
   if File.exists? CONFIG_FN
@@ -148,18 +148,16 @@ dirty = project.each_modelobject { |o| break true if o.changed? } || false
 if dirty
   fn = dir + PROJECT_FN
   Ditz::debug "project is dirty, saving #{fn}"
-  project.each_modelobject { |o| o.before_serialize project }
   project.save! fn
 end
 
-changed_issues = project.issues.select { |i| i.changed? }
-
 ## project issues are not model fields proper, so they must be
 ## saved independently.
+changed_issues = project.issues.select { |i| i.changed? }
 changed_issues.each do |i|
-  i.before_serialize project
   fn = i.pathname
   Ditz::debug "issue #{i.name} is dirty, saving #{fn}"
+  i.project = project # hack: not set on new issues
   i.save! fn
 end
 

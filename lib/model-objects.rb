@@ -4,7 +4,7 @@ module Ditz
 
 class Component < ModelObject
   field :name
-  def name_prefix; @name.gsub(/\s+/, "-").downcase end
+  def name_prefix; name.gsub(/\s+/, "-").downcase end
 end
 
 class Release < ModelObject
@@ -97,7 +97,7 @@ EOS
 
   def validate!
     if(dup = components.map { |c| c.name }.first_duplicate)
-      raise Error, "more than one component named #{dup.inspect}"
+      raise Error, "more than one component named #{dup.inspect}: #{components.inspect}"
     elsif(dup = releases.map { |r| r.name }.first_duplicate)
       raise Error, "more than one release named #{dup.inspect}"
     end
@@ -120,7 +120,10 @@ class Issue < ModelObject
   field :id, :ask => false, :generator => :make_id
   changes_are_logged
 
-  attr_accessor :name
+  ## these are the fields we interpolate issue names on
+  INTERPOLATED_FIELDS = [:title, :desc, :log_events]
+
+  attr_accessor :name, :project
 
   STATUS_SORT_ORDER = { :unstarted => 2, :paused => 1, :in_progress => 0, :closed => 3 }
   STATUS_WIDGET = { :unstarted => "_", :in_progress => ">", :paused => "=", :closed => "x" }
@@ -133,16 +136,38 @@ class Issue < ModelObject
   STATUS_STRINGS = { :in_progress => "in progress", :wontfix => "won't fix" }
   DISPOSITION_STRINGS = { :wontfix => "won't fix", :reorg => "reorganized" }
 
-  def before_serialize project
-    self.desc = project.issues.inject(desc) do |s, i|
-      s.gsub(/\b#{i.name}\b/, "{issue #{i.id}}")
+  def serialized_form_of field, value
+    return super unless INTERPOLATED_FIELDS.member? field
+
+    if field == :log_events
+      value.map do |time, who, what, comment|
+        comment = @project.issues.inject(comment) do |s, i|
+          s.gsub(/\b#{i.name}\b/, "{issue #{i.id}}")
+        end
+        [time, who, what, comment]
+      end
+    else
+      @project.issues.inject(value) do |s, i|
+        s.gsub(/\b#{i.name}\b/, "{issue #{i.id}}")
+      end
     end
   end
 
-  def interpolated_desc issues
-    issues.inject(desc) do |s, i|
-      s.gsub(/\{issue #{i.id}\}/, block_given? ? yield(i) : i.name)
-    end.gsub(/\{issue \w+\}/, "[unknown issue]")
+  def deserialized_form_of field, value
+    return super unless INTERPOLATED_FIELDS.member? field
+
+    if field == :log_events
+      value.map do |time, who, what, comment|
+        comment = @project.issues.inject(comment) do |s, i|
+          s.gsub(/\{issue #{i.id}\}/, i.name)
+        end.gsub(/\{issue \w+\}/, "[unknown issue]")
+        [time, who, what, comment]
+      end
+    else
+      @project.issues.inject(value) do |s, i|
+        s.gsub(/\{issue #{i.id}\}/, i.name)
+      end.gsub(/\{issue \w+\}/, "[unknown issue]")
+    end
   end
 
   ## make a unique id
@@ -150,8 +175,8 @@ class Issue < ModelObject
     SHA1.hexdigest [Time.now, rand, creation_time, reporter, title, desc].join("\n")
   end
 
-  def sort_order; [STATUS_SORT_ORDER[@status], creation_time] end
-  def status_widget; STATUS_WIDGET[@status] end
+  def sort_order; [STATUS_SORT_ORDER[status], creation_time] end
+  def status_widget; STATUS_WIDGET[status] end
 
   def status_string; STATUS_STRINGS[status] || status.to_s end
   def disposition_string; DISPOSITION_STRINGS[disposition] || disposition.to_s end
@@ -182,7 +207,7 @@ class Issue < ModelObject
   def change_status to, who, comment
     raise Error, "unknown status #{to}" unless STATUSES.member? to
     raise Error, "already marked as #{to}" if status == to
-    log "changed status from #{@status} to #{to}", who, comment
+    log "changed status from #{status} to #{to}", who, comment
     self.status = to
   end
   private :change_status
