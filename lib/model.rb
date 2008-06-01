@@ -56,14 +56,16 @@ class ModelObject
     if opts[:multi]
       single_name = name.to_s.sub(/s$/, "") # oh yeah
       define_method "add_#{single_name}" do |obj|
-        array = @values[name]
+        array = send(name)
         raise ModelError, "already has a #{single_name} with name #{obj.name.inspect}" if obj.respond_to?(:name) && array.any? { |o| o.name == obj.name }
         changed!
+        @serialized_values.delete name
         array << obj
       end
 
       define_method "drop_#{single_name}" do |obj|
         return unless @values[name].delete obj
+        @serialized_values.delete name
         changed!
         obj
       end
