@@ -135,6 +135,7 @@ class ModelObject
   def save! fn
     #FileUtils.mv fn, "#{fn}~", :force => true rescue nil
     File.open(fn, "w") { |f| f.puts to_yaml }
+    self
   end
 
 	def to_yaml opts={}

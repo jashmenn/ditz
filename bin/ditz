@@ -13,11 +13,20 @@ end
 
 require 'rubygems'
 require 'fileutils'
+require 'pathname'
 require 'trollop'; include Trollop
 require "ditz"
 
 PROJECT_FN = "project.yaml"
 CONFIG_FN = ".ditz-config"
+
+## helper for recursive search
+def find_dir_containing target, start=Pathname.new(".")
+  return start if (start + target).exist?
+  unless start.parent.realpath == start.realpath
+    find_dir_containing target, start.parent
+  end
+end
 
 $opts = options do
   version "ditz #{Ditz::VERSION}"
@@ -67,8 +76,26 @@ if $opts[:list_hooks]
   exit 0
 end
 
+local_config_dir = find_dir_containing CONFIG_FN
+config = begin
+  if local_config_dir
+    fn = local_config_dir + CONFIG_FN
+    Ditz::debug "loading local config from #{fn}"
+    Ditz::Config.from fn
+  else
+    Ditz::debug "loading global config from #{$opts[:config_file]}"
+    Ditz::Config.from $opts[:config_file]
+  end
+rescue SystemCallError, Ditz::ModelObject::ModelError => e
+  puts <<EOS
+I wasn't able to find a configuration file #{$opts[:config_file]}.
+We'll set it up right now.
+EOS
+  Ditz::Config.create_interactively.save! $opts[:config_file]
+end
+
 cmd = ARGV.shift || "todo"
-issue_dir = Pathname.new $opts[:issue_dir]
+issue_dir = Pathname.new(config.issue_dir || $opts[:issue_dir])
 
 case cmd # some special commands not handled by Ditz::Operator
 when "init"
@@ -84,7 +111,7 @@ when "help"
   exit
 end
 
-project_root = Ditz::find_project_root Pathname.new("."), (issue_dir + PROJECT_FN)
+project_root = find_dir_containing(issue_dir + PROJECT_FN)
 die "No #{issue_dir} directory---use 'ditz init' to initialize" unless project_root
 project_root += issue_dir
 
@@ -105,22 +132,6 @@ end
 project.validate!
 project.issues.each { |p| p.project = project}
 project.assign_issue_names!
-
-config = begin
-  if File.exists? CONFIG_FN
-    Ditz::debug "loading local config from #{CONFIG_FN}"
-    Ditz::Config.from CONFIG_FN
-  else
-    Ditz::debug "loading global config from #{$opts[:config_file]}"
-    Ditz::Config.from $opts[:config_file]
-  end
-rescue SystemCallError, Ditz::ModelObject::ModelError => e
-  puts <<EOS
-I wasn't able to find a configuration file #{$opts[:config_file]}.
-We'll set it up right now.
-EOS
-  Ditz::Config.create_interactively
-end
 
 unless op.has_operation? cmd
   die "no such command: #{cmd}"
