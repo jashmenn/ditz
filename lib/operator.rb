@@ -34,20 +34,14 @@ class Operator
 
       releases.each do |r|
         next if r.released? unless force_show
-
         groups = project.group_issues(project.issues_for_release(r))
-
         #next if groups.empty? unless force_show
-
         ret << [r, groups]
       end
 
       return ret unless show_unassigned
-
       groups = project.group_issues(project.unassigned_issues)
-
       return ret if groups.empty? unless force_show
-
       ret << [nil, groups]
     end
     private :parse_releases_arg
@@ -505,13 +499,40 @@ EOS
       puts <<EOS
 date  : #{date.localtime} (#{date.ago} ago)
 author: #{author}
+issue: [#{i.name}] #{i.title}
 
-  #{i.name}: #{i.title}
   #{what}
-  #{comment.multiline "  "}
+#{comment.multiline "  > ", false}
 EOS
     puts unless comment.blank?
     end
+  end
+
+  operation :shortlog, "Show recent activity (short form)"
+  def shortlog project, config
+    project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
+      flatten_one_level.sort_by { |e| e.first.first }.reverse.
+      each do |(date, author, what, comment), i|
+        shortauthor = if author =~ /<(.*?)@/
+          $1
+        else
+          author
+        end[0..15]
+        printf "%13s|%13s|%13s|%s\n", date.ago, i.name, shortauthor,
+          what
+      end
+  end
+
+  operation :archive, "Archive a release", :release, :maybe_dir
+  def archive project, config, release, dir
+    dir ||= "ditz-archive-#{release.name}"
+    FileUtils.mkdir dir
+    FileUtils.cp project.pathname, dir
+    project.issues_for_release(release).each do |i|
+      FileUtils.cp i.pathname, dir
+      project.drop_issue i
+    end
+    puts "Archived to #{dir}."
   end
 
   operation :edit, "Edit an issue", :issue

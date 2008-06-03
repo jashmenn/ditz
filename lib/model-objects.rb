@@ -36,6 +36,8 @@ end
 class Project < ModelObject
   class Error < StandardError; end
 
+  attr_accessor :pathname
+
   field :name, :default_generator => lambda { File.basename(Dir.pwd) }
   field :version, :default => Ditz::VERSION, :ask => false
   field :components, :multi => true, :generator => :get_components
@@ -120,10 +122,10 @@ class Issue < ModelObject
   field :id, :ask => false, :generator => :make_id
   changes_are_logged
 
+  attr_accessor :name, :pathname, :project
+
   ## these are the fields we interpolate issue names on
   INTERPOLATED_FIELDS = [:title, :desc, :log_events]
-
-  attr_accessor :name, :project
 
   STATUS_SORT_ORDER = { :unstarted => 2, :paused => 1, :in_progress => 0, :closed => 3 }
   STATUS_WIDGET = { :unstarted => "_", :in_progress => ">", :paused => "=", :closed => "x" }
@@ -191,10 +193,6 @@ class Issue < ModelObject
   def stop_work who, comment
     raise Error, "unstarted" unless self.status == :in_progress
     change_status :paused, who, comment
-  end
-
-  def pathname
-    ISSUE_DIR + "issue-#{id}.yaml"
   end
 
   def close disp, who, comment
@@ -280,6 +278,7 @@ end
 class Config < ModelObject
   field :name, :prompt => "Your name", :default_generator => :get_default_name
   field :email, :prompt => "Your email address", :default_generator => :get_default_email
+  field :issue_dir, :ask => false, :default => "bugs"
 
   def user; "#{name} <#{email}>" end
 

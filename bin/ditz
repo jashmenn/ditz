@@ -1,13 +1,11 @@
 #!/usr/bin/env ruby
 
-# requires are splitted in two for efficiency reasons
-# ditz should be really fast when using it for
-# completion.
+## requires are split in two for efficiency reasons: ditz should be really
+## fast when using it for completion.
 require 'operator'
-
 op = Ditz::Operator.new
 
-# a secret option for shell completion
+## a secret option for shell completion
 if ARGV.include? '--commands'
   puts op.class.operations.map { |name, _| name }
   exit 0
@@ -15,11 +13,20 @@ end
 
 require 'rubygems'
 require 'fileutils'
+require 'pathname'
 require 'trollop'; include Trollop
 require "ditz"
 
 PROJECT_FN = "project.yaml"
 CONFIG_FN = ".ditz-config"
+
+## helper for recursive search
+def find_dir_containing target, start=Pathname.new(".")
+  return start if (start + target).exist?
+  unless start.parent.realpath == start.realpath
+    find_dir_containing target, start.parent
+  end
+end
 
 $opts = options do
   version "ditz #{Ditz::VERSION}"
@@ -68,34 +75,52 @@ if $opts[:list_hooks]
   Ditz::HookManager.print_hooks
   exit 0
 end
-cmd = ARGV.shift or die "expecting a ditz command"
-dir = Pathname.new($opts[:issue_dir])
-Ditz::Issue::ISSUE_DIR = dir
 
-case cmd # some special cases not handled by Ditz::Operator
+local_config_dir = find_dir_containing CONFIG_FN
+config = begin
+  if local_config_dir
+    fn = local_config_dir + CONFIG_FN
+    Ditz::debug "loading local config from #{fn}"
+    Ditz::Config.from fn
+  else
+    Ditz::debug "loading global config from #{$opts[:config_file]}"
+    Ditz::Config.from $opts[:config_file]
+  end
+rescue SystemCallError, Ditz::ModelObject::ModelError => e
+  puts <<EOS
+I wasn't able to find a configuration file #{$opts[:config_file]}.
+We'll set it up right now.
+EOS
+  Ditz::Config.create_interactively.save! $opts[:config_file]
+end
+
+cmd = ARGV.shift || "todo"
+issue_dir = Pathname.new(config.issue_dir || $opts[:issue_dir])
+
+case cmd # some special commands not handled by Ditz::Operator
 when "init"
-  die "#{dir} directory already exists" if dir.exist?
-  dir.mkdir
-  fn = dir + PROJECT_FN
+  die "#{issue_dir} directory already exists" if issue_dir.exist?
+  issue_dir.mkdir
+  fn = issue_dir + PROJECT_FN
   project = op.init
   project.save! fn
-  puts "Ok, #{dir} directory created successfully."
+  puts "Ok, #{issue_dir} directory created successfully."
   exit
 when "help"
   op.do "help", nil, nil, ARGV
   exit
 end
 
-project_root = Ditz::find_project_root Pathname.pwd, Pathname.new('.'), dir
-die "No #{dir} directory--use 'ditz init' to initialize" unless project_root != nil and project_root.exist?
-Dir.chdir project_root
+project_root = find_dir_containing(issue_dir + PROJECT_FN)
+die "No #{issue_dir} directory---use 'ditz init' to initialize" unless project_root
+project_root += issue_dir
 
 project = begin
-  fn = dir + PROJECT_FN
+  fn = project_root + PROJECT_FN
   Ditz::debug "loading project from #{fn}"
   project = Ditz::Project.from fn
 
-  fn = dir + "issue-*.yaml"
+  fn = project_root + "issue-*.yaml"
   Ditz::debug "loading issues from #{fn}"
   project.issues = Dir[fn].map { |fn| Ditz::Issue.from fn }
   Ditz::debug "found #{project.issues.size} issues"
@@ -107,22 +132,6 @@ end
 project.validate!
 project.issues.each { |p| p.project = project}
 project.assign_issue_names!
-
-config = begin
-  if File.exists? CONFIG_FN
-    Ditz::debug "loading local config from #{CONFIG_FN}"
-    Ditz::Config.from CONFIG_FN
-  else
-    Ditz::debug "loading global config from #{$opts[:config_file]}"
-    Ditz::Config.from $opts[:config_file]
-  end
-rescue SystemCallError, Ditz::ModelObject::ModelError => e
-  puts <<EOS
-I wasn't able to find a configuration file #{$opts[:config_file]}.
-We'll set it up right now.
-EOS
-  Ditz::Config.create_interactively
-end
 
 unless op.has_operation? cmd
   die "no such command: #{cmd}"
@@ -139,14 +148,14 @@ begin
   op.do cmd, project, config, args
 rescue Ditz::Operator::Error => e
   die e.message
-rescue Interrupt
+rescue Errno::EPIPE, Interrupt
   exit 1
 end
 
 ## save project.yaml
 dirty = project.each_modelobject { |o| break true if o.changed? } || false
 if dirty
-  fn = dir + PROJECT_FN
+  fn = project_root + PROJECT_FN
   Ditz::debug "project is dirty, saving #{fn}"
   project.save! fn
 end
@@ -155,10 +164,10 @@ end
 ## saved independently.
 changed_issues = project.issues.select { |i| i.changed? }
 changed_issues.each do |i|
-  fn = i.pathname
-  Ditz::debug "issue #{i.name} is dirty, saving #{fn}"
-  i.project = project # hack: not set on new issues
-  i.save! fn
+  i.pathname ||= (project_root + "issue-#{i.id}.yaml")
+  i.project ||= project # hack: not set on new issues
+  Ditz::debug "issue #{i.name} is dirty, saving #{i.pathname}"
+  i.save! i.pathname
 end
 
 project.deleted_issues.each do |i|

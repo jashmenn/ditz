@@ -1,40 +1,43 @@
 module Ditz
-  module HookManager
-    module_function
+  class HookManager
+    def initialize
+      @descs = {}
+      @blocks = {}
+    end
 
-    @@descs = {}
-    @@blocks = {}
+    @@instance = nil
+    def self.method_missing m, *a, &b
+      @@instance ||= self.new
+      @@instance.send m, *a, &b
+    end
 
     def register name, desc
-      raise "Ditz::HookManager.register needs a symbol not #{name.inspect}" unless name.is_a? Symbol
-      @@descs[name] = desc
-      @@blocks[name] = []
+      @descs[name] = desc
+      @blocks[name] = []
     end
 
     def on *names, &block
-      for name in names do
-        raise "unregistered hook #{name.inspect}" unless @@descs[name]
-        @@blocks[name] << block
+      names.each do |name|
+        raise "unregistered hook #{name.inspect}" unless @descs[name]
+        @blocks[name] << block
       end
     end
 
     def run name, *args
-      raise "unregistered hook #{name.inspect}" unless @@descs[name]
+      raise "unregistered hook #{name.inspect}" unless @descs[name]
       blocks = hooks_for name
       return false if blocks.empty?
-      for block in blocks do
-        block[*args]
-      end
+      blocks.each { |block| block[*args] }
       true
     end
 
     def print_hooks f=$stdout
 puts <<EOS
-Ditz have #{@@descs.size} registered hooks:
+Ditz has #{@descs.size} registered hooks:
 
 EOS
 
-      @@descs.map{ |k,v| [k.to_s,v] }.sort.each do |(name, desc)|
+      @descs.map{ |k,v| [k.to_s,v] }.sort.each do |name, desc|
         f.puts <<EOS
 #{name}
 #{"-" * name.length}
@@ -46,13 +49,12 @@ EOS
     def enabled? name; !hooks_for(name).empty? end
 
     def hooks_for name
-      if @@blocks[name].nil? || @@blocks[name].empty?
+      if @blocks[name].nil? || @blocks[name].empty?
         fns = File.join(ENV['HOME'], '.ditz', 'hooks', '*.rb') 
         Dir[fns].each { |fn| load fn }
       end
 
-      @@blocks[name] || []
+      @blocks[name] || []
     end
   end
-
 end

@@ -102,6 +102,7 @@ class ModelObject
   def self.from fn
     returning YAML::load_file(fn) do |o|
       raise ModelError, "error loading from yaml file #{fn.inspect}: expected a #{self}, got a #{o.class}" unless o.class == self
+      o.pathname = fn if o.respond_to? :pathname=
     end
   end
 
@@ -134,6 +135,7 @@ class ModelObject
   def save! fn
     #FileUtils.mv fn, "#{fn}~", :force => true rescue nil
     File.open(fn, "w") { |f| f.puts to_yaml }
+    self
   end
 
 	def to_yaml opts={}
@@ -146,7 +148,7 @@ class ModelObject
             @serialized_values[f] = serialized_form_of f, @values[f]
           end
 
-          map.add f, v
+          map.add f.to_s, v
         end
       end
     end
