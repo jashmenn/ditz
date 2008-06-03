@@ -50,7 +50,11 @@
   open_issues = issues.select { |i| i.open? }
 %>
 <p>
-  <%= link_to "unassigned", "unassigned issue".pluralize(issues.size).capitalize %>; <%= open_issues.size.to_pretty_s %> open.
+  <% if issues.empty? %>
+    No unassigned issues.
+  <% else %>
+    <%= link_to "unassigned", "unassigned issue".pluralize(issues.size).capitalize %>; <%= open_issues.size.to_pretty_s %> of them open.
+  <% end %>
 </p>
 
 <% if components.size > 1 %>

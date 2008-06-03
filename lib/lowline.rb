@@ -3,7 +3,7 @@ require "util"
 
 class Numeric
   def to_pretty_s
-    %w(no one two three four five six seven eight nine ten)[self] || to_s
+    %w(zero one two three four five six seven eight nine ten)[self] || to_s
   end
 end
 
