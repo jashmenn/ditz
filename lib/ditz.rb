@@ -13,16 +13,10 @@ def self.has_readline?
   @has_readline
 end
 
-def find_project_root(pwd, project_root, dir)
-  np = pwd.join project_root, dir, "project.yaml"
-  if np.exist?
-    return project_root
-  else
-    if pwd + project_root != pwd + project_root.parent
-      find_project_root pwd, project_root.parent, dir
-    else
-      return nil
-    end
+def find_project_root pwd, target
+  return pwd if (pwd + target).exist?
+  unless pwd.parent == pwd
+    find_project_root pwd.parent, target
   end
 end
 

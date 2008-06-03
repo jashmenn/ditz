@@ -65,6 +65,7 @@ class ModelObject
   def self.from fn
     returning YAML::load_file(fn) do |o|
       raise ModelError, "error loading from yaml file #{fn.inspect}: expected a #{self}, got a #{o.class}" unless o.class == self
+      o.pathname = fn if o.respond_to? :pathname=
     end
   end
 

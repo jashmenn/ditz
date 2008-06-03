@@ -1,13 +1,11 @@
 #!/usr/bin/env ruby
 
-# requires are splitted in two for efficiency reasons
-# ditz should be really fast when using it for
-# completion.
+## requires are split in two for efficiency reasons: ditz should be really
+## fast when using it for completion.
 require 'operator'
-
 op = Ditz::Operator.new
 
-# a secret option for shell completion
+## a secret option for shell completion
 if ARGV.include? '--commands'
   puts op.class.operations.map { |name, _| name }
   exit 0
@@ -68,34 +66,34 @@ if $opts[:list_hooks]
   Ditz::HookManager.print_hooks
   exit 0
 end
-cmd = ARGV.shift or die "expecting a ditz command"
-dir = Pathname.new($opts[:issue_dir])
-Ditz::Issue::ISSUE_DIR = dir
 
-case cmd # some special cases not handled by Ditz::Operator
+cmd = ARGV.shift or die "expecting a ditz command"
+issue_dir = Pathname.new $opts[:issue_dir]
+
+case cmd # some special commands not handled by Ditz::Operator
 when "init"
-  die "#{dir} directory already exists" if dir.exist?
-  dir.mkdir
-  fn = dir + PROJECT_FN
+  die "#{issue_dir} directory already exists" if issue_dir.exist?
+  issue_dir.mkdir
+  fn = issue_dir + PROJECT_FN
   project = op.init
   project.save! fn
-  puts "Ok, #{dir} directory created successfully."
+  puts "Ok, #{issue_dir} directory created successfully."
   exit
 when "help"
   op.do "help", nil, nil, ARGV
   exit
 end
 
-project_root = Ditz::find_project_root Pathname.pwd, Pathname.new('.'), dir
-die "No #{dir} directory---use 'ditz init' to initialize" unless project_root != nil and project_root.exist?
-Dir.chdir project_root
+project_root = Ditz::find_project_root Pathname.new("."), (issue_dir + PROJECT_FN)
+die "No #{issue_dir} directory---use 'ditz init' to initialize" unless project_root
+project_root += issue_dir
 
 project = begin
-  fn = dir + PROJECT_FN
+  fn = project_root + PROJECT_FN
   Ditz::debug "loading project from #{fn}"
   project = Ditz::Project.from fn
 
-  fn = dir + "issue-*.yaml"
+  fn = project_root + "issue-*.yaml"
   Ditz::debug "loading issues from #{fn}"
   project.issues = Dir[fn].map { |fn| Ditz::Issue.from fn }
   Ditz::debug "found #{project.issues.size} issues"
@@ -146,7 +144,7 @@ end
 ## save project.yaml
 dirty = project.each_modelobject { |o| break true if o.changed? } || false
 if dirty
-  fn = dir + PROJECT_FN
+  fn = project_root + PROJECT_FN
   Ditz::debug "project is dirty, saving #{fn}"
   project.each_modelobject { |o| o.before_serialize project }
   project.save! fn
@@ -158,9 +156,9 @@ changed_issues = project.issues.select { |i| i.changed? }
 ## saved independently.
 changed_issues.each do |i|
   i.before_serialize project
-  fn = i.pathname
-  Ditz::debug "issue #{i.name} is dirty, saving #{fn}"
-  i.save! fn
+  i.pathname ||= (project_root + "issue-#{i.id}.yaml")
+  Ditz::debug "issue #{i.name} is dirty, saving #{i.pathname}"
+  i.save! i.pathname
 end
 
 project.deleted_issues.each do |i|
