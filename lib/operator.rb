@@ -495,13 +495,28 @@ EOS
       puts <<EOS
 date  : #{date.localtime} (#{date.ago} ago)
 author: #{author}
+issue: [#{i.name}] #{i.title}
 
-  #{i.name}: #{i.title}
   #{what}
-  #{comment.multiline "  "}
+#{comment.multiline "  > ", false}
 EOS
     puts unless comment.blank?
     end
+  end
+
+  operation :shortlog, "Show recent activity (short form)"
+  def shortlog project, config
+    project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
+      flatten_one_level.sort_by { |e| e.first.first }.reverse.
+      each do |(date, author, what, comment), i|
+        shortauthor = if author =~ /<(.*?)@/
+          $1
+        else
+          author
+        end[0..15]
+        printf "%13s|%13s|%13s|%s\n", date.ago, i.name, shortauthor,
+          what
+      end
   end
 
   operation :archive, "Archive a release", :release, :maybe_dir
