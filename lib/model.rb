@@ -1,7 +1,8 @@
 require 'yaml'
-require "lowline"; include Lowline
-require "util"
 require 'sha1'
+require "lowline"; include Lowline
+require "metaid"
+require "util"
 
 class Time
   alias :old_to_yaml :to_yaml
@@ -15,47 +16,83 @@ module Ditz
 class ModelObject
   class ModelError < StandardError; end
 
+  def initialize
+    @values = {}
+    @serialized_values = {}
+  end
+
   ## yamlability
   def self.yaml_domain; "ditz.rubyforge.org,2008-03-06" end
   def self.yaml_other_thing; name.split('::').last.dcfirst end
   def to_yaml_type; "!#{self.class.yaml_domain}/#{self.class.yaml_other_thing}" end
-  def to_yaml_properties; self.class.fields.map { |f| "@#{f.to_s}" } end
   def self.inherited subclass
     YAML.add_domain_type(yaml_domain, subclass.yaml_other_thing) do |type, val|
-      YAML.object_maker(subclass, val)
+      o = subclass.new
+      val.each { |k, v| o.send "__serialized_#{k}=", v }
+      o.unchanged!
+      o
     end
   end
-  def before_serialize(*a); end
-  def after_deserialize(*a); end
 
+  ## override these two to model per-field transformations between disk and
+  ## memory.
+  ##
+  ## convert disk form => memory form
+  def deserialized_form_of field, value
+    @serialized_values[field]
+  end
+
+  ## convert memory form => disk form
+  def serialized_form_of field, value
+    @values[field]
+  end
+
+  ## add a new field to a model object
   def self.field name, opts={}
-    @fields ||= [] # can't use a hash because want to preserve field order when serialized
+    @fields ||= [] # can't use a hash because we need to preserve field order
     raise ModelError, "field with name #{name} already defined" if @fields.any? { |k, v| k == name }
     @fields << [name, opts]
 
-    attr_reader name
     if opts[:multi]
       single_name = name.to_s.sub(/s$/, "") # oh yeah
       define_method "add_#{single_name}" do |obj|
-        array = self.instance_variable_get("@#{name}")
+        array = send(name)
         raise ModelError, "already has a #{single_name} with name #{obj.name.inspect}" if obj.respond_to?(:name) && array.any? { |o| o.name == obj.name }
         changed!
+        @serialized_values.delete name
         array << obj
       end
 
       define_method "drop_#{single_name}" do |obj|
-        return unless self.instance_variable_get("@#{name}").delete obj
+        return unless @values[name].delete obj
+        @serialized_values.delete name
         changed!
         obj
       end
     end
+
     define_method "#{name}=" do |o|
       changed!
-      instance_variable_set "@#{name}", o
+      @serialized_values.delete name
+      @values[name] = o
+    end
+
+    define_method "__serialized_#{name}=" do |o|
+      changed!
+      @values.delete name
+      @serialized_values[name] = o
+    end
+
+    define_method name do
+      return @values[name] if @values.member?(name)
+      @values[name] = deserialized_form_of name, @serialized_values[name]
     end
   end
 
-  def self.fields; @fields.map { |name, opts| name } end
+  def self.field_names; @fields.map { |name, opts| name } end
+  class << self
+    attr_reader :fields, :values, :serialized_values
+  end
 
   def self.changes_are_logged
     define_method(:changes_are_logged?) { true }
@@ -69,6 +106,12 @@ class ModelObject
     end
   end
 
+  def to_s
+    "<#{self.class.name}: " + self.class.field_names.map { |f| "#{f}: " + (@values[f].to_s || @serialized_values[f]).inspect }.join(", ") + ">"
+  end
+
+  def inspect; to_s end
+
   ## depth-first search on all reachable ModelObjects. fuck yeah.
   def each_modelobject
     seen = {}
@@ -77,7 +120,7 @@ class ModelObject
       cur = to_see.pop
       seen[cur] = true
       yield cur
-      cur.class.fields.each do |f|
+      cur.class.field_names.each do |f|
         val = cur.send(f)
         next if seen[val]
         if val.is_a?(ModelObject)
@@ -94,6 +137,22 @@ class ModelObject
     File.open(fn, "w") { |f| f.puts to_yaml }
   end
 
+	def to_yaml opts={}
+		YAML::quick_emit(object_id, opts) do |out|
+      out.map(taguri, nil) do |map|
+        self.class.fields.each do |f, fops|
+          v = if @serialized_values.member?(f)
+            @serialized_values[f]
+          else
+            @serialized_values[f] = serialized_form_of f, @values[f]
+          end
+
+          map.add f, v
+        end
+      end
+    end
+	end
+
   def log what, who, comment
     add_log_event([Time.now, who, what, comment || ""])
     self
@@ -101,6 +160,7 @@ class ModelObject
 
   def changed?; @changed ||= false end
   def changed!; @changed = true end
+  def unchanged!; @changed = false end
 
   def self.create_interactively opts={}
     o = self.new

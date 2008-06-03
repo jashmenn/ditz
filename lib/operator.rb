@@ -290,7 +290,7 @@ EOS
     puts <<EOS
 #{"Issue #{issue.name}".underline}
       Title: #{issue.title}
-Description: #{issue.interpolated_desc(project.issues).multiline "  "}
+Description: #{issue.desc.multiline "  "}
        Type: #{issue.type}
      Status: #{status}
     Creator: #{issue.reporter}

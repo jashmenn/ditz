@@ -25,6 +25,12 @@ class ErbHtml
     "<a href=\"#{dest}\">#{name}</a>"
   end
 
+  def link_issue_names project, s
+    project.issues.inject(s) do |s, i|
+      s.gsub(/\b#{i.name}\b/, link_to(i, i.title))
+    end
+  end
+
   def render template_name, morevars={}
     ErbHtml.new(@template_dir, template_name, @links, @mapping.merge(morevars)).to_s
   end
