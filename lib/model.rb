@@ -148,7 +148,7 @@ class ModelObject
             @serialized_values[f] = serialized_form_of f, @values[f]
           end
 
-          map.add f, v
+          map.add f.to_s, v
         end
       end
     end
