@@ -67,7 +67,7 @@ if $opts[:list_hooks]
   exit 0
 end
 
-cmd = ARGV.shift or die "expecting a ditz command"
+cmd = ARGV.shift || "todo"
 issue_dir = Pathname.new $opts[:issue_dir]
 
 case cmd # some special commands not handled by Ditz::Operator
