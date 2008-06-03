@@ -148,7 +148,7 @@ begin
   op.do cmd, project, config, args
 rescue Ditz::Operator::Error => e
   die e.message
-rescue Interrupt
+rescue Errno::EPIPE, Interrupt
   exit 1
 end
 
