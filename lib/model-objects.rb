@@ -238,6 +238,11 @@ class Issue < ModelObject
     self.release = release.name
   end
 
+  def assign_to_component component, who, comment
+    log "assigned to component #{component.name} from #{self.component}", who, comment
+    self.component = component.name
+  end
+
   def unassign who, comment
     raise Error, "not assigned to a release" unless release
     log "unassigned from release #{release}", who, comment
