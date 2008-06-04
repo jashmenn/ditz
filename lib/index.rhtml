@@ -26,7 +26,11 @@
         no issues
       <% else %>
         <%= sprintf "%.0f%%", pct_done %> complete;
-        <%= open_issues.map { |n,is| n.to_s.pluralize is.size }.join(' and ') %> open.
+        <% if open_issues.empty? %>
+          ready for release!
+        <% else %>
+          <%= open_issues.map { |n,is| n.to_s.pluralize is.size }.join(' and ') %> open.
+        <% end %>
       <% end %>
     </li>
   <% end %>
