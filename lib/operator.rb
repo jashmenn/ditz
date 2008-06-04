@@ -61,6 +61,8 @@ class Operator
           project.release_for(val) or raise Error, "no release with name #{val}"
         when :maybe_release
           project.release_for(val) or raise Error, "no release with name #{val}" if val
+        when :maybe_component
+          project.component_for(val) or raise Error, "no component with name #{val}" if val
         when :magic_release
           parse_releases_arg project, val
         when :string
@@ -366,6 +368,33 @@ EOS
     puts "Assigned #{issue.name} to #{release.name}."
   end
 
+  operation :set_component, "Set an issue's component", :issue, :maybe_component
+  def set_component project, config, issue, maybe_component
+    puts "Changing the component of issue #{issue.name}: #{issue.title}."
+
+    if project.components.size == 1
+      raise Error, "this project does not use multiple components"
+    end
+
+    if maybe_component && maybe_component.name == issue.component
+      raise Error, "issue #{issue.name} already assigned to component #{issue.component}"
+    end
+
+    component = maybe_component || begin
+      components = project.components
+      components -= [components.find { |r| r.name == issue.component }] if issue.component
+      ask_for_selection(components, "component") { |r| r.name }
+    end
+    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    issue.assign_to_component component, config.user, comment
+    oldname = issue.name
+    project.assign_issue_names!
+    puts <<EOS
+Issue #{oldname} is now #{issue.name}. Note that the names of other issues may
+have changed as well.
+EOS
+  end
+
   operation :unassign, "Unassign an issue from any releases", :issue
   def unassign project, config, issue
     puts "Unassigning issue #{issue.name}: #{issue.title}."
@@ -405,8 +434,15 @@ EOS
   operation :changelog, "Generate a changelog for a release", :release
   def changelog project, config, r
     puts "== #{r.name} / #{r.released? ? r.release_time.pretty_date : 'unreleased'}"
-    project.group_issues(project.issues_for_release(r)).
-      each { |t,g| g.select { |i| i.closed? }.each { |i| puts "* #{t}: #{i.title}" } }
+    project.group_issues(project.issues_for_release(r)).each do |type, issues|
+      issues.select { |i| i.closed? }.each do |i|
+        if type == :bugfix
+          puts "* #{type}: #{i.title}"
+        else
+          puts "* #{i.title}"
+        end
+      end
+    end
   end
 
   operation :html, "Generate html status pages", :maybe_dir
@@ -501,7 +537,7 @@ EOS
       puts <<EOS
 date  : #{date.localtime} (#{date.ago} ago)
 author: #{author}
-issue: [#{i.name}] #{i.title}
+ issue: [#{i.name}] #{i.title}
 
   #{what}
 #{comment.multiline "  > ", false}
