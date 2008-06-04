@@ -1,3 +1,16 @@
+0.3
+---
+Ditz now works from project subdirectories, and you can have a .ditz-config in
+the project root for project-specific configuration. (This is not merged with
+the global config, so this file overrides everything in ~/.ditz-config.)
+
+You can specify an :issue_dir key in this file, which can be a relative path to
+the directory containing project.yaml. So if you want to rename that directory,
+or keep it somewhere else, now you can.
+
+There's also a new hook system for plugging in your own code. Run ditz -l to
+see a list of available hooks.
+
 0.2
 ---
 

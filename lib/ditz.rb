@@ -1,6 +1,6 @@
 module Ditz
 
-VERSION = "0.2"
+VERSION = "0.3"
 
 def debug s
   puts "# #{s}" if $opts[:verbose]
