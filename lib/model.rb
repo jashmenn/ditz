@@ -1,7 +1,6 @@
 require 'yaml'
 require 'sha1'
 require "lowline"; include Lowline
-require "metaid"
 require "util"
 
 class Time
