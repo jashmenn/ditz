@@ -405,8 +405,15 @@ EOS
   operation :changelog, "Generate a changelog for a release", :release
   def changelog project, config, r
     puts "== #{r.name} / #{r.released? ? r.release_time.pretty_date : 'unreleased'}"
-    project.group_issues(project.issues_for_release(r)).
-      each { |t,g| g.select { |i| i.closed? }.each { |i| puts "* #{t}: #{i.title}" } }
+    project.group_issues(project.issues_for_release(r)).each do |type, issues|
+      issues.select { |i| i.closed? }.each do |i|
+        if type == :bugfix
+          puts "* #{type}: #{i.title}"
+        else
+          puts "* #{i.title}"
+        end
+      end
+    end
   end
 
   operation :html, "Generate html status pages", :maybe_dir
