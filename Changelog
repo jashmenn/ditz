@@ -1,3 +1,16 @@
+== 0.3 / 2008-06-04
+* readline support for all text entry
+* hook system. Use ditz -l to see possible hooks.
+* new commands: archive, shortlog, set-component
+* improved commands: log, assign, add-release
+* new issue type: 'tasks'
+* 'ditz' by itself shows the todo list
+* zsh tab completion for subcommands
+* local config can now specify bugs directory location
+* issue name interpolation now on all issue fields
+* bugfix: various HTML generation bugs
+* bugfix: ditz now works from project subdirectories
+* bugfix: removed UNIX-specific environment variable assumptions
 == 0.2 / 2008-04-11
 * bugfix: store each issue in a separate file to avoid false conflicts
 * added per-command help
