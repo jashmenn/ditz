@@ -8,6 +8,10 @@ module Enumerable
   def min_of(&b); map(&b).min end
 end
 
+class Array
+  def uniq_by; inject({}) { |h, o| h[yield(o)] = o; h }.values end
+end
+
 module Enumerable
   def map_with_index # sigh...
     ret = []
