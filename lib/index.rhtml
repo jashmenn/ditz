@@ -69,10 +69,13 @@
       open_issues = project.group_issues(project.issues_for_component(c).select { |i| i.open? })
     %>
     <li>
-      <%= link_to c, c.name %>:
       <% if open_issues.empty? %>
+        <span class="dimmed">
+        <%= link_to c, c.name %>:
         no open issues.
+        </span>
       <% else %>
+        <%= link_to c, c.name %>:
         <%= open_issues.map { |n,is| n.to_s.pluralize is.size }.join(' and ') %> open.
       <% end %>
     </li>

@@ -29,6 +29,10 @@ p {
   width: 40em;
 }
 
+.dimmed {
+  color: #bbb;
+}
+
 div.on-the-left {
   float: left;
   width: 39%;
