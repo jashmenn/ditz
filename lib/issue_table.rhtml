@@ -2,7 +2,11 @@
 <% issues.sort_by { |i| i.sort_order }.each do |i| %>
   <tr>
     <td class="issuestatus_<%= i.status %>">
-      <%= i.status_string %><% if i.closed? %>: <%= i.disposition_string %><% end %>
+      <% if i.closed? %>
+        <%= i.disposition_string %>
+      <% else %>
+        <%= i.status_string %>
+      <% end %>
     </td>
     <td class="issuename">
       <%= link_to i, i.title %>
