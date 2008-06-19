@@ -86,7 +86,7 @@
 <h2>Recently modified issues</h2>
 
 <table>
-<%  project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
+<% project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
       flatten_one_level.
       sort_by { |e| e.first.first }.
       uniq_by { |stuff, i| i }.
@@ -96,7 +96,11 @@
   <tr>
     <td><%= date.pretty_date %></td>
     <td class="issuestatus_<%= i.status %>">
-      <%= i.status_string %><% if i.closed? %>: <%= i.disposition_string %><% end %>
+      <% if i.closed? %>
+        <%= i.disposition_string %>
+      <% else %>
+        <%= i.status_string %>
+      <% end %>
     </td>
     <td class="issuename">
       <%= link_to i, i.title %>
