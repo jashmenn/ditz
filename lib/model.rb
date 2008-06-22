@@ -18,6 +18,7 @@ class ModelObject
   def initialize
     @values = {}
     @serialized_values = {}
+    self.class.fields.map { |f, opts| @values[f] = [] if opts[:multi] }
   end
 
   ## yamlability
