@@ -28,6 +28,13 @@ def find_dir_containing target, start=Pathname.new(".")
   end
 end
 
+## this is my brilliant solution to the 'gem datadir' problem.
+def find_ditz_file fn
+  dir = $:.find { |p| File.exist? File.expand_path(File.join(p, fn)) }
+  raise "can't find #{fn} in any load path" unless dir
+  File.expand_path File.join(dir, fn)
+end
+
 $opts = options do
   version "ditz #{Ditz::VERSION}"
   opt :issue_dir, "Issue database dir", :default => "bugs"

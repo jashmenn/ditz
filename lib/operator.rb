@@ -450,12 +450,7 @@ EOS
     dir ||= "html"
     Dir.mkdir dir unless File.exists? dir
 
-    ## find the ERB templates. this is my brilliant approach
-    ## to the 'gem datadir' problem.
-    template_dir = $:.find { |p| File.exist? File.expand_path(File.join(p, "index.rhtml")) }
-    raise "can't find index.rhtml in any path" unless template_dir
-    template_dir = File.expand_path template_dir
-
+    template_dir = File.dirname find_ditz_file("index.rhtml")
     FileUtils.cp File.join(template_dir, "style.css"), dir
 
     ## build up links
