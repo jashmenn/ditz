@@ -101,6 +101,12 @@ EOS
   Ditz::Config.create_interactively.save! $opts[:config_file]
 end
 
+config.plugins.each do |p|
+  fn = find_ditz_file "plugins/#{p}.rb"
+  Ditz::debug "loading plugin #{p.inspect} from #{fn}"
+  load fn
+end
+
 cmd = ARGV.shift || "todo"
 issue_dir = Pathname.new(config.issue_dir || $opts[:issue_dir])
 
