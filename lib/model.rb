@@ -137,8 +137,8 @@ class ModelObject
     self
   end
 
-	def to_yaml opts={}
-		YAML::quick_emit(object_id, opts) do |out|
+  def to_yaml opts={}
+    YAML::quick_emit(object_id, opts) do |out|
       out.map(taguri, nil) do |map|
         self.class.fields.each do |f, fops|
           v = if @serialized_values.member?(f)
@@ -151,7 +151,7 @@ class ModelObject
         end
       end
     end
-	end
+  end
 
   def log what, who, comment
     add_log_event([Time.now, who, what, comment || ""])
