@@ -73,7 +73,12 @@
       <%= issue.status_string %><% if issue.closed? %>: <%= issue.disposition_string %><% end %>
     </td>
   </tr>
+
+  <%= extra_summary_html %>
+
 </table>
+
+<%= extra_details_html %>
 
 <h2>Issue log</h2>
 
