@@ -76,22 +76,24 @@ class HtmlView < View
 
       extra_summary = self.class.view_additions_for(:issue_summary).map { |b| b[issue] }
       extra_details = self.class.view_additions_for(:issue_details).map { |b| b[issue] }
-      File.open(fn, "w") do |f|
-        f.puts ErbHtml.new(@template_dir, "issue", links, :issue => issue,
-          :release => (issue.release ? @project.release_for(issue.release) : nil),
-          :component => @project.component_for(issue.component),
-          :extra_summary => extra_summary,
-          :extra_details => extra_details,
-          :project => @project)
-      end
+
+      erb = ErbHtml.new(@template_dir, links, :issue => issue,
+        :release => (issue.release ? @project.release_for(issue.release) : nil),
+        :component => @project.component_for(issue.component),
+        :extra_summary => extra_summary,
+        :extra_details => extra_details,
+        :project => @project)
+
+      File.open(fn, "w") { |f| f.puts erb.render_template("issue") }
     end
 
     @project.releases.each do |r|
       fn = File.join @dir, links[r]
       #puts "Generating #{fn}..."
       File.open(fn, "w") do |f|
-        f.puts ErbHtml.new(@template_dir, "release", links, :release => r,
-          :issues => @project.issues_for_release(r), :project => @project)
+        f.puts ErbHtml.new(@template_dir, links, :release => r,
+          :issues => @project.issues_for_release(r), :project => @project).
+          render_template("release")
       end
     end
 
@@ -99,25 +101,28 @@ class HtmlView < View
       fn = File.join @dir, links[c]
       #puts "Generating #{fn}..."
       File.open(fn, "w") do |f|
-        f.puts ErbHtml.new(@template_dir, "component", links, :component => c,
-          :issues => @project.issues_for_component(c), :project => @project)
+        f.puts ErbHtml.new(@template_dir, links, :component => c,
+          :issues => @project.issues_for_component(c), :project => @project).
+          render_template("component")
       end
     end
 
     fn = File.join @dir, links["unassigned"]
     #puts "Generating #{fn}..."
     File.open(fn, "w") do |f|
-      f.puts ErbHtml.new(@template_dir, "unassigned", links,
-        :issues => @project.unassigned_issues, :project => @project)
+      f.puts ErbHtml.new(@template_dir, links,
+        :issues => @project.unassigned_issues, :project => @project).
+        render_template("unassigned")
     end
 
     past_rels, upcoming_rels = @project.releases.partition { |r| r.released? }
     fn = File.join @dir, links["index"]
     #puts "Generating #{fn}..."
     File.open(fn, "w") do |f|
-      f.puts ErbHtml.new(@template_dir, "index", links, :project => @project,
+      f.puts ErbHtml.new(@template_dir, links, :project => @project,
         :past_releases => past_rels, :upcoming_releases => upcoming_rels,
-        :components => @project.components)
+        :components => @project.components).
+        render_template("index")
     end
     puts "Local generated URL: file://#{File.expand_path(fn)}"
   end
