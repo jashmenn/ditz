@@ -28,7 +28,14 @@ class ModelObject
   def self.inherited subclass
     YAML.add_domain_type(yaml_domain, subclass.yaml_other_thing) do |type, val|
       o = subclass.new
-      val.each { |k, v| o.send "__serialized_#{k}=", v }
+      val.each do |k, v|
+        m = "__serialized_#{k}="
+        if o.respond_to? m
+          o.send m, v
+        else
+          $stderr.puts "warning: unknown field #{k.inspect} in YAML for #{type}; ignoring"
+        end
+      end
       o.unchanged!
       o
     end
