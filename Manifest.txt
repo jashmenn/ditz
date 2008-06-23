@@ -6,6 +6,7 @@ bin/ditz
 bin/ditz-convert-from-monolith
 lib/component.rhtml
 lib/ditz.rb
+lib/hook.rb
 lib/html.rb
 lib/index.rhtml
 lib/issue.rhtml
@@ -18,4 +19,5 @@ lib/release.rhtml
 lib/style.css
 lib/unassigned.rhtml
 lib/util.rb
-lib/hook.rb
+lib/view.rb
+lib/views.rb

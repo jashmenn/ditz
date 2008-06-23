@@ -1,5 +1,4 @@
 require 'fileutils'
-require "html"
 
 module Ditz
 
@@ -283,34 +282,7 @@ EOS
 
   operation :show, "Describe a single issue", :issue
   def show project, config, issue
-    status = case issue.status
-    when :closed
-      "#{issue.status_string}: #{issue.disposition_string}"
-    else
-      issue.status_string
-    end
-    puts <<EOS
-#{"Issue #{issue.name}".underline}
-      Title: #{issue.title}
-Description: #{issue.desc.multiline "  "}
-       Type: #{issue.type}
-     Status: #{status}
-    Creator: #{issue.reporter}
-        Age: #{issue.creation_time.ago}
-    Release: #{issue.release}
- References: #{issue.references.listify "  "}
- Identifier: #{issue.id}
-
-Event log:
-#{format_log_events issue.log_events}
-EOS
-  end
-
-  def format_log_events events
-    return "none" if events.empty?
-    events.map do |time, who, what, comment|
-      "- #{time.pretty} :: #{who}\n  #{what}#{comment.multiline "  > "}"
-    end.join("\n")
+    ScreenView.new(project, config).render_issue issue
   end
 
   operation :start, "Start work on an issue", :issue
@@ -448,64 +420,7 @@ EOS
   operation :html, "Generate html status pages", :maybe_dir
   def html project, config, dir
     dir ||= "html"
-    Dir.mkdir dir unless File.exists? dir
-
-    template_dir = File.dirname find_ditz_file("index.rhtml")
-    FileUtils.cp File.join(template_dir, "style.css"), dir
-
-    ## build up links
-    links = {}
-    project.releases.each { |r| links[r] = "release-#{r.name}.html" }
-    project.issues.each { |i| links[i] = "issue-#{i.id}.html" }
-    project.components.each { |c| links[c] = "component-#{c.name}.html" }
-    links["unassigned"] = "unassigned.html" # special case: unassigned
-    links["index"] = "index.html" # special case: index
-
-    project.issues.each do |issue|
-      fn = File.join dir, links[issue]
-      puts "Generating #{fn}..."
-      File.open(fn, "w") do |f|
-        f.puts ErbHtml.new(template_dir, "issue", links, :issue => issue,
-          :release => (issue.release ? project.release_for(issue.release) : nil),
-          :component => project.component_for(issue.component),
-          :project => project)
-      end
-    end
-
-    project.releases.each do |r|
-      fn = File.join dir, links[r]
-      puts "Generating #{fn}..."
-      File.open(fn, "w") do |f|
-        f.puts ErbHtml.new(template_dir, "release", links, :release => r,
-          :issues => project.issues_for_release(r), :project => project)
-      end
-    end
-
-    project.components.each do |c|
-      fn = File.join dir, links[c]
-      puts "Generating #{fn}..."
-      File.open(fn, "w") do |f|
-        f.puts ErbHtml.new(template_dir, "component", links, :component => c,
-          :issues => project.issues_for_component(c), :project => project)
-      end
-    end
-
-    fn = File.join dir, links["unassigned"]
-    puts "Generating #{fn}..."
-    File.open(fn, "w") do |f|
-      f.puts ErbHtml.new(template_dir, "unassigned", links,
-        :issues => project.unassigned_issues, :project => project)
-    end
-
-    past_rels, upcoming_rels = project.releases.partition { |r| r.released? }
-    fn = File.join dir, links["index"]
-    puts "Generating #{fn}..."
-    File.open(fn, "w") do |f|
-      f.puts ErbHtml.new(template_dir, "index", links, :project => project,
-        :past_releases => past_rels, :upcoming_releases => upcoming_rels,
-        :components => project.components)
-    end
-    puts "Local generated URL: file://#{File.expand_path(fn)}"
+    HtmlView.new(project, config, dir).render_all
   end
 
   operation :validate, "Validate project status"
