@@ -11,8 +11,8 @@ class ScreenView < View
 
   def format_log_events events
     return "none" if events.empty?
-    events.map do |time, who, what, comment|
-      "- #{time.pretty} :: #{who}\n  #{what}#{comment.multiline "  > "}"
+    events.reverse.map do |time, who, what, comment|
+      "- #{what} (#{who}, #{time.ago} ago)#{comment.multiline "    "}"
     end.join("\n")
   end
   private :format_log_events
