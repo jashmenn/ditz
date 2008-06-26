@@ -39,6 +39,7 @@ class ErbHtml
   ###
 
   def h o; o.to_s.gsub("&", "&amp;").gsub("<", "&lt;").gsub(">", "&gt;") end
+  def t o; o.strftime "%Y-%m-%d %H:%M %Z" end
   def p o; "<p>" + h(o.to_s).gsub("\n\n", "</p><p>") + "</p>" end
   def obscured_email e; h e.gsub(/@.*?(>|$)/, "@...\\1") end
   def link_to o, name
