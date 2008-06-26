@@ -19,6 +19,7 @@ require "ditz"
 
 PROJECT_FN = "project.yaml"
 CONFIG_FN = ".ditz-config"
+PLUGIN_FN = ".ditz-plugins"
 
 ## helper for recursive search
 def find_dir_containing target, start=Pathname.new(".")
@@ -28,17 +29,21 @@ def find_dir_containing target, start=Pathname.new(".")
   end
 end
 
-## this is my brilliant solution to the 'gem datadir' problem.
+## my brilliant solution to the 'gem datadir' problem
 def find_ditz_file fn
   dir = $:.find { |p| File.exist? File.expand_path(File.join(p, fn)) }
   raise "can't find #{fn} in any load path" unless dir
   File.expand_path File.join(dir, fn)
 end
 
+config_dir = find_dir_containing CONFIG_FN
+plugin_dir = find_dir_containing PLUGIN_FN
+
 $opts = options do
   version "ditz #{Ditz::VERSION}"
   opt :issue_dir, "Issue database dir", :default => "bugs"
-  opt :config_file, "Configuration file", :default => File.join(ENV["HOME"], CONFIG_FN)
+  opt :config_file, "Configuration file", :default => File.join(config_dir || ".", CONFIG_FN)
+  opt :plugins_file, "Plugins file", :default => File.join(plugin_dir || ".", PLUGIN_FN)
   opt :verbose, "Verbose output", :default => false
   opt :no_comment, "Skip asking for a comment", :default => false
   opt :list_hooks, "List all hooks and descriptions, and quit.", :short => 'l', :default => false
@@ -83,28 +88,29 @@ if $opts[:list_hooks]
   exit 0
 end
 
-local_config_dir = find_dir_containing CONFIG_FN
+plugins = begin
+  Ditz::debug "loading plugins from #{$opts[:plugins_file]}"
+  YAML::load_file$opts[:plugins_file]
+rescue SystemCallError => e
+  Ditz::debug "can't load plugins file: #{e.message}"
+  []
+end
+
+plugins.each do |p|
+  fn = find_ditz_file "plugins/#{p}.rb"
+  Ditz::debug "loading plugin #{p.inspect} from #{fn}"
+  load fn
+end
+
 config = begin
-  if local_config_dir
-    fn = local_config_dir + CONFIG_FN
-    Ditz::debug "loading local config from #{fn}"
-    Ditz::Config.from fn
-  else
-    Ditz::debug "loading global config from #{$opts[:config_file]}"
-    Ditz::Config.from $opts[:config_file]
-  end
-rescue SystemCallError, Ditz::ModelObject::ModelError => e
+  Ditz::debug "loading config from #{$opts[:config_file]}"
+  Ditz::Config.from $opts[:config_file]
+rescue SystemCallError => e
   puts <<EOS
 I wasn't able to find a configuration file #{$opts[:config_file]}.
 We'll set it up right now.
 EOS
   Ditz::Config.create_interactively.save! $opts[:config_file]
-end
-
-config.plugins.each do |p|
-  fn = find_ditz_file "plugins/#{p}.rb"
-  Ditz::debug "loading plugin #{p.inspect} from #{fn}"
-  load fn
 end
 
 cmd = ARGV.shift || "todo"
