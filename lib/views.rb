@@ -6,6 +6,7 @@ module Ditz
 class ScreenView < View
   def initialize project, config, device=$stdout
     @device = device
+    @config = config
   end
 
   def format_log_events events
@@ -36,15 +37,11 @@ Description: #{issue.desc.multiline "  "}
  Identifier: #{issue.id}
 EOS
 
-    self.class.view_additions_for(:issue_summary).each { |b| puts b[issue] }
-
+    self.class.view_additions_for(:issue_summary).each { |b| @device.print(b[issue, @config] || next) }
     puts
+    self.class.view_additions_for(:issue_details).each { |b| @device.print(b[issue, @config] || next)  }
 
-    self.class.view_additions_for(:issue_details).each do |b|
-      print b[issue]
-    end
-
-@device.puts <<EOS
+    @device.puts <<EOS
 Event log:
 #{format_log_events issue.log_events}
 EOS
@@ -53,8 +50,9 @@ end
 
 class HtmlView < View
   def initialize project, config, dir
-    @dir = dir
     @project = project
+    @config = config
+    @dir = dir
     @template_dir = File.dirname find_ditz_file("index.rhtml")
   end
 
@@ -74,17 +72,18 @@ class HtmlView < View
       fn = File.join @dir, links[issue]
       #puts "Generating #{fn}..."
 
-      extra_summary = self.class.view_additions_for(:issue_summary).map { |b| b[issue] }
-      extra_details = self.class.view_additions_for(:issue_details).map { |b| b[issue] }
+      extra_summary = self.class.view_additions_for(:issue_summary).map { |b| b[issue, @config] }.compact
+      extra_details = self.class.view_additions_for(:issue_details).map { |b| b[issue, @config] }.compact
 
       erb = ErbHtml.new(@template_dir, links, :issue => issue,
         :release => (issue.release ? @project.release_for(issue.release) : nil),
         :component => @project.component_for(issue.component),
-        :extra_summary => extra_summary,
-        :extra_details => extra_details,
         :project => @project)
 
-      File.open(fn, "w") { |f| f.puts erb.render_template("issue") }
+      extra_summary_html = extra_summary.map { |string, extra_binding| erb.render_string string, extra_binding }.join
+      extra_details_html = extra_details.map { |string, extra_binding| erb.render_string string, extra_binding }.join
+
+      File.open(fn, "w") { |f| f.puts erb.render_template("issue", { :extra_summary_html => extra_summary_html, :extra_details_html => extra_details_html }) }
     end
 
     @project.releases.each do |r|
