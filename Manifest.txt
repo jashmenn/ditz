@@ -15,6 +15,7 @@ lib/lowline.rb
 lib/model-objects.rb
 lib/model.rb
 lib/operator.rb
+lib/plugins/git-features.rb
 lib/release.rhtml
 lib/style.css
 lib/unassigned.rhtml
