@@ -18,6 +18,7 @@ class ModelObject
   def initialize
     @values = {}
     @serialized_values = {}
+    self.class.fields.map { |f, opts| @values[f] = [] if opts[:multi] }
   end
 
   ## yamlability
@@ -27,7 +28,14 @@ class ModelObject
   def self.inherited subclass
     YAML.add_domain_type(yaml_domain, subclass.yaml_other_thing) do |type, val|
       o = subclass.new
-      val.each { |k, v| o.send "__serialized_#{k}=", v }
+      val.each do |k, v|
+        m = "__serialized_#{k}="
+        if o.respond_to? m
+          o.send m, v
+        else
+          $stderr.puts "warning: unknown field #{k.inspect} in YAML for #{type}; ignoring"
+        end
+      end
       o.unchanged!
       o
     end
@@ -137,8 +145,8 @@ class ModelObject
     self
   end
 
-	def to_yaml opts={}
-		YAML::quick_emit(object_id, opts) do |out|
+  def to_yaml opts={}
+    YAML::quick_emit(object_id, opts) do |out|
       out.map(taguri, nil) do |map|
         self.class.fields.each do |f, fops|
           v = if @serialized_values.member?(f)
@@ -151,7 +159,7 @@ class ModelObject
         end
       end
     end
-	end
+  end
 
   def log what, who, comment
     add_log_event([Time.now, who, what, comment || ""])

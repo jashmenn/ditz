@@ -26,4 +26,5 @@ end
 
 require 'model-objects'
 require 'operator'
+require 'views'
 require 'hook'

@@ -5,17 +5,41 @@ module Ditz
 ## pass through any variables needed for template generation, and add a bunch
 ## of HTML formatting utility methods.
 class ErbHtml
-  def initialize template_dir, template_name, links, mapping={}
-    @template_name = template_name
+  def initialize template_dir, links, binding={}
     @template_dir = template_dir
     @links = links
-    @mapping = mapping
-
-    @@erbs ||= {}
-    @@erbs[template_name] ||= ERB.new(IO.readlines(File.join(template_dir, "#{template_name}.rhtml")).join)
+    @binding = binding
   end
 
+  ## return an ErbHtml object that has the current binding plus extra_binding merged in
+  def clone_for_binding extra_binding={}
+    extra_binding.empty? ? self : ErbHtml.new(@template_dir, @links, @binding.merge(extra_binding))
+  end
+
+  def render_template template_name, extra_binding={}
+    if extra_binding.empty?
+      @@erbs ||= {}
+      @@erbs[template_name] ||= ERB.new IO.read(File.join(@template_dir, "#{template_name}.rhtml"))
+      @@erbs[template_name].result binding
+    else
+      clone_for_binding(extra_binding).render_template template_name
+    end
+  end
+
+  def render_string s, extra_binding={}
+    if extra_binding.empty?
+      ERB.new(s).result binding
+    else
+      clone_for_binding(extra_binding).render_string s
+    end
+  end
+
+  ###
+  ### the following methods are meant to be called from the ERB itself
+  ###
+
   def h o; o.to_s.gsub("&", "&amp;").gsub("<", "&lt;").gsub(">", "&gt;") end
+  def t o; o.strftime "%Y-%m-%d %H:%M %Z" end
   def p o; "<p>" + h(o.to_s).gsub("\n\n", "</p><p>") + "</p>" end
   def obscured_email e; h e.gsub(/@.*?(>|$)/, "@...\\1") end
   def link_to o, name
@@ -31,16 +55,11 @@ class ErbHtml
     end
   end
 
-  def render template_name, morevars={}
-    ErbHtml.new(@template_dir, template_name, @links, @mapping.merge(morevars)).to_s
-  end
+  ## render a nested ERB
+  alias :render :render_template
 
   def method_missing meth, *a
-    @mapping.member?(meth) ? @mapping[meth] : super
-  end
-
-  def to_s
-    @@erbs[@template_name].result binding
+    @binding.member?(meth) ? @binding[meth] : super
   end
 end
 

@@ -5,6 +5,7 @@ ReleaseNotes
 bin/ditz
 bin/ditz-convert-from-monolith
 lib/ditz.rb
+lib/hook.rb
 lib/html.rb
 lib/index.rhtml
 lib/issue.rhtml
@@ -14,7 +15,9 @@ lib/lowline.rb
 lib/model-objects.rb
 lib/model.rb
 lib/operator.rb
+lib/plugins/git-features.rb
 lib/release.rhtml
 lib/style.css
 lib/util.rb
-lib/hook.rb
+lib/view.rb
+lib/views.rb
