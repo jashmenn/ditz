@@ -7,6 +7,12 @@ body {
 	width: 90%;
 }
 
+div.wrapper {
+}
+
+div.footer {
+}
+
 a, a:visited {
 	border-bottom: 1px dotted #03c;
 	background: inherit;
@@ -21,6 +27,20 @@ ul {
 
 p {
   width: 40em;
+}
+
+.dimmed {
+  color: #bbb;
+}
+
+div.on-the-left {
+  float: left;
+  width: 39%;
+}
+
+div.on-the-right {
+  float: right;
+  width: 59%;
 }
 
 table {
@@ -85,6 +105,7 @@ h1 {
   padding-left: 3em;
 }
 
-.footer {
+p.footer {
   font-size: small;
 }
+
