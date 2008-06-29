@@ -431,7 +431,10 @@ EOS
   operation :grep, "Show issues matching a string or regular expression", :string
   def grep project, config, match
     re = /#{match}/
-    issues = project.issues.select { |i| i.title =~ re || i.desc =~ re }
+    issues = project.issues.select do |i|
+      i.title =~ re || i.desc =~ re ||
+        i.log_events.map { |time, who, what, comments| comments }.join(" ") =~ re
+    end
     puts(todo_list_for(issues) || "No matching issues.")
   end
 
