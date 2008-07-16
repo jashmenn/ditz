@@ -51,7 +51,7 @@ class ErbHtml
 
   def link_issue_names project, s
     project.issues.inject(s) do |s, i|
-      s.gsub(/\b#{i.name}\b/, link_to(i, i.title))
+      s.gsub(/\b#{i.name}\b/, link_to(i, i.closed? ? "#{i.title} (#{i.disposition})" : i.title))
     end
   end
 
