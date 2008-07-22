@@ -3,7 +3,6 @@ README.txt
 Rakefile
 ReleaseNotes
 bin/ditz
-bin/ditz-convert-from-monolith
 lib/component.rhtml
 lib/ditz.rb
 lib/hook.rb
