@@ -19,72 +19,77 @@ class Operator
     end
     def has_operation? op; @operations.member? op_to_method(op) end
 
-    def parse_releases_arg project, releases_arg
-      ret = []
+    ## parse the specs, and the commandline arguments, and resolve them. does
+    ## typechecking but currently doesn't check for open_issues actually being
+    ## open, unstarted_issues being unstarted, etc. probably will check for
+    ## this in the future.
+    def build_args project, method, args
+      specs = @operations[method][:args_spec]
+      command = "command '#{method_to_op method}'"
 
-      releases, show_unassigned, force_show = case releases_arg
-        when nil; [project.releases, true, false]
-        when "unassigned"; [[], true, true]
-        else
-          release = project.release_for(releases_arg)
-          raise Error, "no release with name #{releases_arg}" unless release
-          [[release], false, true]
-        end
-
-      releases.each do |r|
-        next if r.released? unless force_show
-        groups = project.group_issues(project.issues_for_release(r))
-        #next if groups.empty? unless force_show
-        ret << [r, groups]
+      if specs.empty? && args == ["<options>"]
+        die_with_completions project, method, nil
       end
 
-      return ret unless show_unassigned
-      groups = project.group_issues(project.unassigned_issues)
-      return ret if groups.empty? unless force_show
-      ret << [nil, groups]
-    end
-    private :parse_releases_arg
-
-    def build_args project, method, args
-      command = "command '#{method_to_op method}'"
-      built_args = @operations[method][:args_spec].map do |spec|
+      built_args = specs.map do |spec|
+        optional = spec.to_s =~ /^maybe_/
+        spec = spec.to_s.gsub(/^maybe_/, "").intern # :(
         val = args.shift
-        generate_choices(project, method, spec) if val == '<options>'
+
+        case val
+        when nil
+          next if optional
+          specname = spec.to_s.gsub("_", " ")
+          article = specname =~ /^[aeiou]/ ? "an" : "a"
+          raise Error, "#{command} requires #{article} #{specname}"
+        when "<options>"
+          die_with_completions project, method, spec
+        end
+
         case spec
-        when :issue
-          raise Error, "#{command} requires an issue name" unless val
+        when :issue, :open_issue, :unstarted_issue, :started_issue, :assigned_issue
+          ## issue completion sticks the title on there, so this will strip it off
           valr = val.sub(/\A(\w+-\d+)_.*$/,'\1')
           project.issue_for(valr) or raise Error, "no issue with name #{val}"
         when :release
-          raise Error, "#{command} requires a release name" unless val
-          project.release_for(val) or raise Error, "no release with name #{val}"
-        when :maybe_release
-          project.release_for(val) or raise Error, "no release with name #{val}" if val
-        when :maybe_component
+          if val == "unassigned"
+            :unassigned
+          else
+            project.release_for(val) or raise Error, "no release with name #{val}"
+          end
+        when :component
           project.component_for(val) or raise Error, "no component with name #{val}" if val
-        when :magic_release
-          parse_releases_arg project, val
-        when :string
-          raise Error, "#{command} requires a string" unless val
-          val
         else
           val # no translation for other types
         end
       end
-      generate_choices(project, method, nil) if args.include? '<options>'
+
       raise Error, "too many arguments for #{command}" unless args.empty?
       built_args
     end
 
-    def generate_choices project, method, spec
-      case spec
-      when :issue
-        puts project.issues.map { |i| "#{i.name}_#{i.title.gsub(/\W+/, '-')}" }
-      when :release, :maybe_release
-        puts project.releases.map { |r| r.name }
-      end
+    def die_with_completions project, method, spec
+      puts(case spec
+      when :issue, :open_issue, :unstarted_issue, :started_issue, :assigned_issue
+        m = { :issue => nil,
+              :open_issue => :open?,
+              :unstarted_issue => :unstarted?,
+              :started_issue => :in_progress?,
+              :assigned_issue => :assigned?,
+            }[spec]
+        project.issues.select { |i| m.nil? || i.send(m) }.sort_by { |i| i.creation_time }.reverse.map { |i| "#{i.name}_#{i.title.gsub(/\W+/, '-')}" }
+      when :release
+        project.releases.map { |r| r.name } + ["unassigned"]
+      when :unreleased_release
+        project.releases.select { |r| r.unreleased? }.map { |r| r.name }
+      when :component
+        puts projects.components.map { |c| c.name }
+      else
+        ""
+      end)
       exit 0
     end
+    private :die_with_completions
   end
 
   def do op, project, config, args
@@ -125,8 +130,6 @@ EOS
     raise Error, "no such ditz command '#{command}'" unless name
     args = opts[:args_spec].map do |spec|
       case spec.to_s
-      when "magic_release"
-        "[release]"
       when /^maybe_(.*)$/
         "[#{$1}]"
       else
@@ -183,22 +186,17 @@ EOS
     puts "Added reference to #{issue.name}."
   end
 
-  operation :status, "Show project status", :magic_release
+  operation :status, "Show project status", :maybe_release
   def status project, config, releases
+    releases ||= project.unreleased_releases + [:unassigned]
+
     if releases.empty?
       puts "No releases."
       return
     end
 
-    ## TODO: remove weird and deprecated :maybe_release semantics
-    releases = releases.map { |r, groups| r }
-
     entries = releases.map do |r|
-      title, issues = if r
-        [r.name, project.issues_for_release(r)]
-      else
-        ["unassigned", project.unassigned_issues]
-      end
+      title, issues = (r == :unassigned ? r.to_s : r.name), project.issues_for_release(r)
 
       middle = Issue::TYPES.map do |type|
         type_issues = issues.select { |i| i.type == type }
@@ -256,24 +254,26 @@ EOS
     end.join
   end
 
-  operation :todo, "Generate todo list", :magic_release
+  operation :todo, "Generate todo list", :maybe_release
   def todo project, config, releases
     actually_do_todo project, config, releases, false
   end
 
-  operation :todo_full, "Generate full todo list, including completed items", :magic_release
+  operation :todo_full, "Generate full todo list, including completed items", :maybe_release
   def todo_full project, config, releases
     actually_do_todo project, config, releases, true
   end
 
   def actually_do_todo project, config, releases, full
-    releases.each do |r, groups|
-      if r
-        puts "Version #{r.name} (#{r.status}):"
-      else
+    releases ||= project.unreleased_releases + [:unassigned]
+    releases = [*releases]
+    releases.each do |r|
+      if r == :unassigned
         puts "Unassigned:"
+      else
+        puts "Version #{r.name} (#{r.status}):"
       end
-      issues = groups.map { |_,g| g }.flatten
+      issues = project.issues_for_release r
       issues = issues.select { |i| i.open? } unless full
       puts(todo_list_for(issues.sort_by { |i| i.sort_order }) || "No open issues.")
       puts
@@ -285,7 +285,7 @@ EOS
     ScreenView.new(project, config).render_issue issue
   end
 
-  operation :start, "Start work on an issue", :issue
+  operation :start, "Start work on an issue", :unstarted_issue
   def start project, config, issue
     puts "Starting work on issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments" unless $opts[:no_comment]
@@ -293,7 +293,7 @@ EOS
     puts "Recorded start of work for #{issue.name}."
   end
 
-  operation :stop, "Stop work on an issue", :issue
+  operation :stop, "Stop work on an issue", :started_issue
   def stop project, config, issue
     puts "Stopping work on issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments" unless $opts[:no_comment]
@@ -301,7 +301,7 @@ EOS
     puts "Recorded work stop for #{issue.name}."
   end
 
-  operation :close, "Close an issue", :issue
+  operation :close, "Close an issue", :open_issue
   def close project, config, issue
     puts "Closing issue #{issue.name}: #{issue.title}."
     disp = ask_for_selection Issue::DISPOSITIONS, "disposition", lambda { |x| Issue::DISPOSITION_STRINGS[x] || x.to_s }
@@ -367,7 +367,7 @@ have changed as well.
 EOS
   end
 
-  operation :unassign, "Unassign an issue from any releases", :issue
+  operation :unassign, "Unassign an issue from any releases", :assigned_issue
   def unassign project, config, issue
     puts "Unassigning issue #{issue.name}: #{issue.title}."
     comment = ask_multiline "Comments" unless $opts[:no_comment]
@@ -396,7 +396,7 @@ EOS
     end
   end
 
-  operation :release, "Release a release", :release
+  operation :release, "Release a release", :unreleased_release
   def release project, config, release
     comment = ask_multiline "Comments" unless $opts[:no_comment]
     release.release! project, config.user, comment
