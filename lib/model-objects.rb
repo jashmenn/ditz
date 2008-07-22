@@ -73,8 +73,10 @@ EOS
     releases.find { |i| i.name == release_name }
   end
 
+  def unreleased_releases; releases.select { |r| r.unreleased? } end
+
   def issues_for_release release
-    issues.select { |i| i.release == release.name }
+    release == :unassigned ? unassigned_issues : issues.select { |i| i.release == release.name }
   end
 
   def issues_for_component component
@@ -186,8 +188,11 @@ class Issue < ModelObject
   def closed?; status == :closed end
   def open?; !closed? end
   def in_progress?; status == :in_progress end
+  def unstarted?; !in_progress? end
   def bug?; type == :bugfix end
   def feature?; type == :feature end
+  def unassigned?; release.nil? end
+  def assigned?; !unassigned? end
 
   def start_work who, comment; change_status :in_progress, who, comment end
   def stop_work who, comment
