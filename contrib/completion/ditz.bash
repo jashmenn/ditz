@@ -1,5 +1,5 @@
 # ditz bash completion
-# 
+#
 # author: Christian Garbs
 #
 # based on bzr.simple by Martin Pool
@@ -10,7 +10,12 @@ _ditz()
     if [ $COMP_CWORD -eq 1 ]; then
 	COMPREPLY=( $( compgen -W "$(ditz --commands)" $cur ) )
     elif [ $COMP_CWORD -eq 2 ]; then
-	COMPREPLY=( $( compgen -W "$(ditz todo-full 2>/dev/null | grep '^. ' | cut -c 3- | cut -d : -f 1)" $cur ) )
+	cmd=${COMP_WORDS[1]}
+	COMPREPLY=( $( compgen -W "$(ditz "$cmd" '<options>' 2>/dev/null)" $cur ) )
+    elif [ $COMP_CWORD -eq 3 ]; then
+	cmd=${COMP_WORDS[1]}
+	parm1=${COMP_WORDS[2]}
+	COMPREPLY=( $( compgen -W "$(ditz "$cmd" "$parm1" '<options>' 2>/dev/null)" $cur ) )
     fi 
 }
 
