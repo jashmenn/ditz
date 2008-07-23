@@ -84,6 +84,8 @@ class Operator
         project.releases.select { |r| r.unreleased? }.map { |r| r.name }
       when :component
         project.components.map { |c| c.name }
+      when :command
+        operations.map { |name, _| name }
       else
         ""
       end)
