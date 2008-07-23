@@ -83,7 +83,7 @@ class Operator
       when :unreleased_release
         project.releases.select { |r| r.unreleased? }.map { |r| r.name }
       when :component
-        puts projects.components.map { |c| c.name }
+        project.components.map { |c| c.name }
       else
         ""
       end)
