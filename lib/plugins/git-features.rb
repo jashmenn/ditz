@@ -70,7 +70,7 @@ end
 
 class Operator
   operation :set_branch, "Set the git feature branch of an issue", :issue, :maybe_string
-  def git_set_branch project, config, issue, maybe_string
+  def set_branch project, config, issue, maybe_string
     puts "Issue #{issue.name} currently " + if issue.git_branch
       "assigned to git branch #{issue.git_branch.inspect}."
     else
@@ -90,7 +90,7 @@ class Operator
 
   operation :commit, "Runs git-commit and auto-fills the issue name in the commit message", :issue
   def commit project, config, issue
-    exec "git commit -m \"Ditz-issue: #{issue.id}\" -e"
+    exec "git commit -v -m \"Ditz-issue: #{issue.id}\" -e"
   end
 end
 
