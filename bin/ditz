@@ -106,11 +106,18 @@ config = begin
   Ditz::debug "loading config from #{$opts[:config_file]}"
   Ditz::Config.from $opts[:config_file]
 rescue SystemCallError => e
-  puts <<EOS
+  if ARGV.member? "<options>"
+    ## special case here. if we're asking for tab completion, and the config
+    ## file doesn't exist, don't do the interactive building. just make a
+    ## fake empty one and carry on.
+    Ditz::Config.new
+  else
+    puts <<EOS
 I wasn't able to find a configuration file #{$opts[:config_file]}.
 We'll set it up right now.
 EOS
-  Ditz::Config.create_interactively.save! $opts[:config_file]
+    Ditz::Config.create_interactively.save! $opts[:config_file]
+  end
 end
 
 cmd = ARGV.shift || "todo"
