@@ -11,37 +11,105 @@
 <body>
   <h1> Ditz </h1>
 
+  <p style="border: solid 1px black; background: #ccc; padding: 0.5em;"> Current project status: see the <a href="ditz/">ditz ditz page</a>.
+Current project news: see the <a
+href="http://all-thing.net/search/label/ditz">blog</a> and <a
+href="http://rubyforge.org/pipermail/ditz-talk/">mailing list archives</a>.</p>
+
   <p> Ditz is a simple, light-weight distributed issue tracker designed to work
-  with distributed version control systems like darcs and git. Ditz maintains
-  an issue database directory on disk, with files written in a line-based and
-  human-editable format. This directory is kept under version control,
-  alongside project code. Changes in issue state is handled by version control
-  like code change: included as part of a commit, merged with changes from
-  other developers, conflict-resolved in the standard manner, etc. </p>
+  with distributed version control systems like <a
+  href="http://git.or.cz/">git</a>, <a href="http://darcs.net/">darcs</a>, <a
+  href="http://www.selenic.com/mercurial/">Mercurial</a>, and <a
+  href="http://bazaar-vcs.org/">Bazaar</a>. It can also be used with
+  centralized systems like <a href="http://subversion.tigris.org/">SVN</a>.</p>
+  
+  <p> Ditz maintains an issue database directory on disk, with files written in
+  a line-based and human-editable format. This directory can be kept under
+  version control, alongside project code.
+  </p>
+  
+  <p> There are different ways to use ditz:
+ 
+  <ol>
+  <li> Treat issue change the same as code change: include it as part of
+  commits, and merge it with changes from other developers. (Resolving conflicts
+  in the usual manner.) </li>
+  <li> Keep the issue database in the repository but in a separate branch. Issue changes can be managed by your VCS, but is not tied directly to commits. </li>
+  <li> Keep the issue database separate and not under VCS at all. </li>
+  </ol>
+
+  Your particular usage will depend on what you want to get out of ditz.
+  </p>
 
   <p> Ditz provides a simple, console-based interface for creating and updating
   the issue database file, and some rudimentary HTML generation capabilities
-  for producing world-readable status pages. It offers no central public method
-  of bug submission. </p>
+  for producing world-readable status pages. It currently offers no central
+  public method of bug submission. (For a demo of the HTML output, see the <a href="ditz">ditz ditz page</a>.)</p>
 
-  <h2> Screenshots </h2>
 
-  <ul id="screenshots">
-    <li><a href="ss1.png"><img src="ss1-small.png" alt="ditz screenshot 1" /></a></li>
-    <li><a href="ss2.png"><img src="ss2-small.png" alt="ditz screenshot 2" /></a></li>
-    <li><a href="ss3.png"><img src="ss3-small.png" alt="ditz screenshot 3" /></a></li>
-  </ul>
+  <h2> "Screenshots" </h2>
 
-  <p> For a demo of the HTML output, see the <a href="ditz">ditz
-  ditz page</a>.</p>
+  <div class="screencap"><code><pre>
+$ ditz status
+0.4         0/ 1 bugfix,  3/ 6 features,  1/ 1 task  xxxx__>>
+unassigned  0/ 1 bugfix,  1/ 6 features,  0/ 0 tasks x______
+
+$ ditz
+Version 0.4 (unreleased):
+>  ditz-5: plugin architecture for tighter SCM integration, etc
+> ditz-45: bash shell completion
+_ ditz-42: add a --comment option like git commit -m
+_ ditz-54: HOME environment variable not available on windows
+
+Unassigned:
+_  ditz-1: commands needs full argument parsing
+_ ditz-32: extended help for commands
+_ ditz-37: created and deleted events not in logs
+_ ditz-53: allow commands like 'start', 'stop', 'close', etc to take multiple arguments
+_ ditz-55: add 'reconfigure' command
+_ ditz-58: log and shortlog should take an optional component name
+  </pre></code></div>
+  <div class="screencap"><code><pre>
+$ ditz show ditz-45
+Issue ditz-45
+-------------
+      Title: bash shell completion
+Description: we have zsh (ditz-34). but i use bash!
+       Type: feature
+     Status: in progress
+    Creator: William Morgan (wmorgan-ditz)
+        Age: three months
+    Release: 0.4
+ References: 
+ Identifier: d96a7a95dedc20072df13afa4515ee5d739229ce
+ Git branch: none
+
+Event log:
+- changed status from closed to in_progress (wmorgan-ditz, 70 hours ago)
+  > re-opening because there's going to be more work thanks to ditz-57.
+- closed issue with disposition fixed (wmorgan-ditz, eight days ago)
+  > contributed by christian garbs
+- assigned to release 0.4 from unassigned (wmorgan-ditz, eight days ago)
+- created (wmorgan-ditz, three months ago)
+  </pre></code></div>
+  <div class="screencap"><code><pre>
+$ ditz add
+Title: remove "references"
+Description (ctrl-d, ., or /stop to stop, /edit to edit, /reset to reset):
+> with the advent of decent issue interpolation, this isn't that useful.
+> this probably deserves some more thought before becoming reality.
+> .
+Is this a (b)ugfix, a (f)eature, or a (t)ask? t
+Assign to a release now? (y/n): n
+Issue creator (enter for "William Morgan (wmorgan-ditz)"): 
+Comments (ctrl-d, ., or /stop to stop, /edit to edit, /reset to reset):
+> .
+Added issue ditz-59.
+  </pre></code></div>
 
   <h2>Documentation</h2>
 
-  <p> Please read the <a href="README.txt">README</a>.
-
-  <h2>Status</h2>
-
-  <p> See the <a href="ditz">ditz ditz page</a>.</p>
+  <p> Read the <a href="README.txt">README</a>.
 
   <h2>Getting it</h2>
 
@@ -65,7 +133,15 @@
 
   <h2>Credit</h2>
 
-  <p> Ditz is brought to you by <a href="http://cs.stanford.edu/~ruby/">William Morgan</a>. </p>
-
+  <p> Ditz is brought to you by <a href="http://cs.stanford.edu/~ruby/">William Morgan</a> and by
+  <ul>
+  <li> Nicolas Pouillard &lt;nicolas.pouillard at the gmail dot coms&gt; </li>
+  <li> Ramsey Dow &lt;yesmar at the speakeasy dot nets&gt; </li>
+  <li> Eric Merritt &lt;cyberlync at the gmail dot coms&gt; </li>
+  <li> Christian Garbs &lt;mitch at the cgarbs dot des&gt; </li>
+  <li> oleg dashevskii &lt;be9 at the be9 dot rus&gt; </li>
+  <li> Jeff Balogh &lt;its.jeff.balogh at the gmail dot coms&gt; </li>
+  <li> Harold Hausman &lt;hhausman at the gmail dot coms&gt; </li>
+  </ul>
   </body>
 </html>

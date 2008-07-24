@@ -18,26 +18,12 @@ Hoe.new('ditz', Ditz::VERSION) do |p|
   p.changes = p.paragraphs_of('Changelog', 0..0).join("\n\n")
   p.email = "wmorgan-ditz@masanjin.net"
   p.extra_deps = [['trollop', '>= 1.8.2']]
-end
+end if false
 
 WWW_FILES = FileList["www/*"] + %w(README.txt)
-SCREENSHOTS = FileList["www/ss?.png"]
-SCREENSHOTS_SMALL = []
-SCREENSHOTS.each do |fn|
-  fn =~ /ss(\d+)\.png/
-  sfn = "www/ss#{$1}-small.png"
-  file sfn => [fn] do |t|
-    sh "cat #{fn} | pngtopnm | pnmscale -xysize 320 240 | pnmtopng > #{sfn}"
-  end
-  SCREENSHOTS_SMALL << sfn
-end
 
 task :upload_webpage => WWW_FILES do |t|
   sh "rsync -essh -cavz #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
-end
-
-task :upload_webpage_images => (SCREENSHOTS + SCREENSHOTS_SMALL) do |t|
-  sh "rsync -essh -cavs #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
 end
 
 task :upload_report do |t|

@@ -7,17 +7,28 @@ http://ditz.rubyforge.org
 == DESCRIPTION
 
 Ditz is a simple, light-weight distributed issue tracker designed to work with
-distributed version control systems like darcs and git. Ditz maintains an issue
-database directory on disk, with files written in a line-based and human-
-editable format. This directory is kept under version control alongside
-project code. Changes in issue state is handled by version control like code
-change: included as part of a commit, merged with changes from other
-developers, conflict-resolved in the standard manner, etc.
+distributed version control systems like git, darcs, Mercurial, and Bazaar. It
+can also be used with centralized systems like SVN.
+
+Ditz maintains an issue database directory on disk, with files written in a
+line-based and human-editable format. This directory can be kept under version
+control, alongside project code.
+
+There are different ways to use ditz:
+
+ 1. Treat issue change the same as code change: include it as part of commits,
+    and merge it with changes from other developers. (Resolving conflicts in
+    the usual manner.)
+ 2. Keep the issue database in the repository but in a separate branch. Issue
+    changes can be managed by your VCS, but is not tied directly to commits.
+ 3. Keep the issue database separate and not under VCS at all.
+
+Your particular usage will depend on what you want to get out of ditz.
 
 Ditz provides a simple, console-based interface for creating and updating the
-issue database files, and some rudimentary HTML generation capabilities for
-producing world-readable status pages. It offers no central public method of
-bug submission.
+issue database file, and some rudimentary HTML generation capabilities for
+producing world-readable status pages. It currently offers no central public
+method of bug submission.
 
 == SYNOPSIS
 
@@ -30,7 +41,7 @@ bug submission.
 
 # where am i?
 4. ditz status
-5. ditz todo
+5. ditz todo (or simply "ditz")
 
 # do work
 6. write code
@@ -94,7 +105,7 @@ http://ditz.rubyforge.org/ditz/issue-0704dafe4aef96279364013aba177a0971d425cb.ht
 
 == REQUIREMENTS
 
-* trollop >= 1.7
+* trollop >= 1.8.2
 
 == INSTALLATION
 
