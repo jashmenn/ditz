@@ -12,7 +12,8 @@ class ScreenView < View
   def format_log_events events
     return "none" if events.empty?
     events.reverse.map do |time, who, what, comment|
-      "- #{what} (#{who}, #{time.ago} ago)#{comment.multiline "    "}"
+      "- #{what} (#{who.shortened_email}, #{time.ago} ago)" +
+      (comment =~ /\S/ ? "\n" + comment.gsub(/^/, "  > ") : "")
     end.join("\n")
   end
   private :format_log_events
@@ -24,10 +25,15 @@ class ScreenView < View
     else
       issue.status_string
     end
+    desc = if issue.desc.size < 80 - "Description: ".length
+      issue.desc
+    else
+      "\n" + issue.desc.gsub(/^/, "  ") + "\n"
+    end
     @device.puts <<EOS
 #{"Issue #{issue.name}".underline}
       Title: #{issue.title}
-Description: #{issue.desc.multiline "  "}
+Description: #{desc}
        Type: #{issue.type}
      Status: #{status}
     Creator: #{issue.reporter}

@@ -451,7 +451,7 @@ author: #{author}
  issue: [#{i.name}] #{i.title}
 
   #{what}
-#{comment.multiline "  > ", false}
+#{comment.gsub(/^/, "  > ") unless comment =~ /^\A\s*\z/}
 EOS
     puts unless comment.blank?
     end

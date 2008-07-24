@@ -7,22 +7,15 @@ class Numeric
   end
 end
 
-class NilClass
-  def multiline prefix=nil; "" end
-end
-
 class String
   def dcfirst; self[0..0].downcase + self[1..-1] end
   def blank?; self =~ /\A\s*\z/ end
   def underline; self + "\n" + ("-" * self.length) end
-  def multiline prefix="", cleanstart=true
-    return "" if blank?
-    (cleanstart ? "\n" : "") + gsub(/^/, prefix)
-  end
   def pluralize n, b=true
     s = (n == 1 ? self : (self == 'bugfix' ? 'bugfixes' : self + "s")) # oh yeah
     b ? n.to_pretty_s + " " + s : s
   end
+  def shortened_email; self =~ /<?(\S+?)@.+/ ? $1 : self end
   def multistrip; strip.gsub(/\n\n+/, "\n\n") end
 end
 
