@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: ditz 'set-component' command to change the component of an issue
+desc: ""
+type: :feature
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-06-04 16:44:34.582009 Z
+references: []
+
+id: e4c3a437b257cbafe6ce78e026eb1ca870a7921d
+log_events: 
+- - 2008-06-04 16:44:35.466719 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-06-04 16:44:45.127782 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - right into master

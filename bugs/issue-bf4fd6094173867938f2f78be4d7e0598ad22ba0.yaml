@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: email addresses in html should be obscured
+desc: ""
+type: :feature
+component: ditz
+release: "0.1"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-03-11 02:11:15.534100 Z
+references: []
+
+id: bf4fd6094173867938f2f78be4d7e0598ad22ba0
+log_events: 
+- - 2008-03-11 02:11:15.534206 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-03-12 16:09:55.886420 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to closed
+  - ""

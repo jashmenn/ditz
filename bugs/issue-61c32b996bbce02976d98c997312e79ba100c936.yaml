@@ -1,0 +1,18 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: HOME environment variable not available on windows
+desc: possibly use HOMEDRIVE + HOMEPATH
+type: :bugfix
+component: ditz
+release: "0.4"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-06-19 20:39:13.847009 Z
+references: []
+
+id: 61c32b996bbce02976d98c997312e79ba100c936
+log_events: 
+- - 2008-06-19 20:39:14.583506 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""

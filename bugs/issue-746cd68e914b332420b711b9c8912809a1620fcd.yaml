@@ -1,0 +1,32 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: ditz should work from project subdirectories
+desc: |-
+  ditz should search up the directory tree until it finds a bugs/project.yaml,
+  .ditz-config, etc.
+type: :bugfix
+component: ditz
+release: "0.3"
+reporter: Eric Merritt <cyberlync@gmail.com>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-13 01:47:11.937306 Z
+references: []
+
+id: 746cd68e914b332420b711b9c8912809a1620fcd
+log_events: 
+- - 2008-04-13 01:47:17.097817 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-13 01:47:23.906941 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - ""
+- - 2008-04-13 02:18:57.384521 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - detects project.yaml, still needs .ditz-config
+- - 2008-04-23 16:55:12.537445 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - ""

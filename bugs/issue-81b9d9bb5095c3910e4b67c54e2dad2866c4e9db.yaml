@@ -1,0 +1,26 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: improve 'ditz log' output
+desc: it is hard to read right now
+type: :feature
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-06-03 21:58:14.276243 Z
+references: []
+
+id: 81b9d9bb5095c3910e4b67c54e2dad2866c4e9db
+log_events: 
+- - 2008-06-03 21:58:15.306822 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-06-03 22:13:38.729780 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.3 from unassigned
+  - ""
+- - 2008-06-03 22:13:55.454352 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - right into master

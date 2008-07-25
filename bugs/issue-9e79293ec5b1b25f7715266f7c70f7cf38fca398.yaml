@@ -1,0 +1,30 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "'add-release' should take the release name as an optional argument"
+desc: ""
+type: :feature
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-20 20:47:12.821871 Z
+references: []
+
+id: 9e79293ec5b1b25f7715266f7c70f7cf38fca398
+log_events: 
+- - 2008-04-20 20:47:13.840717 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-20 21:10:00.035295 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - in edge
+- - 2008-04-23 16:43:36.921288 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.3 from unassigned
+  - ""
+- - 2008-04-23 16:51:19.464835 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - in master

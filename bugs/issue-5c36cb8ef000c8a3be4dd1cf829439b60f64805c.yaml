@@ -1,0 +1,27 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: improve html output to show recently-modified issues
+desc: ""
+type: :feature
+component: ditz
+release: "0.4"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-06-12 20:05:12.191042 Z
+references: []
+
+id: 5c36cb8ef000c8a3be4dd1cf829439b60f64805c
+log_events: 
+- - 2008-06-12 20:05:13.182192 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-06-13 02:10:51.950246 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - branch better-html, merged into edge
+- - 2008-06-26 21:47:24.387802 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - merged into master
+git_branch: better-html

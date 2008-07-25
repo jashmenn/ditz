@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: unassigned issues section of html is weird when there are no issues
+desc: you see something like "no unassigned issues; no open"
+type: :bugfix
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-13 01:01:10.574715 Z
+references: []
+
+id: 3f63eecc3153948dab1528c6f0d3d5a10566f4f1
+log_events: 
+- - 2008-04-13 01:01:11.567772 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-06-03 22:21:38.715712 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - ""

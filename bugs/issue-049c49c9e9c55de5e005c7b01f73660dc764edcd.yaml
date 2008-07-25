@@ -1,0 +1,27 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add a --comment option like git commit -m
+desc: ""
+type: :feature
+component: ditz
+release: "0.4"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-04-23 16:49:36.284062 Z
+references: []
+
+id: 049c49c9e9c55de5e005c7b01f73660dc764edcd
+log_events: 
+- - 2008-04-23 16:49:37.674997 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-06-19 18:21:13.206242 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.4 from unassigned
+  - ""
+- - 2008-07-25 00:06:31.990129 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - this depends on {issue 3d18eaab4e6099cd38f1cdee06698564e638e87d}
+git_branch: 

@@ -1,0 +1,23 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add 'reconfigure' command
+desc: will prompt you and rebuild config object
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-06-26 20:47:35.121342 Z
+references: []
+
+id: 8e2914642bea4e6e0ed31311354769d49987d489
+log_events: 
+- - 2008-06-26 20:47:36.201466 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-07-22 00:55:13.087290 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - unassigned from release 0.4
+  - unscheduling from 0.4
+git_branch: 

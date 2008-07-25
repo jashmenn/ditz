@@ -1,0 +1,25 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: created and deleted events not in logs
+desc: |-
+  created events are easy enough---start logging them explicitly, or have
+  special-purpose code in 'ditz log' to insert them based on event creation
+  times.
+  
+  deleted events are harder, since right now they simply delete the file.
+  options: don't log deletions, don't delete files, or put them in some
+  other special object that isn't removed.
+type: :bugfix
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-04-15 16:58:42.288500 Z
+references: []
+
+id: b489cb55b0a541b3e464bea03e7ee0652c7364aa
+log_events: 
+- - 2008-04-15 16:58:43.353296 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""

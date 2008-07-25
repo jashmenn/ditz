@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add 'shortlog' command
+desc: ""
+type: :feature
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-06-03 22:13:14.156168 Z
+references: []
+
+id: 6d6e421b921a574b94ac5bb6c2df4bc37bfa53f3
+log_events: 
+- - 2008-06-03 22:13:14.837611 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-06-03 22:13:24.781131 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - right into master

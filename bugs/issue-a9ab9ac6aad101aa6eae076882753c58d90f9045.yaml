@@ -1,0 +1,27 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: allow commands like 'start', 'stop', 'close', etc to take multiple arguments
+desc: ""
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-06-19 18:12:54.730221 Z
+references: []
+
+id: a9ab9ac6aad101aa6eae076882753c58d90f9045
+log_events: 
+- - 2008-06-19 18:12:55.569719 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-07-22 00:55:01.640269 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - unassigned from release 0.4
+  - unscheduling from 0.4
+- - 2008-07-23 21:58:33.142200 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - need to be careful about how this interacts with completion (e.g. {issue d96a7a95dedc20072df13afa4515ee5d739229ce})
+git_branch: 

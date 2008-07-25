@@ -1,0 +1,30 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add 'tasks' as a new type of issue
+desc: ""
+type: :feature
+component: ditz
+release: "0.3"
+reporter: nicolas.pouillard <nicolas.pouillard@gmail.com>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-13 01:20:07.445787 Z
+references: []
+
+id: 38e86d73ebf2485c1f96de364dde7f1085f8b72c
+log_events: 
+- - 2008-04-13 01:20:08.182931 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-13 22:36:37.332942 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - in edge
+- - 2008-04-23 16:43:16.630333 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.3 from unassigned
+  - ""
+- - 2008-05-01 00:42:34.339046 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - merged into master

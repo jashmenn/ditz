@@ -1,0 +1,19 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: log and shortlog should take an optional component name
+desc: ""
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-23 21:45:09.616334 Z
+references: []
+
+id: fd324ae36ed69fd321b4c2d42fccd54d353b082b
+log_events: 
+- - 2008-07-23 21:45:11.008226 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 

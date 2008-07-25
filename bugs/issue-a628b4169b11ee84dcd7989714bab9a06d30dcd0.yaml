@@ -1,0 +1,32 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add more completion helper options
+desc: |-
+  In order for commandline completion (e.g. {issue d96a7a95dedc20072df13afa4515ee5d739229ce}, {issue bff58e50044e0827427fe5e4d1f0d3914b4ddc2b}) to work really
+  well, we need options in ditz to list things like issues, open issues, assigned
+  issues, releases, etc.
+  
+  Right now we have a --commands option which they use but that's it.
+type: :feature
+component: ditz
+release: "0.4"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-07-21 16:24:25.946400 Z
+references: []
+
+id: a628b4169b11ee84dcd7989714bab9a06d30dcd0
+log_events: 
+- - 2008-07-21 16:24:27.162998 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-07-21 16:24:46.501040 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - ""
+- - 2008-07-22 00:49:15.419971 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - ""
+git_branch: 

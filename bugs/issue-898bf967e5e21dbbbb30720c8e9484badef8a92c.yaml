@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: issues have url references
+desc: ""
+type: :feature
+component: ditz
+release: "0.1"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-03-08 22:05:29.570596 Z
+references: []
+
+id: 898bf967e5e21dbbbb30720c8e9484badef8a92c
+log_events: 
+- - 2008-03-08 22:05:29.570634 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-03-08 22:25:01.413714 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to closed
+  - ""

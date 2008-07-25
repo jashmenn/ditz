@@ -1,0 +1,30 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: allow 'ditz assign' to take an optional release name
+desc: ""
+type: :feature
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-20 21:47:21.359752 Z
+references: []
+
+id: e3e73dbbeae8725d8f2c12a88734ae7e35479536
+log_events: 
+- - 2008-04-20 21:47:22.086545 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-20 21:47:27.252702 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - in edge
+- - 2008-04-23 16:44:14.320884 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.3 from unassigned
+  - ""
+- - 2008-04-23 16:49:06.514988 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - in master

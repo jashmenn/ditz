@@ -1,0 +1,23 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: remove ditz-convert-from-monolith
+desc: Part of the 0.1->0.2 upgrade path, no longer needed.
+type: :task
+component: ditz
+release: "0.4"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-06-04 20:27:00.916145 Z
+references: []
+
+id: b01d4a0de9ecb7c602a6a2bd0c5bc4ea157ae79d
+log_events: 
+- - 2008-06-04 20:27:01.677847 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-07-16 22:28:26.538811 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - removed!
+git_branch: 

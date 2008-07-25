@@ -1,0 +1,26 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: readline support for all text entry
+desc: ""
+type: :feature
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-23 16:42:14.283601 Z
+references: []
+
+id: 5aa0b21911fd8ec1d26c0a2f02acaf071add60da
+log_events: 
+- - 2008-04-23 16:42:15.665919 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-23 16:42:44.364815 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - branch readline2 of git://gitorious.org/ditz/yesmar-clone, merged into edge
+- - 2008-04-23 16:47:16.721490 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - in master

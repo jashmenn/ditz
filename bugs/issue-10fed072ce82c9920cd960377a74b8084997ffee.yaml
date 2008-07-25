@@ -1,0 +1,44 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: allow local config to specify bugs directory location
+desc: |
+  Allow .git-config in the local directory to override the "bugs" directory,
+  i.e., allow people to rename "bugs" to something else without having to
+  specify -i for every invocation.
+  
+  Here's a git-specific use-case for this: you want to keep issues in a separate
+  branch so as not to clutter your precious development history. It's annoying to
+  switch back and forth between branches all the time, so you make another repo
+  close of just that branch (or whatever the git lingo is) and put it in a
+  directory somewhere.
+  
+  If you could then tell ditz that the bugs directory is over there, you could
+  run ditz directly from your coding directory, keep your development history
+  pure, and not worry about switching branches all the time.
+
+type: :feature
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-10 16:31:56.660634 Z
+references: []
+
+id: 10fed072ce82c9920cd960377a74b8084997ffee
+log_events: 
+- - 2008-04-10 16:31:57.570021 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-13 01:10:50.656420 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.3 from unassigned
+  - ""
+- - 2008-04-13 01:15:06.554234 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed description
+  - clarified a bit
+- - 2008-06-03 21:54:19.619924 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - direct to master

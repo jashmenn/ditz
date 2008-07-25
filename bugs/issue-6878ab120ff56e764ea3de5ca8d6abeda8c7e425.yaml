@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: render :partial equivalent for sharing erb blocks
+desc: ""
+type: :feature
+component: ditz
+release: "0.1"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-03-12 17:43:49.994436 Z
+references: []
+
+id: 6878ab120ff56e764ea3de5ca8d6abeda8c7e425
+log_events: 
+- - 2008-03-12 17:43:49.994622 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-03-12 18:58:09.195965 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to closed
+  - ""

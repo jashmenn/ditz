@@ -1,0 +1,55 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: plugin architecture for tighter SCM integration, etc
+desc: |-
+  you should be able to extend ditz for things like tighter SCM integration.
+  
+  basic extension points: adding fields and model objects, changing the
+  html and screen output accordingly, adding operations.
+  
+  use cases: integrate with git. integrate with a mailing list like sup-talk.
+  
+  currently {issue be0b8ee4588407615e2ba3acd0edeca08ed24df5} gives the ability to add field and model objects, and
+  adding operations can be done by reopening Ditz::Operator. that's a starting
+  point, at least.
+type: :feature
+component: ditz
+release: "0.4"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :in_progress
+disposition: 
+creation_time: 2008-03-07 05:05:04.339450 Z
+references: []
+
+id: 0704dafe4aef96279364013aba177a0971d425cb
+log_events: 
+- - 2008-03-07 05:05:04.339483 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-03-31 22:51:57.239776 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed title, changed description
+  - ""
+- - 2008-04-07 04:27:28.490589 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed title
+  - ""
+- - 2008-06-26 20:25:36.407432 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - ""
+- - 2008-06-26 21:47:52.356460 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.4 from unassigned
+  - ""
+- - 2008-06-26 21:48:47.650587 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - merged into master because these are sizeable changes and i think they're pretty stable.
+- - 2008-06-26 21:49:09.039657 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - |-
+    still listing as in progress in the meantime though
+    probably could use a little more refining
+git_branch: plugins

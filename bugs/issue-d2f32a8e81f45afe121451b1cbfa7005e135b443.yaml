@@ -1,0 +1,21 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: remove "references"
+desc: |-
+  with the advent of decent issue interpolation, this isn't that useful.
+  this probably deserves some more thought before becoming reality.
+type: :task
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-24 23:40:44.756789 Z
+references: []
+
+id: d2f32a8e81f45afe121451b1cbfa7005e135b443
+log_events: 
+- - 2008-07-24 23:40:49.692836 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 

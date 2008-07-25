@@ -1,0 +1,31 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: bash shell completion
+desc: we have zsh ({issue bff58e50044e0827427fe5e4d1f0d3914b4ddc2b}). but i use bash!
+type: :feature
+component: ditz
+release: "0.4"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :in_progress
+disposition: :fixed
+creation_time: 2008-05-01 00:50:21.515494 Z
+references: []
+
+id: d96a7a95dedc20072df13afa4515ee5d739229ce
+log_events: 
+- - 2008-05-01 00:50:22.339306 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-07-16 22:27:07.996317 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.4 from unassigned
+  - ""
+- - 2008-07-16 22:27:21.668705 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - contributed by christian garbs
+- - 2008-07-22 00:54:32.090188 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from closed to in_progress
+  - re-opening because there's going to be more work thanks to {issue a628b4169b11ee84dcd7989714bab9a06d30dcd0}.
+git_branch: 

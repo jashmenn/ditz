@@ -1,0 +1,23 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "'grep' should also grep against comments, log messages, etc"
+desc: ""
+type: :feature
+component: ditz
+release: "0.4"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-06-29 23:35:03.842077 Z
+references: []
+
+id: 8c11d13262b326120805ac702346e1ea2fbe8cdd
+log_events: 
+- - 2008-06-29 23:35:04.711189 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-06-29 23:40:14.000374 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - fixed in master
+git_branch: 

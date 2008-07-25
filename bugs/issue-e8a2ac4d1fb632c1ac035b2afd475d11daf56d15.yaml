@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: UNIX-specific environment variable assumptions
+desc: ""
+type: :bugfix
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-29 00:19:56.398775 Z
+references: []
+
+id: e8a2ac4d1fb632c1ac035b2afd475d11daf56d15
+log_events: 
+- - 2008-04-29 00:19:57.350577 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-29 00:20:04.094724 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - "merged directly into master"

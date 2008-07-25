@@ -1,0 +1,30 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: with tasks feature merged, 'ditz status' output is messy
+desc: |-
+  I get stuff like this:
+  
+  0.3         1/ 2 ( 50%) bugfixes,  4/ 9 ( 44%) features xxxxx__>>>>
+  unassigned  0/ 1 (  0%) bugfix,  1/ 5 ( 20%) features x_____
+type: :bugfix
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-23 19:21:50.409336 Z
+references: []
+
+id: 3dbc67d1b658be3dff4856a508f0429abfda9219
+log_events: 
+- - 2008-04-23 19:21:51.153134 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-05-01 00:41:19.787069 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - patches sent to nicolas for his tasks branch
+- - 2008-05-01 00:43:06.754971 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - merged into master as part of nicolas's tasks branch

@@ -1,0 +1,34 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: zsh tab completion for ditz subcommands
+desc: ""
+type: :feature
+component: ditz
+release: "0.3"
+reporter: nicolas.pouillard <nicolas.pouillard@gmail.com>
+status: :closed
+disposition: :fixed
+creation_time: 2008-04-13 01:19:03.510481 Z
+references: []
+
+id: bff58e50044e0827427fe5e4d1f0d3914b4ddc2b
+log_events: 
+- - 2008-04-13 01:19:04.222063 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-13 22:36:31.578282 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - in edge. zsh only.
+- - 2008-04-23 16:44:16.923583 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.3 from unassigned
+  - ""
+- - 2008-05-01 00:49:05.667158 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - merged into master
+- - 2008-05-01 00:49:28.283083 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed title
+  - clarified that this is zsh-specific

@@ -1,0 +1,26 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: make 'ditz' by itself show the todo list
+desc: ""
+type: :feature
+component: ditz
+release: "0.3"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-06-03 16:37:37.075498 Z
+references: []
+
+id: 5bbe6233c76922697fd94a0b83c9aca2b51edef9
+log_events: 
+- - 2008-06-03 16:37:37.635664 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-06-03 16:39:45.793236 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - branch 'default-todo', merged into edge
+- - 2008-06-03 21:15:16.261670 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - merged into master

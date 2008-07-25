@@ -1,0 +1,26 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+:title: issue name interpolation should occur on all issue fields, not just desc
+:desc: log messages, comments, etc
+:type: :feature
+:component: ditz
+:release: "0.3"
+:reporter: William Morgan <wmorgan-ditz@masanjin.net>
+:status: :closed
+:disposition: :fixed
+:creation_time: 2008-05-31 20:11:21.000820 Z
+:references: []
+
+:id: c241b5c0e4c25779ad0a7f8f018ecb311680367a
+:log_events: 
+- - 2008-05-31 20:11:22.242173 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-06-01 00:27:29.078292 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - branch lazy-field-interpolation, merged into edge
+- - 2008-06-03 21:20:34.092328 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - merged into master

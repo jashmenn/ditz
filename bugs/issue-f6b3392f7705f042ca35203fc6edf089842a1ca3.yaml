@@ -1,0 +1,36 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: simple conflict resolution tool
+desc: |-
+  simultaneous issue ads generate conflicts in most SCMs because the order
+  is undefined (it doesn't matter, but the SCM doesn't know that). a ditz
+  command could resolve the conflict in these cases.
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :wontfix
+creation_time: 2008-04-06 01:27:01.450553 Z
+references: 
+- http://rubyforge.org/pipermail/ditz-talk/2008-April/000006.html
+- http://rubyforge.org/pipermail/ditz-talk/2008-April/000004.html
+id: f6b3392f7705f042ca35203fc6edf089842a1ca3
+log_events: 
+- - 2008-04-06 01:27:02.697911 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-04-06 01:27:11.246860 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - added reference 1
+  - ""
+- - 2008-04-07 04:28:29.098894 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition wontfix
+  - |-
+    instead, going to do one file per issue, which should automagically
+    take care of all the issues this was going to address.
+- - 2008-04-07 04:29:33.608402 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - added reference 2
+  - ""
