@@ -3,7 +3,7 @@ title: add a --comment option like git commit -m
 desc: ""
 type: :feature
 component: ditz
-release: "0.4"
+release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -24,4 +24,8 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - commented
   - this depends on {issue 3d18eaab4e6099cd38f1cdee06698564e638e87d}
+- - 2008-07-25 00:28:07.800534 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.5 from 0.4
+  - following {issue 3d18eaab4e6099cd38f1cdee06698564e638e87d}
 git_branch: 

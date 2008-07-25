@@ -5,7 +5,7 @@ desc: |-
   should have a longer description of what the thing actually does.
 type: :feature
 component: ditz
-release: 
+release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -18,3 +18,8 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-07-25 00:28:34.168420 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.5 from unassigned
+  - this will integrate very nicely with {issue 3d18eaab4e6099cd38f1cdee06698564e638e87d}
+git_branch: 

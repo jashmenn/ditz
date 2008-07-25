@@ -3,7 +3,7 @@ title: commands needs full argument parsing
 desc: todo -v, show -v, for example
 type: :feature
 component: ditz
-release: 
+release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -26,3 +26,8 @@ log_events:
   - |-
     not critical for 0.1, and i want to get that out, and this will probably
     require another trollop release, so... this is deprioritized for now.
+- - 2008-07-25 00:27:50.829250 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.5 from unassigned
+  - ""
+git_branch: 
