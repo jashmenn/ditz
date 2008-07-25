@@ -83,31 +83,23 @@
   </ul>
 <% end %>
 
-<h2>Recently modified issues</h2>
+<h2>Recent activity</h2>
 
 <table>
 <% project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
       flatten_one_level.
       sort_by { |e| e.first.first }.
-      uniq_by { |stuff, i| i }.
-      sort_by { |e| e.first.first }.
       reverse[0 ... 10].
-      each do |(date, author, what, comment), i| %>
+      each do |(date, who, what, comment), i| %>
   <tr>
     <td><%= date.pretty_date %></td>
-    <td class="issuestatus_<%= i.status %>">
-      <% if i.closed? %>
-        <%= i.disposition_string %>
-      <% else %>
-        <%= i.status_string %>
-      <% end %>
-    </td>
     <td class="issuename">
-      <%= link_to i, i.title %>
-      <%= i.bug? ? '(bug)' : '' %>
-    </td>
-    <td><%= what %></td>
+      <%= link_issue_names project, h(i.name) %>
+    <%= what %> by <%= who.shortened_email %></td>
   </tr>
+  <% if comment && comment =~ /\S/ %>
+    <tr><td></td><td><i><%= link_issue_names project, h(comment) %></i></td></tr>
+  <% end %>
 <% end %>
 </table>
 
