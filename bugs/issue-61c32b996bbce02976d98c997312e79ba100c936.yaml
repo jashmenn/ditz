@@ -5,8 +5,8 @@ type: :bugfix
 component: ditz
 release: "0.4"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-06-19 20:39:13.847009 Z
 references: []
 
@@ -16,3 +16,11 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-07-26 21:37:05.396048 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - |-
+    this only place that this was still being used was in the hook code.
+    that's been replaced with a home_dir function which also looks for the
+    windows variables.
+git_branch: 

@@ -1,0 +1,27 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: load hooks from both home directory and project directory
+desc: |-
+  you might want project-specific hooks that override general ones placed
+  in your home directory.
+type: :feature
+component: ditz
+release: "0.4"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-07-26 21:26:37.144528 Z
+references: []
+
+id: 2b3476c30641223830c7ec4f30229913638e86a9
+log_events: 
+- - 2008-07-26 21:26:38.238618 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-07-26 21:37:36.113889 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - |-
+    project directory files will be loaded second, so they can override if
+    necessary
+git_branch: 

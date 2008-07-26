@@ -50,8 +50,15 @@ EOS
 
     def hooks_for name
       if @blocks[name].nil? || @blocks[name].empty?
-        fns = File.join(ENV['HOME'], '.ditz', 'hooks', '*.rb') 
-        Dir[fns].each { |fn| load fn }
+        dirs = [home_dir, find_dir_containing(".ditz")].compact.map do |d|
+          File.join d, ".ditz", "hooks"
+        end
+        Ditz::debug "looking for hooks in #{dirs.join(" and ")}"
+        files = dirs.map { |d| Dir[File.join(d, "*.rb")] }.flatten
+        files.each do |fn|
+          Ditz::debug "loading hook file #{fn}"
+          load fn
+        end
       end
 
       @blocks[name] || []
