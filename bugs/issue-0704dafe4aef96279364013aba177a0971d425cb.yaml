@@ -15,8 +15,8 @@ type: :feature
 component: ditz
 release: "0.4"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-03-07 05:05:04.339450 Z
 references: []
 
@@ -52,4 +52,12 @@ log_events:
   - |-
     still listing as in progress in the meantime though
     probably could use a little more refining
+- - 2008-07-26 22:28:28.715942 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - ""
+- - 2008-07-26 22:29:18.097423 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - seems stable enough to close this issue
 git_branch: plugins

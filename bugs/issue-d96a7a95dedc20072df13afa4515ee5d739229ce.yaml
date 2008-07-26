@@ -5,7 +5,7 @@ type: :feature
 component: ditz
 release: "0.4"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :in_progress
+status: :closed
 disposition: :fixed
 creation_time: 2008-05-01 00:50:21.515494 Z
 references: []
@@ -28,4 +28,8 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - changed status from closed to in_progress
   - re-opening because there's going to be more work thanks to {issue a628b4169b11ee84dcd7989714bab9a06d30dcd0}.
+- - 2008-07-26 22:29:34.905191 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
+  - seems pretty much done
 git_branch: 
