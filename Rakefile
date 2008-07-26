@@ -18,7 +18,7 @@ Hoe.new('ditz', Ditz::VERSION) do |p|
   p.changes = p.paragraphs_of('Changelog', 0..0).join("\n\n")
   p.email = "wmorgan-ditz@masanjin.net"
   p.extra_deps = [['trollop', '>= 1.8.2']]
-end if false
+end
 
 WWW_FILES = FileList["www/*"] + %w(README.txt)
 
