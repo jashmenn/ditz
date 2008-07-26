@@ -21,3 +21,4 @@ lib/unassigned.rhtml
 lib/util.rb
 lib/view.rb
 lib/views.rb
+man/ditz.1

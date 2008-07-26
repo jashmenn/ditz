@@ -1,0 +1,38 @@
+.TH "ditz" "1" "0.3" "" ""
+.SH "NAME"
+ditz \- simple, light\-weight distributed issue tracker
+.SH "SYNOPSIS"
+\fBditz\fR [ \fIoptions\fR ] \fIcommand\fR [ \fIarguments\fR ]
+
+To list all available commands, use \fBditz help\fR.  To get help for a specific command, use \fBditz help
+command\fR.
+.SH "DESCRIPTION"
+Ditz is a simple, light\-weight distributed issue tracker designed to work with
+distributed version control systems like darcs and git. Ditz maintains an issue
+database directory on disk, with files written in a line\-based and human\-
+editable format. This directory is kept under version control alongside
+project code. Changes in issue state is handled by version control like code
+change: included as part of a commit, merged with changes from other
+developers, conflict\-resolved in the standard manner, etc.
+
+Ditz provides a simple, console\-based interface for creating and updating the
+issue database files, and some rudimentary HTML generation capabilities for
+producing world\-readable status pages. It offers no central public method of
+bug submission.
+.SH "AUTHOR"
+ditz was written by William Morgan <\fIwmorgan\-ditz@masanjin.net\fR>.
+
+This manpage was written for the Debian package of ditz by Christian Garbs
+<\fIdebian@cgarbs.de\fR>.
+.SH "LICENSE"
+Copyright (c) 2008 William Morgan.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.

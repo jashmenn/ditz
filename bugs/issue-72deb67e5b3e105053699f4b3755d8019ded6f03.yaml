@@ -5,8 +5,8 @@ type: :feature
 component: ditz
 release: "0.4"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-07-26 21:06:32.154006 Z
 references: []
 
@@ -15,5 +15,9 @@ log_events:
 - - 2008-07-26 21:06:35.621395 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
+  - ""
+- - 2008-07-26 21:40:53.820807 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed issue with disposition fixed
   - ""
 git_branch: 
