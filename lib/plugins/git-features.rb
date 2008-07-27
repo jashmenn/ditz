@@ -5,10 +5,16 @@ class Issue
   field :git_branch, :ask => false
 
   def git_commits
-    ## kinda wonky parsing but like whatevurrr
-    @git_commits ||=
-      `git log --pretty=format:"%aD\t%ae\t%h\t%s" master..#{git_branch}`.
-      split(/\n/).map { |l| l.split("\t") }.
+    return @git_commits if @git_commits
+
+    filters = ["--grep=\"Ditz-issue: #{id}\""]
+    filters << "master..#{git_branch}" if git_branch
+
+    output = filters.map do |f|
+      `git log --pretty=format:\"%aD\t%an <%ae>\t%h\t%s\" #{f}`
+    end.join
+
+    @git_commits = output.split(/\n/).map { |l| l.split("\t") }.
       map { |date, email, hash, msg| [Time.parse(date).utc, email, hash, msg] }
   end
 end
@@ -24,7 +30,6 @@ class ScreenView
   end
 
   add_to_view :issue_details do |issue, config|
-    next unless issue.git_branch
     commits = issue.git_commits[0...5]
     next if commits.empty?
     "Recent commits:\n" + commits.map do |date, email, hash, msg|
@@ -45,7 +50,6 @@ EOS
   end
 
   add_to_view :issue_details do |issue, config|
-    next unless issue.git_branch
     commits = issue.git_commits
     next if commits.empty?
 
