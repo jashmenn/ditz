@@ -7,6 +7,7 @@ mv tmp.txt Changelog
 vi Changelog    # and cleanup
 vi ReleaseNotes # and add whatever's necessary
 vi lib/ditz.rb  # and bump version number
+vi man/ditz.1   # and bump version number
 rake release VERSION=<releasename>
 git commit -a -v
 git tag -a release-<releasename> -m "release <releasename>"
