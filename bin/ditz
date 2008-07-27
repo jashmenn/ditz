@@ -21,8 +21,8 @@ PROJECT_FN = "project.yaml"
 CONFIG_FN = ".ditz-config"
 PLUGIN_FN = ".ditz-plugins"
 
-config_dir = find_dir_containing CONFIG_FN
-plugin_dir = find_dir_containing PLUGIN_FN
+config_dir = Ditz::find_dir_containing CONFIG_FN
+plugin_dir = Ditz::find_dir_containing PLUGIN_FN
 
 $opts = options do
   version "ditz #{Ditz::VERSION}"
@@ -82,7 +82,7 @@ rescue SystemCallError => e
 end
 
 plugins.each do |p|
-  fn = find_ditz_file "plugins/#{p}.rb"
+  fn = Ditz::find_ditz_file "plugins/#{p}.rb"
   Ditz::debug "loading plugin #{p.inspect} from #{fn}"
   load fn
 end
@@ -122,7 +122,7 @@ when "help"
   exit
 end
 
-project_root = find_dir_containing(issue_dir + PROJECT_FN)
+project_root = Ditz::find_dir_containing(issue_dir + PROJECT_FN)
 die "No #{issue_dir} directory---use 'ditz init' to initialize" unless project_root
 project_root += issue_dir
 

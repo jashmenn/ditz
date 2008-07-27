@@ -14,7 +14,6 @@ end
 def self.has_readline= val
   @has_readline = val
 end
-end
 
 begin
   Ditz::has_readline = false
@@ -23,13 +22,6 @@ begin
 rescue LoadError
   # do nothing
 end
-
-require 'model-objects'
-require 'operator'
-require 'views'
-require 'hook'
-
-#### GLOBAL HELPER FUNCTIONS
 
 def home_dir
   @home ||=
@@ -53,4 +45,12 @@ def find_ditz_file fn
   raise "can't find #{fn} in any load path" unless dir
   File.expand_path File.join(dir, fn)
 end
+
+module_function :home_dir, :find_dir_containing, :find_ditz_file
+end
+
+require 'model-objects'
+require 'operator'
+require 'views'
+require 'hook'
 

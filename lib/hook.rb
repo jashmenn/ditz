@@ -50,7 +50,7 @@ EOS
 
     def hooks_for name
       if @blocks[name].nil? || @blocks[name].empty?
-        dirs = [home_dir, find_dir_containing(".ditz")].compact.map do |d|
+        dirs = [Ditz::home_dir, Ditz::find_dir_containing(".ditz")].compact.map do |d|
           File.join d, ".ditz", "hooks"
         end
         Ditz::debug "looking for hooks in #{dirs.join(" and ")}"

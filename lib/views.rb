@@ -59,7 +59,7 @@ class HtmlView < View
     @project = project
     @config = config
     @dir = dir
-    @template_dir = File.dirname find_ditz_file("index.rhtml")
+    @template_dir = File.dirname Ditz::find_ditz_file("index.rhtml")
   end
 
   def render_all
