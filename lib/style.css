@@ -16,8 +16,8 @@ div.footer {
 a, a:visited {
 	border-bottom: 1px dotted #03c;
 	background: inherit;
-	color: #03c;
 	text-decoration: none;
+  color: #03c;
 }
 
 ul {
@@ -88,6 +88,22 @@ h1 {
 .issuestatus_unstarted {
   background-color: #faa;
   text-align: center;
+}
+
+.issuestatus_closed a {
+  color: #202020;
+}
+
+.issuestatus_in_progress a {
+  color: #202020;
+}
+
+.issuestatus_paused a {
+  color: #202020;
+}
+
+.issuestatus_unstarted a {
+  color: #202020;
 }
 
 .logwhat {

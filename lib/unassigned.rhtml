@@ -15,7 +15,7 @@
       <%= i.status_string %><% if i.closed? %>: <%= i.disposition_string %><% end %>
     </td>
     <td class="issuename">
-      <%= link_to i, i.title %>
+      <%= fancy_issue_link_for i %>
       <%= i.bug? ? '(bug)' : '' %>
     </td>
   </tr>

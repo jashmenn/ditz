@@ -9,7 +9,7 @@
       <% end %>
     </td>
     <td class="issuename">
-      <%= link_to i, i.title %>
+      <%= fancy_issue_link_for i %>
       <%= i.bug? ? '(bug)' : '' %>
     </td>
     <% if show_release %>

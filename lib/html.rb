@@ -48,10 +48,13 @@ class ErbHtml
     raise ArgumentError, "no link for #{o.inspect}" unless dest
     "<a href=\"#{dest}\">#{name}</a>"
   end
+  def fancy_issue_link_for i
+    "<span class=\"issuestatus_#{i.status}\">" + link_to(i, "[#{i.title}]") + "</span>"
+  end
 
   def link_issue_names project, s
     project.issues.inject(s) do |s, i|
-      s.gsub(/\b#{i.name}\b/, link_to(i, i.closed? ? "[#{i.title} (#{i.disposition})]" : "[#{i.title}]"))
+      s.gsub(/\b#{i.name}\b/, fancy_issue_link_for(i))
     end
   end
 
