@@ -1,0 +1,19 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: rss feed for recent activity
+desc: who knows, might be cool
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-26 23:29:41.913206 Z
+references: []
+
+id: f2afaf28ea57273e132226139b7f98e9579b236d
+log_events: 
+- - 2008-07-26 23:29:42.951744 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 

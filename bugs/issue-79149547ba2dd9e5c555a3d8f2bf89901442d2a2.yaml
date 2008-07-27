@@ -1,0 +1,23 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: gitorious integration
+desc: |-
+  couple ways to do this. easiest first step is just to integrate the 
+  static report output. more complicated steps include having a form for
+  users to add issues. ditz triage support will probably have to be extended
+  in that case.
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-26 23:33:00.007823 Z
+references: []
+
+id: 79149547ba2dd9e5c555a3d8f2bf89901442d2a2
+log_events: 
+- - 2008-07-26 23:33:01.239133 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
