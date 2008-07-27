@@ -14,13 +14,12 @@ lib/lowline.rb
 lib/model-objects.rb
 lib/model.rb
 lib/operator.rb
-lib/plugins/git-features.rb
 lib/release.rhtml
 lib/style.css
 lib/unassigned.rhtml
 lib/util.rb
 lib/view.rb
 lib/views.rb
-lib/plugins/git-features.rb
+lib/plugins/git.rb
 contrib/completion/ditz.bash
 contrib/completion/_ditz.zsh
