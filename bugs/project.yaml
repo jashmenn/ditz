@@ -72,13 +72,17 @@ releases:
     - ""
 - !ditz.rubyforge.org,2008-03-06/release 
   name: "0.4"
-  status: :unreleased
-  release_time: 
+  status: :released
+  release_time: 2008-07-27 21:48:29.414560 Z
   log_events: 
   - - 2008-06-04 20:18:27.379790 Z
     - William Morgan <wmorgan@masanjin.net>
     - created
     - next major release
+  - - 2008-07-27 21:48:29.414583 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - released
+    - ""
 - !ditz.rubyforge.org,2008-03-06/release 
   name: "0.5"
   status: :unreleased
