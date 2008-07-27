@@ -1,0 +1,19 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: HTML recent activity section should include release events as well as issue events
+desc: ""
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-27 22:05:47.352609 Z
+references: []
+
+id: a18102bf25fd4ec48cfc91ebe4fd0c7dbbb1d7ef
+log_events: 
+- - 2008-07-27 22:05:47.988600 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
