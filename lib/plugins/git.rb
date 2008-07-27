@@ -33,7 +33,7 @@ class ScreenView
     commits = issue.git_commits[0...5]
     next if commits.empty?
     "Recent commits:\n" + commits.map do |date, email, hash, msg|
-      "- #{msg} [#{hash}] (#{email}; #{date.ago} ago)\n"
+      "- #{msg} [#{hash}] (#{email.shortened_email}, #{date.ago} ago)\n"
      end.join + "\n"
   end
 end
