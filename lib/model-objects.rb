@@ -202,7 +202,7 @@ class Issue < ModelObject
 
   def close disp, who, comment
     raise Error, "unknown disposition #{disp}" unless DISPOSITIONS.member? disp
-    log "closed issue with disposition #{disp}", who, comment
+    log "closed with disposition #{disp}", who, comment
     self.status = :closed
     self.disposition = disp
   end
