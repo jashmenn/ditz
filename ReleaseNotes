@@ -1,3 +1,32 @@
+0.4
+---
+- Command-line completion scripts are now included for bash and zsh. To
+  activate, source the relevant file in $GEMDIR/ditz-0.4/contrib/completion/.
+
+- Hooks can now be set on a per-project basis. Make a .ditz/hooks directory in
+  your project root and place them there. These will be loaded after any
+  hooks in ~/.ditz/hooks, so they can override or simply supplement.
+
+- The plugin system is done. There's currently one plugin, for git integration.
+  To enable it, add the line "- git" in a .ditz-plugins file in your project
+  root. The git plugin currently has the following features:
+
+  - Issues can have a git branch assigned to them with "ditz set-branch".
+  - Git commit messages can have a Ditz-issue: header auto-filled if you
+    commit with "ditz commit <issue>" (i.e. instead of git commit).
+  - In both HTML and screen output, commits from the assigned branch, and
+    commits with the corresponding Ditz-issue: header in the log message,
+    will be listed for each issue.
+
+  Note that the plugin system is independent of the hook system. In order
+  to auto-add ditz files to the git index upon modification, you must set
+  up hooks. Example hooks for git are at:
+    http://hackety.org/2008/06/26/gitHooksForDitz.html
+
+  Also note that as soon as a feature branch is merged back into master, ditz
+  loses the ability to distinguish its commits. So the Ditz-issue: approach
+  is probably better if you want a long-term record.
+
 0.3
 ---
 Ditz now works from project subdirectories, and you can have a .ditz-config in
