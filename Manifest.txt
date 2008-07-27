@@ -21,5 +21,6 @@ lib/unassigned.rhtml
 lib/util.rb
 lib/view.rb
 lib/views.rb
+lib/plugins/git-features.rb
 contrib/completion/ditz.bash
 contrib/completion/_ditz.zsh
