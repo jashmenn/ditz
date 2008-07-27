@@ -51,7 +51,7 @@ class Operator
           ## issue completion sticks the title on there, so this will strip it off
           valr = val.sub(/\A(\w+-\d+)_.*$/,'\1')
           project.issue_for(valr) or raise Error, "no issue with name #{val}"
-        when :release
+        when :release, :unreleased_release
           if val == "unassigned"
             :unassigned
           else
