@@ -1,0 +1,19 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add a 'priority' plugin, for assigning priorities to issues
+desc: some people actually find this useful
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-28 18:49:36.266703 Z
+references: []
+
+id: 3e079c58deadcc32fd1f78782c924324d29e4cdf
+log_events: 
+- - 2008-07-28 18:49:36.842066 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 

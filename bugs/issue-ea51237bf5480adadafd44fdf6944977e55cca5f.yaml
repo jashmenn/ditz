@@ -1,0 +1,19 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add an 'assigned' plugin, for assigning issues to people
+desc: some people actually find this useful
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-28 18:49:10.857778 Z
+references: []
+
+id: ea51237bf5480adadafd44fdf6944977e55cca5f
+log_events: 
+- - 2008-07-28 18:49:11.786319 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 

@@ -1,0 +1,19 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add a 'severity' plugin, for assigning severities to issues
+desc: some people actually find this useful
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-28 18:56:18.179499 Z
+references: []
+
+id: 863c6f75bc0ecaf052d81281851dc6aeec3f5dde
+log_events: 
+- - 2008-07-28 18:56:18.699318 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
