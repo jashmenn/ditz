@@ -50,7 +50,13 @@ class Operator
         when :issue, :open_issue, :unstarted_issue, :started_issue, :assigned_issue
           ## issue completion sticks the title on there, so this will strip it off
           valr = val.sub(/\A(\w+-\d+)_.*$/,'\1')
-          project.issue_for(valr) or raise Error, "no issue with name #{val}"
+          issues = project.issues_for valr
+          case issues.size
+          when 0; raise Error, "no issue with name #{val.inspect}"
+          when 1; issues.first
+          else
+            raise Error, "multiple issues matching name #{val.inspect}"
+          end
         when :release, :unreleased_release
           if val == "unassigned"
             :unassigned

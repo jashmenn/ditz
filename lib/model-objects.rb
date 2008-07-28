@@ -61,8 +61,9 @@ EOS
     ([name] + comp_names).uniq.map { |n| Component.create_interactively :with => { :name => n } }
   end
 
-  def issue_for issue_name
-    issues.find { |i| i.name == issue_name }
+  def issues_for ident
+    by_name = issues.find { |i| i.name == ident }
+    by_name ? [by_name] : issues.select { |i| i.id =~ /^#{ident}/ }
   end
 
   def component_for component_name
