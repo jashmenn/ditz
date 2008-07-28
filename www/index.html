@@ -28,23 +28,22 @@ href="http://rubyforge.org/pipermail/ditz-talk/">mailing list archives</a>.</p>
   version control, alongside project code.
   </p>
   
-  <p> There are different ways to use ditz:
+  <p> There are several different ways to use ditz:
  
   <ol>
   <li> Treat issue change the same as code change: include it as part of
-  commits, and merge it with changes from other developers. (Resolving conflicts
-  in the usual manner.) </li>
-  <li> Keep the issue database in the repository but in a separate branch. Issue changes can be managed by your VCS, but is not tied directly to commits. </li>
+  commits, and merge it with changes from other developers, resolving conflicts
+  in the usual manner. </li>
+  <li> Keep the issue database in the repository but in a separate branch. Issue changes can be managed by your VCS, but is not tied directly to code commits. </li>
   <li> Keep the issue database separate and not under VCS at all. </li>
   </ol>
-
-  Your particular usage will depend on what you want to get out of ditz.
   </p>
 
   <p> Ditz provides a simple, console-based interface for creating and updating
-  the issue database file, and some rudimentary HTML generation capabilities
-  for producing world-readable status pages. It currently offers no central
-  public method of bug submission. (For a demo of the HTML output, see the <a href="ditz">ditz ditz page</a>.)</p>
+  the issue database file, and some rudimentary static HTML generation
+  capabilities for producing world-readable status pages (for a demo,
+  see the <a href="ditz/">ditz ditz page</a>). It currently offers
+  no central public method of bug submission. </p>
 
 
   <h2> "Screenshots" </h2>
@@ -131,7 +130,11 @@ Added issue ditz-59.
   using "ditz add" to add an issue, and sending a merge request or submitting
   the resulting patch. </p>
 
-  <h2>Credit</h2>
+  <h2>Related Work</h2>
+
+  <p>There's a <a href="http://github.com/kentaro/emacs-ditz/tree/master">Ditz emacs mode</a> by Kentaro Kuribayashi.</p>
+ 
+ <h2>Credit</h2>
 
   <p> Ditz is brought to you by <a href="http://cs.stanford.edu/~ruby/">William Morgan</a> and by
   <ul>
