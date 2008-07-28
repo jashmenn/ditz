@@ -1,0 +1,21 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: accept issue ids as well as issue names on the commandline
+desc: |-
+  For convenience, accept issue hash ids (ideally prefixes as well) as well
+  as the issue names for commandline use.
+type: :feature
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-28 03:20:25.077064 Z
+references: []
+
+id: 31e555aefd93edaa1f7074c4f67106b1e24b6af4
+log_events: 
+- - 2008-07-28 03:20:25.777975 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
