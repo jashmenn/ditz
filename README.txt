@@ -1,6 +1,6 @@
 == ditz
 
-by William Morgan <wmorgan-ditz@masanjin.net>
+by William Morgan <wmorgan-ditz at the masanjin dot nets>
 
 http://ditz.rubyforge.org
 
@@ -14,21 +14,20 @@ Ditz maintains an issue database directory on disk, with files written in a
 line-based and human-editable format. This directory can be kept under version
 control, alongside project code.
 
-There are different ways to use ditz:
+There are several different ways to use ditz:
 
- 1. Treat issue change the same as code change: include it as part of commits,
-    and merge it with changes from other developers. (Resolving conflicts in
-    the usual manner.)
- 2. Keep the issue database in the repository but in a separate branch. Issue
-    changes can be managed by your VCS, but is not tied directly to commits.
- 3. Keep the issue database separate and not under VCS at all.
-
-Your particular usage will depend on what you want to get out of ditz.
+1. Treat issue change the same as code change: include it as part of commits,
+   and merge it with changes from other developers, resolving conflicts in the
+   usual manner.
+2. Keep the issue database in the repository but in a separate branch. Issue
+   changes can be managed by your VCS, but is not tied directly to code
+   commits.
+3. Keep the issue database separate and not under VCS at all.
 
 Ditz provides a simple, console-based interface for creating and updating the
-issue database file, and some rudimentary HTML generation capabilities for
-producing world-readable status pages. It currently offers no central public
-method of bug submission.
+issue database file, and some rudimentary static HTML generation capabilities
+for producing world-readable status pages (for a demo, see the ditz ditz page).
+It currently offers no central public method of bug submission. 
 
 == SYNOPSIS
 
