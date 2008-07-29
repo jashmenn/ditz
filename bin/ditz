@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/ruby1.8
 
 ## requires are split in two for efficiency reasons: ditz should be really
 ## fast when using it for completion.
@@ -11,7 +11,7 @@ if ARGV.include? '--commands'
   exit 0
 end
 
-require 'rubygems'
+require 'rubygems' rescue LoadError nil
 require 'fileutils'
 require 'pathname'
 require 'trollop'; include Trollop
