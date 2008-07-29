@@ -1,0 +1,21 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: move comments to the bottom of the buffer when editing a multline
+desc: |-
+  probably better for comments to appear at the bottom, since editors
+  typically start you at the top of the file.
+type: :feature
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-29 16:13:03.957609 Z
+references: []
+
+id: 5fb1747c0e0ee24f637b2c5c6ab96ec663550773
+log_events: 
+- - 2008-07-29 16:13:05.509677 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 

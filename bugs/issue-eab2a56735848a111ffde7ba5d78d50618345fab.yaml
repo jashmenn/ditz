@@ -1,0 +1,19 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: ruby 1.9 breaks ditz
+desc: possibly just a matter of digest/sha1 -> sha1
+type: :bugfix
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-29 16:07:56.432011 Z
+references: []
+
+id: eab2a56735848a111ffde7ba5d78d50618345fab
+log_events: 
+- - 2008-07-29 16:07:57.500235 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
