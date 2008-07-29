@@ -1,0 +1,21 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: make tarball installable without requiring rubygems
+desc: |-
+  make the ditz tarball as installable as possible for non-ruby people. no
+  requirement for rubygems, for example.
+type: :feature
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-28 23:51:50.596350 Z
+references: []
+
+id: 2f1ba961b0945536b511a2b1cc00c5313359f099
+log_events: 
+- - 2008-07-28 23:51:51.269284 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
