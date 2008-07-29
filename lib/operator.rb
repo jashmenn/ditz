@@ -9,15 +9,21 @@ class Operator
     def method_to_op meth; meth.to_s.gsub("_", "-") end
     def op_to_method op; op.gsub("-", "_").intern end
 
-    def operation method, desc, *args_spec
+    def operation method, desc, *args_spec, &options_blk
       @operations ||= {}
-      @operations[method] = { :desc => desc, :args_spec => args_spec }
+      @operations[method] = { :desc => desc, :args_spec => args_spec,
+                              :options_blk => options_blk }
     end
 
     def operations
       @operations.map { |k, v| [method_to_op(k), v] }.sort_by { |k, v| k }
     end
     def has_operation? op; @operations.member? op_to_method(op) end
+
+    def build_opts method, args
+      options_blk = @operations[method][:options_blk]
+      options_blk and options args, &options_blk or nil
+    end
 
     ## parse the specs, and the commandline arguments, and resolve them. does
     ## typechecking but currently doesn't check for open_issues actually being
@@ -102,7 +108,13 @@ class Operator
 
   def do op, project, config, args
     meth = self.class.op_to_method(op)
+
+    # Parse options, removing them from args
+    opts = self.class.build_opts meth, args
     built_args = self.class.build_args project, meth, args
+
+    built_args.unshift opts if opts
+
     send meth, project, config, *built_args
   end
 

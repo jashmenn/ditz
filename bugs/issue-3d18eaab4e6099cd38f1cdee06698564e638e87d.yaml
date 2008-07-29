@@ -5,7 +5,7 @@ type: :feature
 component: ditz
 release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2008-03-07 05:02:17.710050 Z
 references: []
@@ -30,4 +30,8 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - assigned to release 0.5 from unassigned
   - ""
-git_branch: 
+- - 2008-07-29 12:24:16.432816 Z
+  - Ohad Lutzky <ohad@lutzky.net>
+  - changed status from unstarted to in_progress
+  - ""
+git_branch: cmd-arg-parse

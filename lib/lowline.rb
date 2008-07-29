@@ -85,7 +85,7 @@ module Lowline
         ans = Readline::readline(prompt)
       else
         print prompt
-        ans = gets.strip
+        ans = STDIN.gets.strip
       end
       if opts[:default]
         ans = opts[:default] if ans.blank?
@@ -115,7 +115,7 @@ module Lowline
       if Ditz::has_readline?
         line = Readline::readline('> ')
       else
-        (line = gets) && line.strip!
+        (line = STDIN.gets) && line.strip!
       end
       if line
         if Ditz::has_readline?
@@ -142,7 +142,7 @@ module Lowline
   def ask_yon q
     while true
       print "#{q} (y/n): "
-      a = gets.strip
+      a = STDIN.gets.strip
       break a if a =~ /^[yn]$/i
     end =~ /y/i
   end
