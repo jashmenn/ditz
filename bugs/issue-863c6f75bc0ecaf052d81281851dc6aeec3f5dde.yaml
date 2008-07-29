@@ -3,7 +3,7 @@ title: add a 'severity' plugin, for assigning severities to issues
 desc: some people actually find this useful
 type: :feature
 component: ditz
-release: 
+release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -15,5 +15,9 @@ log_events:
 - - 2008-07-28 18:56:18.699318 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
+  - ""
+- - 2008-07-29 00:41:02.070584 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.5 from unassigned
   - ""
 git_branch: 
