@@ -1,0 +1,20 @@
+There are a couple ways to install ditz.
+
+1. If you have Rubygems, it's available as a gem. Command your computer
+   to "gem install ditz".
+
+2. Get the tarball. Since you're reading this file, you probably have it
+   already.
+
+  2a. If you're happy with ditz being installed in /usr/bin and the library
+      files spread wantonly across your filesystem,
+        ruby setup.rb
+  
+  2b. If you want to control where the files are installed,
+        ruby setup.rb config --prefix=/bin /dir--siterubyver=/lib/dir
+        ruby setup.rb install
+
+  2c. Just run it directly from the tarball.
+        ruby -Ilib bin/ditz
+
+Good luck, and report any problems to ditz-talk@rubyforge.org
