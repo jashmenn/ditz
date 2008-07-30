@@ -1,0 +1,21 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: support both per-project and per-user .ditz-config files
+desc: |-
+  Similar to {issue 1276a5bfe1f38d0c39c1fdf48d72e19a51481369}, certain bits of configuration are per-project and certain
+  bits are per-user. Both should be supported.
+type: :feature
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-30 21:37:53.517148 Z
+references: []
+
+id: 91c18e278b34cedac00820e395dd7dcae6c2d4d7
+log_events: 
+- - 2008-07-30 21:37:54.685136 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 

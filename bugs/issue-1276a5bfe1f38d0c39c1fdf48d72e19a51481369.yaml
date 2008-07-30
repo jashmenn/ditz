@@ -1,0 +1,27 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: support both per-project and per-user .ditz-plugin files
+desc: |-
+  Ditz should search for a ~/.ditz-plugins, and load it, and then should
+  search for a project .ditz-plugins, and then load that. This allows for both
+  per-project and per-user plugins to be loaded, with the latter overriding the
+  former.
+  
+  Examples of per-user plugins include plugins that change or enhance the user
+  interface, and examples of per-project plugins include plugins that integrate
+  with a particular SCM.
+type: :feature
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-07-30 21:36:14.782380 Z
+references: []
+
+id: 1276a5bfe1f38d0c39c1fdf48d72e19a51481369
+log_events: 
+- - 2008-07-30 21:36:15.487021 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
