@@ -127,8 +127,15 @@ class Operator
     Project.create_interactively
   end
 
-  operation :help, "List all registered commands", :maybe_command
-  def help project, config, command
+  operation :help, "List all registered commands", :maybe_command do
+    opt :cow, "Activate super cow powers", :default => false
+  end
+  def help project, config, opts, command
+    if opts[:cow]
+      puts "MOO!"
+      puts "All is well with the world now. A bit more methane though."
+      exit 0
+    end
     return help_single(command) if command
     puts <<EOS
 Ditz commands:
