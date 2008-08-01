@@ -22,29 +22,16 @@ href="http://rubyforge.org/pipermail/ditz-talk/">mailing list archives</a>.</p>
   href="http://www.selenic.com/mercurial/">Mercurial</a>, and <a
   href="http://bazaar-vcs.org/">Bazaar</a>. It can also be used with
   centralized systems like <a href="http://subversion.tigris.org/">SVN</a>.</p>
-  
-  <p> Ditz maintains an issue database directory on disk, with files written in
-  a line-based and human-editable format. This directory can be kept under
-  version control, alongside project code.
-  </p>
-  
-  <p> There are several different ways to use ditz:
- 
-  <ol>
-  <li> Treat issue change the same as code change: include it as part of
-  commits, and merge it with changes from other developers, resolving conflicts
-  in the usual manner. </li>
-  <li> Keep the issue database in the repository but in a separate branch. Issue changes can be managed by your VCS, but is not tied directly to code commits. </li>
-  <li> Keep the issue database separate and not under VCS at all. </li>
-  </ol>
+
+  <p> Ditz features a simple, clean commandline interface, a robust plugin
+  architecture which allows for adding commands and extending model fields and
+  ditz output, a human-editable file format, and an active developer community.
   </p>
 
-  <p> Ditz provides a simple, console-based interface for creating and updating
-  the issue database file, and some rudimentary static HTML generation
-  capabilities for producing world-readable status pages (for a demo,
-  see the <a href="ditz/">ditz ditz page</a>). It currently offers
-  no central public method of bug submission. </p>
-
+  <p> Ditz also provides static HTML generation capabilities for producing
+  world-readable status pages (for a demo, see the <a href="ditz/">ditz ditz
+  page</a>). It currently offers no central public method of bug submission.
+  </p>
 
   <h2> "Screenshots" </h2>
 
@@ -108,7 +95,20 @@ Added issue ditz-59.
 
   <h2>Documentation</h2>
 
-  <p> Read the <a href="README.txt">README</a>.
+  <p> Ditz maintains an issue database directory on disk, with files written in
+  a line-based and human-editable format. This directory can be kept under
+  version control, alongside project code. </p>
+  
+  <p> There are several different ways to use ditz:
+ 
+  <ol> <li> Treat issue change the same as code change: include it as part of
+  commits, and merge it with changes from other developers, resolving conflicts
+  in the usual manner. </li> <li> Keep the issue database in the repository but
+  in a separate branch. Issue changes can be managed by your VCS, but is not
+  tied directly to code commits. </li> <li> Keep the issue database separate
+  and not under VCS at all. </li> </ol> </p>
+
+  <p> For more, read the <a href="README.txt">README</a>.
 
   <h2>Getting it</h2>
 
