@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add a --silent option to ditz edit, so avoid generating a log message
+desc: |-
+  sometimes you want to edit an issue and not have a log message generated.
+  a typical example is just after you've created an issue and before you've
+  committed it.
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-03 22:22:20.889577 Z
+references: []
+
+id: 5b857b705ece956274dfcc91c0e5af3997ec8b8f
+log_events: 
+- - 2008-08-03 22:22:21.760774 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 

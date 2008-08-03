@@ -1,0 +1,21 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add example hooks to webpage
+desc: |-
+  it would be nice to have per-SCM example hooks somewhere on the
+  webpage.
+type: :task
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-03 22:14:05.588866 Z
+references: []
+
+id: d744c4cc8b584621b14262dc8883ba2613dc6cb7
+log_events: 
+- - 2008-08-03 22:14:06.457832 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
