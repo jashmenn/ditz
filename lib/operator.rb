@@ -526,7 +526,7 @@ EOS
     begin
       edits = YAML.load_file fn
       if issue.change edits, config.user, comment
-        puts "Changed recorded."
+        puts "Change recorded."
       else
         puts "No changes."
       end
