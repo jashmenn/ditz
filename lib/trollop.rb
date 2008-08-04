@@ -216,18 +216,26 @@ class Parser
     until i >= args.length
       if @stop_words.member? args[i]
         remains += args[i .. -1]
-        break
+        return remains
       end
       case args[i]
       when /^--$/ # arg terminator
         remains += args[(i + 1) .. -1]
-        break
+        return remains
       when /^--(\S+?)=(\S+)$/ # long argument with equals
         yield "--#{$1}", $2
         i += 1
       when /^--(\S+)$/ # long argument
         if args[i + 1] && args[i + 1] !~ PARAM_RE && !@stop_words.member?(args[i + 1])
-          remains << args[i + 1] unless yield args[i], args[i + 1]
+          take_an_argument = yield args[i], args[i + 1]
+          unless take_an_argument
+            if @stop_on_unknown
+              remains += args[i + 1 .. -1]
+              return remains
+            else
+              remains << args[i + 1]
+            end
+          end
           i += 2
         else # long argument no parameter
           yield args[i], nil
@@ -237,7 +245,15 @@ class Parser
         shortargs = $1.split(//)
         shortargs.each_with_index do |a, j|
           if j == (shortargs.length - 1) && args[i + 1] && args[i + 1] !~ PARAM_RE && !@stop_words.member?(args[i + 1])
-            remains << args[i + 1] unless yield "-#{a}", args[i + 1]
+            take_an_argument = yield "-#{a}", args[i + 1]
+            unless take_an_argument
+              if @stop_on_unknown
+                remains += args[i + 1 .. -1]
+                return remains
+              else
+                remains << args[i + 1]
+              end
+            end
             i += 1 # once more below
           else
             yield "-#{a}", nil
@@ -247,7 +263,7 @@ class Parser
       else
         if @stop_on_unknown
           remains += args[i .. -1]
-          break
+          return remains
         else
           remains << args[i]
           i += 1
@@ -439,9 +455,9 @@ class Parser
 end
 
 ## The top-level entry method into Trollop. Creates a Parser object,
-## passes the block to it, then parses ARGV with it, handling any
+## passes the block to it, then parses +args+ with it, handling any
 ## errors or requests for help or version information appropriately
-## (and then exiting). Modifies ARGV in place. Returns a hash of
+## (and then exiting). Modifies +args+ in place. Returns a hash of
 ## option values.
 ##
 ## The block passed in should contain one or more calls to #opt
@@ -449,12 +465,12 @@ end
 ## probably a call to version (Parser#version).
 ##
 ## See the synopsis in README.txt for examples.
-def options *a, &b
+def options args = ARGV, *a, &b
   @p = Parser.new(*a, &b)
   begin
-    vals = @p.parse ARGV
-    ARGV.clear
-    @p.leftovers.each { |l| ARGV << l }
+    vals = @p.parse args
+    args.clear
+    @p.leftovers.each { |l| args << l }
     vals
   rescue CommandlineError => e
     $stderr.puts "Error: #{e.message}."
