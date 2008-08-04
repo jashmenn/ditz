@@ -20,8 +20,8 @@ class Issue
 end
 
 class Config
-  field :git_commit_url_prefix, :prompt => "URL prefix (if any) to link git commits to"
-  field :git_branch_url_prefix, :prompt => "URL prefix (if any) to link git branches to"
+  field :git_commit_url_prefix, :prompt => "URL prefix to link git commits to", :default => ""
+  field :git_branch_url_prefix, :prompt => "URL prefix to link git branches to", :default => ""
 end
 
 class ScreenView
@@ -44,7 +44,7 @@ class HtmlView
     [<<EOS, { :issue => issue, :url_prefix => config.git_branch_url_prefix }]
 <tr>
   <td class='attrname'>Git branch:</td>
-  <td class='attrval'><%= url_prefix ? link_to([url_prefix, issue.git_branch].join, issue.git_branch) : h(issue.git_branch) %></td>
+  <td class='attrval'><%= url_prefix && !url_prefix.blank? ? link_to([url_prefix, issue.git_branch].join, issue.git_branch) : h(issue.git_branch) %></td>
 </tr>
 EOS
   end
@@ -64,7 +64,7 @@ EOS
 <% end %>
   <td class="logtime"><%=t time %></td>
   <td class="logwho"><%=obscured_email who %></td>
-  <td class="logwhat"><%=h msg %> [<%= url_prefix ? link_to([url_prefix, hash].join, hash) : hash %>]</td>
+  <td class="logwhat"><%=h msg %> [<%= url_prefix && !url_prefix.blank? ? link_to([url_prefix, hash].join, hash) : hash %>]</td>
   </tr>
 <% end %>
 </table>
