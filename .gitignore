@@ -1,5 +1,2 @@
-# i use vi
 *.swp
-bugs.yaml~
 .ditz-config
-.ditz-plugins
