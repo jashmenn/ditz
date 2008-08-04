@@ -295,11 +295,7 @@ EOS
     releases ||= project.unreleased_releases + [:unassigned]
     releases = [*releases]
     releases.each do |r|
-      if r == :unassigned
-        puts "Unassigned:"
-      else
-        puts "Version #{r.name} (#{r.status}):"
-      end
+      puts r == :unassigned ? "Unassigned:" : "#{r.name} (#{r.status}):"
       issues = project.issues_for_release r
       issues = issues.select { |i| i.open? } unless full
       puts(todo_list_for(issues.sort_by { |i| i.sort_order }) || "No open issues.")
