@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "git commits duplicated if both Ditz-issue: and git_branch used"
+desc: |-
+  I'm pretty sure someone reported this, but I can't seem to find the email.
+  Git commits need to be deduped within the git plugin.
+type: :bugfix
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-04 15:39:16.279289 Z
+references: []
+
+id: 535683bc22fb84c8893384a9b1b922ed00d84f26
+log_events: 
+- - 2008-08-04 15:39:17.094954 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
