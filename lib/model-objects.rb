@@ -36,17 +36,35 @@ end
 class Project < ModelObject
   class Error < StandardError; end
 
-  attr_accessor :pathname
-
   field :name, :default_generator => lambda { File.basename(Dir.pwd) }
   field :version, :default => Ditz::VERSION, :ask => false
   field :components, :multi => true, :generator => :get_components
   field :releases, :multi => true, :ask => false
 
   ## issues are not model fields proper, so we build up their interface here.
-  attr_accessor :issues
-  def add_issue issue; added_issues << issue; issues << issue end
-  def drop_issue issue; deleted_issues << issue if issues.delete issue end
+  attr_reader :issues
+  def issues= issues
+    @issues = issues
+    @issues.each { |i| i.project = self }
+    assign_issue_names!
+    issues
+  end
+
+  def add_issue issue
+    added_issues << issue
+    issues << issue
+    issue.project = self
+    assign_issue_names!
+    issue
+  end
+
+  def drop_issue issue
+    if issues.delete issue
+      deleted_issues << issue
+      assign_issue_names!
+    end
+  end
+
   def added_issues; @added_issues ||= [] end
   def deleted_issues; @deleted_issues ||= [] end
 
@@ -106,6 +124,12 @@ EOS
     elsif(dup = releases.map { |r| r.name }.first_duplicate)
       raise Error, "more than one release named #{dup.inspect}"
     end
+  end
+
+  def self.from *a
+    p = super(*a)
+    p.validate!
+    p
   end
 end
 

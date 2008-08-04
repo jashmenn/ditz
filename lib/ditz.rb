@@ -3,7 +3,7 @@ module Ditz
 VERSION = "0.4"
 
 def debug s
-  puts "# #{s}" if $opts[:verbose]
+  puts "# #{s}" if $verbose
 end
 module_function :debug
 
@@ -53,4 +53,5 @@ require 'model-objects'
 require 'operator'
 require 'views'
 require 'hook'
+require 'file-storage'
 

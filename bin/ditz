@@ -17,7 +17,6 @@ require 'pathname'
 require 'trollop'; include Trollop
 require "ditz"
 
-PROJECT_FN = "project.yaml"
 CONFIG_FN = ".ditz-config"
 PLUGIN_FN = ".ditz-plugins"
 
@@ -34,6 +33,7 @@ $opts = options do
   opt :list_hooks, "List all hooks and descriptions, and quit.", :short => 'l', :default => false
   stop_on_unknown
 end
+$verbose = true if $opts[:verbose]
 
 Ditz::HookManager.register :startup, <<EOS
 Executes at startup
@@ -106,14 +106,17 @@ EOS
   end
 end
 
-cmd = ARGV.shift || "todo"
 issue_dir = Pathname.new(config.issue_dir || $opts[:issue_dir])
+cmd = ARGV.shift || "todo"
+unless op.has_operation? cmd
+  die "no such command: #{cmd}"
+end
 
 case cmd # some special commands not handled by Ditz::Operator
 when "init"
   die "#{issue_dir} directory already exists" if issue_dir.exist?
   issue_dir.mkdir
-  fn = issue_dir + PROJECT_FN
+  fn = issue_dir + Ditz::DEFAULT_PROJECT_FN
   project = op.init
   project.save! fn
   puts "Ok, #{issue_dir} directory created successfully."
@@ -123,30 +126,15 @@ when "help"
   exit
 end
 
-project_root = Ditz::find_dir_containing(issue_dir + PROJECT_FN)
+project_root = Ditz::find_dir_containing(issue_dir + Ditz::FileStorage::PROJECT_FN)
 die "No #{issue_dir} directory---use 'ditz init' to initialize" unless project_root
 project_root += issue_dir
 
+storage = Ditz::FileStorage.new project_root
 project = begin
-  fn = project_root + PROJECT_FN
-  Ditz::debug "loading project from #{fn}"
-  project = Ditz::Project.from fn
-
-  fn = project_root + "issue-*.yaml"
-  Ditz::debug "loading issues from #{fn}"
-  project.issues = Dir[fn].map { |fn| Ditz::Issue.from fn }
-  Ditz::debug "found #{project.issues.size} issues"
-  project
+  storage.load
 rescue SystemCallError, Ditz::Project::Error => e
   die "#{e.message} (use 'init' to initialize)"
-end
-
-project.validate!
-project.issues.each { |p| p.project = project}
-project.assign_issue_names!
-
-unless op.has_operation? cmd
-  die "no such command: #{cmd}"
 end
 
 Ditz::HookManager.run :startup, project, config
@@ -162,47 +150,34 @@ rescue Errno::EPIPE, Interrupt
   exit 1
 end
 
-## save project.yaml
-dirty = project.each_modelobject { |o| break true if o.changed? } || false
-if dirty
-  fn = project_root + PROJECT_FN
-  Ditz::debug "project is dirty, saving #{fn}"
-  project.save! fn
-end
-
-## project issues are not model fields proper, so they must be
-## saved independently.
 changed_issues = project.issues.select { |i| i.changed? }
-changed_issues.each do |i|
-  i.pathname ||= (project_root + "issue-#{i.id}.yaml")
-  i.project ||= project # hack: not set on new issues
-  Ditz::debug "issue #{i.name} is dirty, saving #{i.pathname}"
-  i.save! i.pathname
-end
+changed_not_added_issues = changed_issues - project.added_issues
 
-project.deleted_issues.each do |i|
-  fn = i.pathname
-  Ditz::debug "issue #{i.name} has been deleted, deleting #{fn}"
-  FileUtils.rm fn
-end
+storage.save project
 
+## at this point, for compatibility with older hook stuff, we set the pathname
+## directly on the issues.
+
+project.issues.each { |i| i.pathname = storage.filename_for_issue(i) }
 unless project.added_issues.empty?
   unless Ditz::HookManager.run :after_add, project, config, project.added_issues
     puts "You may have to inform your SCM that the following files have been added:"
-    project.added_issues.each { |i| puts "  " + i.pathname }
+    project.added_issues.each { |i| puts "  " + storage.filename_for_issue(i) }
   end
 end
 
 unless project.deleted_issues.empty?
   unless Ditz::HookManager.run :after_delete, project, config, project.deleted_issues
     puts "You may have to inform your SCM that the following files have been deleted:"
-    project.deleted_issues.each { |i| puts "  " + i.pathname }
+    project.deleted_issues.each { |i| puts "  " + storage.filename_for_issue(i) }
   end
 end
 
-changed_not_added_issues = changed_issues - project.added_issues
 unless changed_not_added_issues.empty?
-  Ditz::HookManager.run :after_update, project, config, changed_not_added_issues
+  unless Ditz::HookManager.run :after_update, project, config, changed_not_added_issues
+    puts "You may have to inform your SCM that the following files have been modified:"
+    changed_not_added_issues.each { |i| puts "  " + storage.filename_for_issue(i) }
+  end
 end
 
 config.save! $opts[:config_file] if config.changed?
