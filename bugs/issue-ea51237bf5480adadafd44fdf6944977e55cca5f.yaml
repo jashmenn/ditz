@@ -5,8 +5,8 @@ type: :feature
 component: ditz
 release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-07-28 18:49:10.857778 Z
 references: []
 
@@ -20,4 +20,14 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - assigned to release 0.5 from unassigned
   - ""
+- - 2008-08-04 01:22:59.958393 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - |-
+    i called this 'issue-claiming'. allows people to claim issues for their
+    own, list claimed issues, etc.
+    
+    not really about assigning issues to people, but this is probably more
+    useful for open source development.
 git_branch: 
+claimer: 
