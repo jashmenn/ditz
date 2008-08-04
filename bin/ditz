@@ -154,8 +154,9 @@ Ditz::HookManager.run :startup, project, config
 Ditz::debug "executing command #{cmd}"
 begin
   op.do cmd, project, config, ARGV
-rescue Ditz::Operator::Error => e
-  die e.message
+rescue Ditz::Operator::Error, Ditz::Release::Error, Ditz::Project::Error, Ditz::Issue::Error => e
+  $stderr.puts "Error: #{e.message}"
+  exit(-1)
 rescue Errno::EPIPE, Interrupt
   puts
   exit 1
