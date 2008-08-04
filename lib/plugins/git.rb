@@ -92,9 +92,22 @@ class Operator
     issue.git_branch = branch
   end
 
-  operation :commit, "Runs git-commit and auto-fills the issue name in the commit message", :issue
-  def commit project, config, issue
-    exec "git commit -v -m \"Ditz-issue: #{issue.id}\" -e"
+  operation :commit, "Runs git-commit and auto-fills the issue name in the commit message", :issue do
+    opt :all, "commit all changed files", :short => "-a", :default => false
+    opt :verbose, "show diff between HEAD and what would be committed", \
+      :short => "-v", :default => false
+    opt :message, "Use the given <s> as the commit message.", \
+      :short => "-m", :type => :string
+  end
+  def commit project, config, opts, issue
+    verbose_flag = opts[:verbose] ? "--verbose" : ""
+    all_flag = opts[:all] ? "--all" : ""
+    ditz_header = "Ditz-issue: #{issue.id}"
+    message = opts[:message] ? "#{opts[:message]}\n\n#{ditz_header}" : \
+                               "#{ditz_header}"
+    edit_flag = opts[:message] ? "" : "--edit"
+    message_flag = %{--message="#{message}"}
+    exec "git commit #{all_flag} #{verbose_flag} #{message_flag} #{edit_flag}"
   end
 end
 
