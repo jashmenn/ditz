@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: issue-claiming plugin should prevent you from closing or starting an issue claimed by someone else
+desc: ""
+type: :feature
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-05 02:38:07.039707 Z
+references: []
+
+id: eca85c760fb02ff1e2a147cab8d289ced7131bfa
+log_events: 
+- - 2008-08-05 02:38:07.743780 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
