@@ -62,12 +62,17 @@ class Operator
     puts "Issue #{issue.name} marked as unclaimed."
   end
 
-  operation :claimed, "Show all issues claimed by you" do
+  operation :mine, "Show all issues claimed by you", :maybe_release do
     opt :all, "Show all issues, not just open ones"
   end
-  def claimed project, config, opts
-    puts "#{opts[:all] ? "All" : "Open"} issues claimed by you:"
-    issues = project.issues.select { |i| i.claimer == config.user && (opts[:all] || i.open?) }
+  def mine project, config, opts, releases
+    releases ||= project.unreleased_releases + [:unassigned]
+    releases = [*releases]
+
+    issues = project.issues.select do |i|
+      r = project.release_for(i.release) || :unassigned
+      releases.member?(r) && i.claimer == config.user && (opts[:all] || i.open?)
+    end
     if issues.empty?
       puts "No issues."
     else
@@ -75,12 +80,43 @@ class Operator
     end
   end
 
-  operation :unclaimed, "Show all unclaimed issues" do
+  operation :claimed, "Show claimed issues by claimer", :maybe_release do
     opt :all, "Show all issues, not just open ones"
   end
-  def unclaimed project, config, opts
-    puts "Unclaimed#{opts[:all] ? "" : ", open"} issues:"
-    issues = project.issues.select { |i| i.claimer.nil? && (opts[:all] || i.open?) }
+  def claimed project, config, opts, releases
+    releases ||= project.unreleased_releases + [:unassigned]
+    releases = [*releases]
+
+    issues = project.issues.inject({}) do |h, i|
+      r = project.release_for(i.release) || :unassigned
+      if i.claimed? && (opts[:all] || i.open?) && releases.member?(r)
+        (h[i.claimer] ||= []) << i
+      end
+      h
+    end
+
+    if issues.empty?
+      puts "No issues."
+    else
+      issues.keys.sort.each do |c|
+        puts "#{c}:"
+        puts todo_list_for(issues[c], :show_release => true)
+        puts
+      end
+    end
+  end
+
+  operation :unclaimed, "Show all unclaimed issues", :maybe_release do
+    opt :all, "Show all issues, not just open ones"
+  end
+  def unclaimed project, config, opts, releases
+    releases ||= project.unreleased_releases + [:unassigned]
+    releases = [*releases]
+
+    issues = project.issues.select do |i|
+      r = project.release_for(i.release) || :unassigned
+      releases.member?(r) && i.claimer.nil? && (opts[:all] || i.open?)
+    end
     if issues.empty?
       puts "No issues."
     else

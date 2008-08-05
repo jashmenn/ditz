@@ -273,11 +273,13 @@ EOS
       join
   end
 
-  def todo_list_for issues
+  def todo_list_for issues, opts={}
     return if issues.empty?
     name_len = issues.max_of { |i| i.name.length }
     issues.map do |i|
-      sprintf "%s %#{name_len}s: %s\n", i.status_widget, i.name, i.title
+      s = sprintf "%s %#{name_len}s: %s", i.status_widget, i.name, i.title
+      s += " [#{i.release}]" if opts[:show_release] && i.release
+      s + "\n"
     end.join
   end
 
