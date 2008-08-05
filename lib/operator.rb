@@ -283,13 +283,13 @@ EOS
 
   def print_todo_list_by_release_for project, issues
     by_release = issues.inject({}) do |h, i|
-      r = project.release_for i.release
+      r = project.release_for(i.release) || :unassigned
       h[r] ||= []
       h[r] << i
       h
     end
 
-    project.releases.each do |r|
+    (project.releases + [:unassigned]).each do |r|
       next unless by_release.member? r
       puts r == :unassigned ? "Unassigned:" : "#{r.name} (#{r.status}):"
       print todo_list_for(by_release[r])
