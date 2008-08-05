@@ -1,0 +1,25 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: replace 'todo-full' with todo --all
+desc: |-
+  now that {issue 3d18eaab4e6099cd38f1cdee06698564e638e87d} is done, i'd like to have --all be the standard switch
+  for all subcommands that typically operate on open issues, to instead
+  operate on all issues.
+  
+  the todo-full command can be removed entirely once todo --all is working.
+type: :task
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-05 15:59:12.381041 Z
+references: []
+
+id: 86404e2b40dedf9048c539a88504a8edb536f833
+log_events: 
+- - 2008-08-05 15:59:13.087832 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
