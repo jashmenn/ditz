@@ -29,9 +29,8 @@ class FileStorage
     dirty = false
     dirty = project.each_modelobject { |o| break true if o.changed? }
     if dirty
-      fn = Fil
-      Ditz::debug "project is dirty, saving #{fn}"
-      project.save! fn
+      Ditz::debug "project is dirty, saving #{@project_fn}"
+      project.save! @project_fn
     end
 
     changed_issues = project.issues.select { |i| i.changed? }
