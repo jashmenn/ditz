@@ -4,7 +4,8 @@ class Operator
   def sync project, config
     Dir.chdir $project_root
     puts "[in #{$project_root}]"
-    sh "git commit -a -m 'issue updates'", :force => true
+    sh "git add *.yaml", :force => true
+    sh "git commit -m 'issue updates'", :force => true
     sh "git pull"
     sh "git push"
   end
@@ -13,7 +14,7 @@ class Operator
 
   def sh s, opts={}
     puts "+ #{s}"
-    unless opts[:force] || system(s)
+    unless system(s) || opts[:force]
       $stderr.puts "non-zero (#{$?.exitstatus}) exit code: #{s}"
       exit(-1)
     end
