@@ -116,7 +116,7 @@ case cmd # some special commands not handled by Ditz::Operator
 when "init"
   die "#{issue_dir} directory already exists" if issue_dir.exist?
   issue_dir.mkdir
-  fn = issue_dir + Ditz::DEFAULT_PROJECT_FN
+  fn = issue_dir + Ditz::FileStorage::PROJECT_FN
   project = op.init
   project.save! fn
   puts "Ok, #{issue_dir} directory created successfully."
