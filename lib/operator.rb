@@ -233,7 +233,9 @@ EOS
         "%2d/%2d %s" % [nc, num, type.to_s.pluralize(num, false)]
       end
 
-      bar = if r != :unassigned && r.released?
+      bar = if r == :unassigned
+        ""
+      elsif r.released?
         "(released)"
       elsif issues.empty?
         "(no issues)"
