@@ -188,7 +188,7 @@ class ModelObject
             ## have a default value, so just ask.
             ask_multiline q
           else
-            default = generate_field_default field_opts, generator_args
+            default = generate_field_default o, field_opts, generator_args
             ask q, :default => default
           end
         end
@@ -230,7 +230,7 @@ class ModelObject
       end
     end
 
-    def generate_field_default opts, args
+    def generate_field_default o, opts, args
       if opts[:default_generator].is_a? Proc
         opts[:default_generator].call(*args)
       elsif opts[:default_generator]
