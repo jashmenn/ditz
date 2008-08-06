@@ -98,16 +98,28 @@ class Operator
       :short => "-v", :default => false
     opt :message, "Use the given <s> as the commit message.", \
       :short => "-m", :type => :string
+    opt :edit, "Further edit the message, even if --message is given.", :short => "-e", :default => false
   end
+
   def commit project, config, opts, issue
-    verbose_flag = opts[:verbose] ? "--verbose" : ""
-    all_flag = opts[:all] ? "--all" : ""
-    ditz_header = "Ditz-issue: #{issue.id}"
-    message = opts[:message] ? "#{opts[:message]}\n\n#{ditz_header}" : \
-                               "#{ditz_header}"
-    edit_flag = opts[:message] ? "" : "--edit"
-    message_flag = %{--message="#{message}"}
-    exec "git commit #{all_flag} #{verbose_flag} #{message_flag} #{edit_flag}"
+    opts[:edit] = true if opts[:message].nil?
+
+    args = {
+      :verbose => "--verbose",
+      :all => "--all",
+      :edit => "--edit",
+    }.map { |k, v| opts[k] ? v : "" }.join(" ")
+
+    comment = "# #{issue.name}: #{issue.title}"
+    tag = "Ditz-issue: #{issue.id}"
+    message = if opts[:message] && !opts[:edit]
+      "#{opts[:message]}\n\n#{tag}"
+    elsif opts[:message] && opts[:edit]
+      "#{opts[:message]}\n\n#{comment}\n#{tag}"
+    else
+      "#{comment}\n#{tag}"
+    end
+    exec "git commit #{args} --message=\"#{message}\""
   end
 end
 
