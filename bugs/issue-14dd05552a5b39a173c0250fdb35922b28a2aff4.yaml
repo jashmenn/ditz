@@ -1,0 +1,26 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "unix-centrism: USER environment variable assumed"
+desc: |-
+  when creating an initial configuration object the first time it's run,
+  ditz crashes unless there's a USER environment variable.
+type: :bugfix
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-08-06 15:40:21.016827 Z
+references: []
+
+id: 14dd05552a5b39a173c0250fdb35922b28a2aff4
+log_events: 
+- - 2008-08-06 15:40:21.820637 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-06 15:41:28.547664 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - ""
+git_branch: 
+claimer: 

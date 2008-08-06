@@ -320,8 +320,11 @@ class Config < ModelObject
   def get_default_name
     require 'etc'
 
-    name = Etc.getpwnam(ENV["USER"])
-    name = name ? name.gecos.split(/,/).first : ""
+    name = if ENV["USER"]
+      pwent = Etc.getpwnam ENV["USER"]
+      pwent ? pwent.gecos.split(/,/).first : nil
+    end
+    name || "Ditz User"
   end
 
   def get_default_email
