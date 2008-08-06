@@ -126,11 +126,11 @@ when "help"
   exit
 end
 
-project_root = Ditz::find_dir_containing(issue_dir + Ditz::FileStorage::PROJECT_FN)
-die "No #{issue_dir} directory---use 'ditz init' to initialize" unless project_root
-project_root += issue_dir
+$project_root = Ditz::find_dir_containing(issue_dir + Ditz::FileStorage::PROJECT_FN)
+die "No #{issue_dir} directory---use 'ditz init' to initialize" unless $project_root
+$project_root += issue_dir
 
-storage = Ditz::FileStorage.new project_root
+storage = Ditz::FileStorage.new $project_root
 project = begin
   storage.load
 rescue SystemCallError, Ditz::Project::Error => e
