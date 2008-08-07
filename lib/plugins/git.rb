@@ -55,17 +55,14 @@ EOS
 
     [<<EOS, { :commits => commits, :url_prefix => config.git_commit_url_prefix }]
 <h2>Commits for this issue</h2>
-<table>
+<table class="log">
 <% commits.each_with_index do |(time, who, hash, msg), i| %>
-<% if i % 2 == 0 %>
-  <tr class="logentryeven">
-<% else %>
-  <tr class="logentryodd">
-<% end %>
-  <td class="logtime"><%=t time %></td>
-  <td class="logwho"><%=obscured_email who %></td>
-  <td class="logwhat"><%=h msg %> [<%= url_prefix && !url_prefix.blank? ? link_to([url_prefix, hash].join, hash) : hash %>]</td>
+  <tr class="<%= i % 2 == 0 ? "even-row" : "odd-row" %>">
+  <td class="time"><%=t time %></td>
+  <td class="person"><%=obscured_email who %></td>
+  <td class="message"><%=h msg %> [<%= url_prefix && !url_prefix.blank? ? link_to([url_prefix, hash].join, hash) : hash %>]</td>
   </tr>
+  <tr><td></td></tr>
 <% end %>
 </table>
 EOS

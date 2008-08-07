@@ -48,8 +48,29 @@ class ErbHtml
     raise ArgumentError, "no link for #{o.inspect}" unless dest
     "<a href=\"#{dest}\">#{name}</a>"
   end
+
+  def issue_link_for i
+    "<span class=\"#{i.status}_issue\">" + link_to(i, "#{i.title}") + "</span>"
+  end
+
   def fancy_issue_link_for i
-    "<span class=\"issuestatus_#{i.status}\">" + link_to(i, "[#{i.title}]") + "</span>"
+    "<span class=\"#{i.status}_issue\">" + link_to(i, "#{i.title}") + issue_status_img_link_for(i) + "</span>"
+  end
+
+  def issue_status_img_link_for i
+    fn, title = if i.closed?
+      case i.disposition
+      when :fixed; ["green-check.png", "fixed"]
+      when :wontfix; ["red-check.png", "won't fix"]
+      when :reorg; ["blue-check.png", "reorganized"]
+      end
+    elsif i.in_progress?
+      ["green-bar.png", "in progress"]
+    elsif i.paused?
+      ["yellow-bar.png", "paused"]
+    end
+
+    fn ? "<img src='#{fn}' alt=#{title.inspect} title=#{title.inspect}/>" : ""
   end
 
   def link_issue_names project, s

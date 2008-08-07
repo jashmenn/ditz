@@ -1,23 +1,16 @@
 <table>
-<% issues.sort_by { |i| i.sort_order }.each do |i| %>
+<% issues.sort_by { |i| i.creation_time }.reverse.each do |i| %>
   <tr>
-    <td class="issuestatus_<%= i.status %>">
-      <% if i.closed? %>
-        <%= i.disposition_string %>
-      <% else %>
-        <%= i.status_string %>
-      <% end %>
-    </td>
+    <td> <%= issue_status_img_link_for i %> </td>
+    <td class="littledate"><%= i.creation_time.pretty_date %></td>
     <td class="issuename">
-      <%= fancy_issue_link_for i %>
-      <%= i.bug? ? '(bug)' : '' %>
+      <%= issue_link_for i %>
     </td>
     <% if show_release %>
       <td class="issuerelease">
         <% if i.release %>
           <% r = project.release_for i.release %>
-          in <%= link_to r, "release #{i.release}" %>
-          (<%= r.status %>)
+          <%= link_to r, i.release %>
         <% else %>
         <% end %>
       </td>

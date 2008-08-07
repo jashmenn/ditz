@@ -55,6 +55,8 @@ EOS
 end
 
 class HtmlView < View
+  SUPPORT_FILES = %w(style.css blue-check.png red-check.png green-check.png green-bar.png yellow-bar.png)
+
   def initialize project, config, dir
     @project = project
     @config = config
@@ -64,7 +66,7 @@ class HtmlView < View
 
   def render_all
     Dir.mkdir @dir unless File.exists? @dir
-    FileUtils.cp File.join(@template_dir, "style.css"), @dir
+    SUPPORT_FILES.each { |f| FileUtils.cp File.join(@template_dir, f), @dir }
 
     ## build up links
     links = {}

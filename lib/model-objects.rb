@@ -218,6 +218,7 @@ class Issue < ModelObject
   def feature?; type == :feature end
   def unassigned?; release.nil? end
   def assigned?; !unassigned? end
+  def paused?; status == :paused end
 
   def start_work who, comment; change_status :in_progress, who, comment end
   def stop_work who, comment

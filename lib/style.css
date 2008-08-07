@@ -1,10 +1,15 @@
 body {
-	background: white;
-	color: #202020;
-	margin-bottom: 2em;
-	margin-left: auto;
-	margin-right: auto;
-	width: 90%;
+  font-family: "lucida grande", "sans serif";
+  color: #666;
+}
+
+div.main {
+  width: 800px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin: auto;
+  padding-top: 0;
+  margin-top: 2em;
 }
 
 div.wrapper {
@@ -13,11 +18,14 @@ div.wrapper {
 div.footer {
 }
 
+.person {
+  font-family: courier;
+}
+
 a, a:visited {
-	border-bottom: 1px dotted #03c;
-	background: inherit;
-	text-decoration: none;
-  color: #03c;
+  background: inherit;
+  text-decoration: none;
+  color: #456de6;
 }
 
 ul {
@@ -48,6 +56,12 @@ table {
   border-spacing: 0;
 }
 
+table.log {
+  width: 100%;
+  border: solid 1px #abc;
+}
+
+
 td {
   border-width: 0;
   border-style: none;
@@ -56,37 +70,72 @@ td {
 }
 
 tr {
-  padding-bottom: 5em;
+  vertical-align: top;
 }
 
 h1 {
-  padding: 0.2em;
-  margin-left: -1em;
-  margin-right: 1em;
+  padding: 0.5em;
+  margin-left: -20px;
+  margin-right: -20px;
+/*  margin-left: -1em;
+  margin-right: 1em; */
+  /*background: #abc;*/
   background: #abc;
+  /*color: #0f355a;*/
+  /*background: #7a6852;*/
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #fff;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-size: smaller;
+  margin-top: 1em;
+  margin-left: -0.5em;
+  width: 100%;
+  /*background: #fffbce;*/
+  /*background: #628a0d;*/
+  padding: 5px;
+  color: #222;
 }
 
 .attrname {
   text-align: right;
+  font-size: smaller;
+  color: #222;
 }
 
+.issue-closed-fixed {
+  background-image: "green-check.png";
+}
+
+.issue-closed-wontfix {
+  background-image: "red-check.png";
+}
+
+.issue-closed-reorg {
+  background-image: "blue-check.png";
+}
+
+/*
 .issuestatus_closed {
-  background-color: #afa;
+  background-color: #f2fff2;
   text-align: center;
 }
 
 .issuestatus_in_progress {
-  background-color: #ffa;
+  background-color: #fffff2;
   text-align: center;
 }
 
 .issuestatus_paused {
-  background-color: #ffa;
+  background-color: #fffff2;
   text-align: center;
 }
 
 .issuestatus_unstarted {
-  background-color: #faa;
+  background-color: #fff2f2;
   text-align: center;
 }
 
@@ -105,23 +154,63 @@ h1 {
 .issuestatus_unstarted a {
   color: #202020;
 }
+*/
 
-.logwhat {
+div.footer {
+  font-size: small;
+  width: 800px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: auto;
+  background: #abc;
+  /*background: #7a6852;*/
+  color: #fffee7;
 }
 
-.logentryeven {
+.even-row {
+  color: #666;
   background: #eee;
+  font-size: smaller;
 }
 
-.logentryodd {
+.odd-row {
+  color: #666;
   background: #eee;
+  font-size: smaller;
+}
+
+.backptr {
+  font-size: smaller;
+  width: 100%;
+  text-align: right;
+  padding-bottom: 1em;
+  margin-top: 0;
 }
 
 .logcomment {
-  padding-left: 3em;
+  background: #eee;
+  padding-left: 8em;
+  margin-top: 0;
+  padding-top: 0;
+  font-size: smaller;
+  color: #888;
 }
 
-p.footer {
-  font-size: small;
+.description {
+  background: #eee;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border: solid 1px #abc;
 }
 
+.message {
+}
+
+.littledate {
+  color: #666;
+  font-size: smaller;
+}
