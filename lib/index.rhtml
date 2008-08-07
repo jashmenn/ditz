@@ -21,20 +21,18 @@
     <%
       issues = project.issues_for_release r
       num_done = issues.count_of { |i| i.closed? }
-      pct_done = issues.size == 0 ? 100 : (100.0 * num_done / issues.size)
-      open_issues = project.group_issues(issues.select { |i| i.open? })
+      pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
+      open_issues = issues.select { |i| i.open? }
     %>
     <li>
-      <%= link_to r, "Release #{r.name}" %>: 
+      <%= link_to r, "#{r.name}" %> 
       <% if issues.empty? %>
         no issues
-      <% else %>
-        <%= sprintf "%.0f%%", pct_done %> complete;
-        <% if open_issues.empty? %>
+      <% elsif open_issues.empty? %>
           ready for release!
-        <% else %>
-          <%= open_issues.map { |n,is| n.to_s.pluralize is.size }.join(' and ') %> open.
-        <% end %>
+      <% else %>
+        <%= progress_meter pct_done %>
+        <%= sprintf "%.0f%%", pct_done * 100.0 %> complete
       <% end %>
     </li>
   <% end %>
@@ -47,7 +45,7 @@
 <% else %>
   <table>
   <% past_releases.sort_by { |r| r.release_time }.reverse.each do |r| %>
-    <tr><td><%= link_to r, r.name %></td><td class="littledate"><%= r.release_time.pretty_date %></td></tr>
+    <tr><td><%= link_to r, r.name %></td><td class="littledate">on <%= r.release_time.pretty_date %></td></tr>
   <% end %>
   </table>
 <% end %>
@@ -67,24 +65,26 @@
 
 <% if components.size > 1 %>
   <h2>Open Issues by component</h2>
-  <ul>
+  <table>
   <% components.each do |c| %>
     <%
-      open_issues = project.group_issues(project.issues_for_component(c).select { |i| i.open? })
+      issues = project.issues_for_component c
+      num_done = issues.count_of { |i| i.closed? }
+      pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
+      open_issues = issues.select { |i| i.open? }
     %>
-    <li>
-      <% if open_issues.empty? %>
-        <span class="dimmed">
-        <%= link_to c, c.name %>:
-        no open issues.
-        </span>
-      <% else %>
-        <%= link_to c, c.name %>:
-        <%= open_issues.map { |n,is| n.to_s.pluralize is.size }.join(' and ') %> open.
-      <% end %>
-    </li>
+    <% if open_issues.empty? %>
+      <tr class="dimmed">
+    <% else %>
+      <tr>
+    <% end %>
+    <td>
+      <%= link_to c, c.name %>
+    </td><td>
+      <%= "open issue".pluralize(open_issues.size) %>
+    </td></tr>
   <% end %>
-  </ul>
+  </table>
 <% end %>
 
 <h2>Recent activity</h2>

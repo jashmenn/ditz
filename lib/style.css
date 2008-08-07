@@ -1,15 +1,16 @@
 body {
   font-family: "lucida grande", "sans serif";
   color: #666;
+  background-color: #f5f5f5;
 }
 
 div.main {
   width: 800px;
-  background-color: #f5f5f5;
   padding: 20px;
   margin: auto;
   padding-top: 0;
   margin-top: 2em;
+  background-color: #fff;
 }
 
 div.wrapper {
@@ -58,7 +59,6 @@ table {
 
 table.log {
   width: 100%;
-  border: solid 1px #abc;
 }
 
 
@@ -171,13 +171,13 @@ div.footer {
 
 .even-row {
   color: #666;
-  background: #eee;
+  background: #fafafa;
   font-size: smaller;
 }
 
 .odd-row {
   color: #666;
-  background: #eee;
+  background: #fafafa;
   font-size: smaller;
 }
 
@@ -190,7 +190,7 @@ div.footer {
 }
 
 .logcomment {
-  background: #eee;
+  background: #fafafa;
   padding-left: 8em;
   margin-top: 0;
   padding-top: 0;
@@ -213,4 +213,15 @@ div.footer {
 .littledate {
   color: #666;
   font-size: smaller;
+}
+
+.progress-meter-done {
+  background-color: #8f8;
+}
+
+.progress-meter-undone {
+  background-color: #aaa;
+}
+
+.progress-meter {
 }

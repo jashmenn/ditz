@@ -79,6 +79,16 @@ class ErbHtml
     end
   end
 
+  def progress_meter p, size=50
+    done = (p * size).to_i
+    undone = [size - done, 0].max
+    "<span class='progress-meter'><span class='progress-meter-done'>" +
+      ("&nbsp;" * done) +
+      "</span><span class='progress-meter-undone'>" +
+      ("&nbsp;" * undone) +
+      "</span></span>"
+  end
+
   ## render a nested ERB
   alias :render :render_template
 
