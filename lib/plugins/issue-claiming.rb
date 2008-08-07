@@ -35,7 +35,7 @@ class HtmlView
     [<<EOS, { :issue => issue, :url_prefix => config.git_branch_url_prefix }]
 <tr>
   <td class='attrname'>Claimed by:</td>
-  <td class='attrval'>h(issue.claimer) %></td>
+  <td class='attrval'><%= h(issue.claimer) %></td>
 </tr>
 EOS
   end
