@@ -16,7 +16,7 @@
 <% if upcoming_releases.empty? %>
   <p>No upcoming releases.</p>
 <% else %>
-  <ul>
+  <table>
   <% upcoming_releases.each do |r| %>
     <%
       issues = project.issues_for_release r
@@ -24,8 +24,10 @@
       pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
       open_issues = issues.select { |i| i.open? }
     %>
-    <li>
+    <tr><td>
       <%= link_to r, "#{r.name}" %> 
+      </td>
+      <td>
       <% if issues.empty? %>
         no issues
       <% elsif open_issues.empty? %>
@@ -33,10 +35,15 @@
       <% else %>
         <%= progress_meter pct_done %>
         <%= sprintf "%.0f%%", pct_done * 100.0 %> complete
+        </td>
+        <tr><td></td><td>
+        <%= num_done %> / <%= issues.size %> issues closed.
+        <%= link_to r, "See issues &raquo;" %>
       <% end %>
-    </li>
+      </td>
+    </tr>
   <% end %>
-  </ul>
+  </table>
 <% end %>
 
 <h2>Past Releases</h2>
@@ -59,7 +66,7 @@
   <% if issues.empty? %>
     No unassigned issues.
   <% else %>
-    <%= link_to "unassigned", "unassigned issue".pluralize(issues.size).capitalize %>; <%= open_issues.size.to_pretty_s %> of them open.
+    <%= link_to "unassigned", "unassigned issue".pluralize(issues.size).capitalize %> (<%= open_issues.size.to_pretty_s %> open).
   <% end %>
 </p>
 

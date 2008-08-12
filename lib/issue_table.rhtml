@@ -1,7 +1,7 @@
 <table>
 <% issues.sort_by { |i| i.creation_time }.reverse.each do |i| %>
   <tr>
-    <td> <%= issue_status_img_link_for i %> </td>
+    <td> <%= issue_status_img_for i %> </td>
     <td class="littledate"><%= i.creation_time.pretty_date %></td>
     <td class="issuename">
       <%= issue_link_for i %>

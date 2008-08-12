@@ -54,10 +54,10 @@ class ErbHtml
   end
 
   def fancy_issue_link_for i
-    "<span class=\"#{i.status}_issue\">" + link_to(i, "#{i.title}") + issue_status_img_link_for(i) + "</span>"
+    "<span class=\"#{i.status}_issue\">" + link_to(i, "#{i.title}") + issue_status_img_for(i, :class => "inline-status-image") + "</span>"
   end
 
-  def issue_status_img_link_for i
+  def issue_status_img_for i, opts={}
     fn, title = if i.closed?
       case i.disposition
       when :fixed; ["green-check.png", "fixed"]
@@ -70,7 +70,12 @@ class ErbHtml
       ["yellow-bar.png", "paused"]
     end
 
-    fn ? "<img src='#{fn}' alt=#{title.inspect} title=#{title.inspect}/>" : ""
+    return "" unless fn
+
+    args = {:src => fn, :alt => title, :title => title}
+    args[:class] = opts[:class] if opts[:class]
+
+    "<img " + args.map { |k, v| "#{k}=#{v.inspect}" }.join(" ") + "/>"
   end
 
   def link_issue_names project, s

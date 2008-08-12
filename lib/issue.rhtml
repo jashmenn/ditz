@@ -25,7 +25,7 @@
 <table>
   <tr>
     <td class="attrname">Id:</td>
-    <td class="attrval"><%= issue.id %></td>
+    <td class="attrval"><span class="id"><%= issue.id %></span></td>
   </tr>
 
   <tr>
@@ -35,7 +35,7 @@
 
   <tr>
     <td class="attrname">Creation time:</td>
-    <td class="attrval"><%= issue.creation_time %></td>
+    <td class="attrval"><%=t issue.creation_time %></td>
   </tr>
 
   <tr>
@@ -80,7 +80,7 @@
     <td class="attrname">Status:</td>
     <td class="attrval"> 
       <%= issue.status_string %><% if issue.closed? %>: <%= issue.disposition_string %><% end %>
-      <%= issue_status_img_link_for issue %>
+      <%= issue_status_img_for issue, :class => "inline-status-image" %>
     </td>
   </tr>
 
