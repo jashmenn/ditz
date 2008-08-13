@@ -26,12 +26,15 @@
     </tr>
   <% end %>
   <tr>
+    <td>Completion:</td>
+    <td>
     <%
       num_done = issues.count_of { |i| i.closed? }
-      pct_done = issues.size == 0 ? 100 : (100.0 * num_done / issues.size)
+      pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
     %>
-    <td class="attrname">Completion:</td>
-    <td class="attrval"><%= sprintf "%.0f%%", pct_done %></td>
+    <%= progress_meter pct_done %>
+    <%= sprintf "%.0f%%", pct_done * 100.0 %>
+    </td>
   </tr>
 </table>
 
@@ -53,7 +56,7 @@
   <tr><td colspan="3" class="logcomment">
     <% if comment.empty? %>
     <% else %>
-      <%= link_issue_names project, p(comment) %>
+      <%= link_issue_names project, comment %>
     <% end %>
   </td></tr>
   <tr><td></td></tr>
