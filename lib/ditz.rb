@@ -46,7 +46,18 @@ def find_ditz_file fn
   File.expand_path File.join(dir, fn)
 end
 
-module_function :home_dir, :find_dir_containing, :find_ditz_file
+def load_plugins fn
+  Ditz::debug "loading plugins from #{fn}"
+  plugins = YAML::load_file $opts[:plugins_file]
+  plugins.each do |p|
+    fn = Ditz::find_ditz_file "plugins/#{p}.rb"
+    Ditz::debug "loading plugin #{p.inspect} from #{fn}"
+    load fn
+  end
+  plugins
+end
+
+module_function :home_dir, :find_dir_containing, :find_ditz_file, :load_plugins
 end
 
 require 'model-objects'

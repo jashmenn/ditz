@@ -78,18 +78,10 @@ if $opts[:list_hooks]
   exit 0
 end
 
-plugins = begin
-  Ditz::debug "loading plugins from #{$opts[:plugins_file]}"
-  YAML::load_file $opts[:plugins_file]
+begin
+  Ditz::load_plugins $opts[:plugins_file]
 rescue SystemCallError => e
   Ditz::debug "can't load plugins file: #{e.message}"
-  []
-end
-
-plugins.each do |p|
-  fn = Ditz::find_ditz_file "plugins/#{p}.rb"
-  Ditz::debug "loading plugin #{p.inspect} from #{fn}"
-  load fn
 end
 
 config = begin
