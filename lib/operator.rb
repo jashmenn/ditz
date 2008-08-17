@@ -449,10 +449,11 @@ EOS
   end
   def comment project, config, opts, issue
     puts "Commenting on issue #{issue.name}: #{issue.title}."
+    comment = get_comment opts
     if comment.blank?
       puts "Empty comment, aborted."
     else
-      issue.log "commented", config.user, get_comment(opts)
+      issue.log "commented", config.user, comment
       puts "Comments recorded for #{issue.name}."
     end
   end

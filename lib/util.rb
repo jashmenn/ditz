@@ -12,6 +12,10 @@ class Array
   def uniq_by; inject({}) { |h, o| h[yield(o)] = o; h }.values end
 end
 
+class NilClass
+  def blank?; true end
+end
+
 module Enumerable
   def map_with_index # sigh...
     ret = []
