@@ -31,8 +31,8 @@ end
 
 class HtmlView
   add_to_view :issue_summary do |issue, config|
-    next unless issue.git_branch
-    [<<EOS, { :issue => issue, :url_prefix => config.git_branch_url_prefix }]
+    next unless issue.claimer
+    [<<EOS, { :issue => issue }]
 <tr>
   <td class='attrname'>Claimed by:</td>
   <td class='attrval'><%= h(issue.claimer) %></td>
