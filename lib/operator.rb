@@ -170,10 +170,12 @@ Usage: ditz #{name} #{args}
 EOS
   end
 
-  operation :add, "Add an issue"
-  def add project, config
+  operation :add, "Add an issue" do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def add project, config, opts
     issue = Issue.create_interactively(:args => [config, project]) or return
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     issue.log "created", config.user, comment
     project.add_issue issue
     project.assign_issue_names!
@@ -186,11 +188,13 @@ EOS
     puts "Dropped #{issue.name}. Note that other issue names may have changed."
   end
 
-  operation :add_release, "Add a release", :maybe_name
-  def add_release project, config, maybe_name
+  operation :add_release, "Add a release", :maybe_name do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def add_release project, config, opts, maybe_name
     puts "Adding release #{maybe_name}." if maybe_name
     release = Release.create_interactively(:args => [project, config], :with => { :name => maybe_name }) or return
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     release.log "created", config.user, comment
     project.add_release release
     puts "Added release #{release.name}."
@@ -203,11 +207,13 @@ EOS
     puts "Added component #{component.name}."
   end
 
-  operation :add_reference, "Add a reference to an issue", :issue
-  def add_reference project, config, issue
+  operation :add_reference, "Add a reference to an issue", :issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def add_reference project, config, opts, issue
     puts "Adding a reference to #{issue.name}: #{issue.title}."
     reference = ask "Reference"
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     issue.add_reference reference
     issue.log "added reference #{issue.references.size}", config.user, comment
     puts "Added reference to #{issue.name}."
@@ -325,33 +331,41 @@ EOS
     ScreenView.new(project, config).render_issue issue
   end
 
-  operation :start, "Start work on an issue", :unstarted_issue
-  def start project, config, issue
+  operation :start, "Start work on an issue", :unstarted_issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def start project, config, opts, issue
     puts "Starting work on issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     issue.start_work config.user, comment
     puts "Recorded start of work for #{issue.name}."
   end
 
-  operation :stop, "Stop work on an issue", :started_issue
-  def stop project, config, issue
+  operation :stop, "Stop work on an issue", :started_issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def stop project, config, opts, issue
     puts "Stopping work on issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     issue.stop_work config.user, comment
     puts "Recorded work stop for #{issue.name}."
   end
 
-  operation :close, "Close an issue", :open_issue
-  def close project, config, issue
+  operation :close, "Close an issue", :open_issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def close project, config, opts, issue
     puts "Closing issue #{issue.name}: #{issue.title}."
     disp = ask_for_selection Issue::DISPOSITIONS, "disposition", lambda { |x| Issue::DISPOSITION_STRINGS[x] || x.to_s }
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     issue.close disp, config.user, comment
     puts "Closed issue #{issue.name} with disposition #{issue.disposition_string}."
   end
 
-  operation :assign, "Assign an issue to a release", :issue, :maybe_release
-  def assign project, config, issue, maybe_release
+  operation :assign, "Assign an issue to a release", :issue, :maybe_release do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def assign project, config, opts, issue, maybe_release
     if maybe_release && maybe_release.name == issue.release
       raise Error, "issue #{issue.name} already assigned to release #{issue.release}"
     end
@@ -373,13 +387,15 @@ EOS
         end
       end
     end
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     issue.assign_to_release release, config.user, comment
     puts "Assigned #{issue.name} to #{release.name}."
   end
 
-  operation :set_component, "Set an issue's component", :issue, :maybe_component
-  def set_component project, config, issue, maybe_component
+  operation :set_component, "Set an issue's component", :issue, :maybe_component do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def set_component project, config, opts, issue, maybe_component
     puts "Changing the component of issue #{issue.name}: #{issue.title}."
 
     if project.components.size == 1
@@ -395,7 +411,7 @@ EOS
       components -= [components.find { |r| r.name == issue.component }] if issue.component
       ask_for_selection(components, "component") { |r| r.name }
     end
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     issue.assign_to_component component, config.user, comment
     oldname = issue.name
     project.assign_issue_names!
@@ -405,18 +421,22 @@ have changed as well.
 EOS
   end
 
-  operation :unassign, "Unassign an issue from any releases", :assigned_issue
-  def unassign project, config, issue
+  operation :unassign, "Unassign an issue from any releases", :assigned_issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def unassign project, config, opts, issue
     puts "Unassigning issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     issue.unassign config.user, comment
     puts "Unassigned #{issue.name}."
   end
 
-  operation :comment, "Comment on an issue", :issue
-  def comment project, config, issue
+  operation :comment, "Comment on an issue", :issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def comment project, config, opts, issue
     puts "Commenting on issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments"
+    comment = opts[:comment] || ask_multiline("Comments")
     if comment.blank?
       puts "Empty comment, aborted."
     else
@@ -434,9 +454,11 @@ EOS
     end
   end
 
-  operation :release, "Release a release", :unreleased_release
-  def release project, config, release
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+  operation :release, "Release a release", :unreleased_release do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def release project, config, opts, release
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     release.release! project, config.user, comment
     puts "Release #{release.name} released!"
   end
@@ -520,8 +542,10 @@ EOS
     puts "Archived to #{dir}."
   end
 
-  operation :edit, "Edit an issue", :issue
-  def edit project, config, issue
+  operation :edit, "Edit an issue", :issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+  end
+  def edit project, config, opts, issue
     data = { :title => issue.title, :description => issue.desc,
              :reporter => issue.reporter }
 
@@ -532,7 +556,7 @@ EOS
       return
     end
 
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
 
     begin
       edits = YAML.load_file fn
