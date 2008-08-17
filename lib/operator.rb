@@ -182,6 +182,13 @@ EOS
   end
   private :get_comment
 
+  operation :reconfigure, "Rerun configuration script"
+  def reconfigure project, config
+    new_config = Config.create_interactively :defaults_from => config
+    new_config.save! $opts[:config_file]
+    puts "Configuration written."
+  end
+
   operation :add, "Add an issue" do
     opt :comment, "Specify a comment", :short => 'm', :type => String
     opt :no_comment, "Skip asking for a comment", :default => false

@@ -173,6 +173,10 @@ class ModelObject
   class << self
     ## creates the object, prompting the user when necessary. can take
     ## a :with => { hash } parameter for pre-filling model fields.
+    ##
+    ## can also take a :defaults_from => obj parameter for pre-filling model
+    ## fields from another object with (some of) those fields. kinda like a
+    ## bizarre interactive copy constructor.
     def create_interactively opts={}
       o = self.new
       generator_args = opts[:args] || []
@@ -184,11 +188,15 @@ class ModelObject
         else
           q = field_opts[:prompt] || name.to_s.capitalize
           if field_opts[:multiline]
-            ## multiline options currently aren't allowed to
-            ## have a default value, so just ask.
+            ## multiline options currently aren't allowed to have a default
+            ## value, so just ask.
             ask_multiline q
           else
-            default = generate_field_default o, field_opts, generator_args
+            default = if opts[:defaults_from] && opts[:defaults_from].respond_to?(name) && (x = opts[:defaults_from].send(name))
+              x
+            else
+              default = generate_field_default o, field_opts, generator_args
+            end
             ask q, :default => default
           end
         end
