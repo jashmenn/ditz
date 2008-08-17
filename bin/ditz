@@ -33,7 +33,6 @@ $opts = options do
   opt :config_file, "Configuration file", :default => File.join(config_dir || ".", CONFIG_FN)
   opt :plugins_file, "Plugins file", :default => File.join(plugin_dir || ".", PLUGIN_FN)
   opt :verbose, "Verbose output", :default => false
-  opt :no_comment, "Skip asking for a comment", :default => false
   opt :list_hooks, "List all hooks and descriptions, and quit.", :short => 'l', :default => false
   stop_on_unknown
 end

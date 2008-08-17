@@ -1,0 +1,26 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: replace global --no-comment with per-command --no-comment options
+desc: |-
+  this is for symmetry with {issue 049c49c9e9c55de5e005c7b01f73660dc764edcd} options. the global was a hack, anyways,
+  for before {issue 3d18eaab4e6099cd38f1cdee06698564e638e87d} was in place.
+type: :task
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-08-17 02:56:13.092658 Z
+references: []
+
+id: e105628fc0dd3e7c2de0cecafff221c15c050b0c
+log_events: 
+- - 2008-08-17 02:56:13.672316 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-17 03:15:19.230806 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - ""
+git_branch: 
+claimer: 

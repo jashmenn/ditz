@@ -170,13 +170,25 @@ Usage: ditz #{name} #{args}
 EOS
   end
 
+  ## gets a comment from the user, assuming the standard argument setup
+  def get_comment opts
+    comment = if opts[:no_comment]
+      nil
+    elsif opts[:comment]
+      opts[:comment]
+    else
+      ask_multiline "Comments"
+    end
+  end
+  private :get_comment
+
   operation :add, "Add an issue" do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def add project, config, opts
     issue = Issue.create_interactively(:args => [config, project]) or return
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-    issue.log "created", config.user, comment
+    issue.log "created", config.user, get_comment(opts)
     project.add_issue issue
     project.assign_issue_names!
     puts "Added issue #{issue.name}."
@@ -190,12 +202,12 @@ EOS
 
   operation :add_release, "Add a release", :maybe_name do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def add_release project, config, opts, maybe_name
     puts "Adding release #{maybe_name}." if maybe_name
     release = Release.create_interactively(:args => [project, config], :with => { :name => maybe_name }) or return
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-    release.log "created", config.user, comment
+    release.log "created", config.user, get_comment(opts)
     project.add_release release
     puts "Added release #{release.name}."
   end
@@ -209,13 +221,13 @@ EOS
 
   operation :add_reference, "Add a reference to an issue", :issue do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def add_reference project, config, opts, issue
     puts "Adding a reference to #{issue.name}: #{issue.title}."
     reference = ask "Reference"
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
     issue.add_reference reference
-    issue.log "added reference #{issue.references.size}", config.user, comment
+    issue.log "added reference #{issue.references.size}", config.user, get_comment(opts)
     puts "Added reference to #{issue.name}."
   end
 
@@ -333,37 +345,38 @@ EOS
 
   operation :start, "Start work on an issue", :unstarted_issue do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def start project, config, opts, issue
     puts "Starting work on issue #{issue.name}: #{issue.title}."
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-    issue.start_work config.user, comment
+    issue.start_work config.user, get_comment(opts)
     puts "Recorded start of work for #{issue.name}."
   end
 
   operation :stop, "Stop work on an issue", :started_issue do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def stop project, config, opts, issue
     puts "Stopping work on issue #{issue.name}: #{issue.title}."
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-    issue.stop_work config.user, comment
+    issue.stop_work config.user, get_comment(opts)
     puts "Recorded work stop for #{issue.name}."
   end
 
   operation :close, "Close an issue", :open_issue do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def close project, config, opts, issue
     puts "Closing issue #{issue.name}: #{issue.title}."
     disp = ask_for_selection Issue::DISPOSITIONS, "disposition", lambda { |x| Issue::DISPOSITION_STRINGS[x] || x.to_s }
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-    issue.close disp, config.user, comment
+    issue.close disp, config.user, get_comment(opts)
     puts "Closed issue #{issue.name} with disposition #{issue.disposition_string}."
   end
 
   operation :assign, "Assign an issue to a release", :issue, :maybe_release do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def assign project, config, opts, issue, maybe_release
     if maybe_release && maybe_release.name == issue.release
@@ -387,13 +400,13 @@ EOS
         end
       end
     end
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-    issue.assign_to_release release, config.user, comment
+    issue.assign_to_release release, config.user, get_comment(opts)
     puts "Assigned #{issue.name} to #{release.name}."
   end
 
   operation :set_component, "Set an issue's component", :issue, :maybe_component do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def set_component project, config, opts, issue, maybe_component
     puts "Changing the component of issue #{issue.name}: #{issue.title}."
@@ -411,8 +424,7 @@ EOS
       components -= [components.find { |r| r.name == issue.component }] if issue.component
       ask_for_selection(components, "component") { |r| r.name }
     end
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-    issue.assign_to_component component, config.user, comment
+    issue.assign_to_component component, config.user, get_comment(opts)
     oldname = issue.name
     project.assign_issue_names!
     puts <<EOS
@@ -423,24 +435,24 @@ EOS
 
   operation :unassign, "Unassign an issue from any releases", :assigned_issue do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def unassign project, config, opts, issue
     puts "Unassigning issue #{issue.name}: #{issue.title}."
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-    issue.unassign config.user, comment
+    issue.unassign config.user, get_comment(opts)
     puts "Unassigned #{issue.name}."
   end
 
   operation :comment, "Comment on an issue", :issue do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def comment project, config, opts, issue
     puts "Commenting on issue #{issue.name}: #{issue.title}."
-    comment = opts[:comment] || ask_multiline("Comments")
     if comment.blank?
       puts "Empty comment, aborted."
     else
-      issue.log "commented", config.user, comment
+      issue.log "commented", config.user, get_comment(opts)
       puts "Comments recorded for #{issue.name}."
     end
   end
@@ -456,10 +468,10 @@ EOS
 
   operation :release, "Release a release", :unreleased_release do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def release project, config, opts, release
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-    release.release! project, config.user, comment
+    release.release! project, config.user, get_comment(opts)
     puts "Release #{release.name} released!"
   end
 
@@ -544,6 +556,7 @@ EOS
 
   operation :edit, "Edit an issue", :issue do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
   end
   def edit project, config, opts, issue
     data = { :title => issue.title, :description => issue.desc,
@@ -556,11 +569,9 @@ EOS
       return
     end
 
-    comment = opts[:comment] || ask_multiline("Comments") unless $opts[:no_comment]
-
     begin
       edits = YAML.load_file fn
-      if issue.change edits, config.user, comment
+      if issue.change edits, config.user, get_comment(opts)
         puts "Change recorded."
       else
         puts "No changes."
