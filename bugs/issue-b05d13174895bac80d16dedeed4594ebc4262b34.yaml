@@ -5,7 +5,7 @@ desc: |-
   methods.
 type: :bugfix
 component: ditz
-release: "0.5"
+release: 
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -18,4 +18,9 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-08-17 02:31:10.342842 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - unassigned from release 0.5
+  - delaying this. not in anything's critical path.
 git_branch: 
+claimer: 
