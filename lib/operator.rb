@@ -134,7 +134,7 @@ class Operator
     if opts[:cow]
       puts "MOO!"
       puts "All is well with the world now. A bit more methane though."
-      exit 0
+      return
     end
     return help_single(command) if command
     puts <<EOS
