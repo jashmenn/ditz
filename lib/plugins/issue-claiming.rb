@@ -56,6 +56,33 @@ EOS
 end
 
 class Operator
+  alias :__issue_claiming_start :start
+  def start project, config, opts, issue
+    if issue.claimed? && issue.claimer != config.user
+      raise Error, "issue #{issue.name} claimed by #{issue.claimer}"
+    else
+      __issue_claiming_start project, config, opts, issue
+    end
+  end
+
+  alias :__issue_claiming_stop :stop
+  def stop project, config, opts, issue
+    if issue.claimed? && issue.claimer != config.user
+      raise Error, "issue #{issue.name} claimed by #{issue.claimer}"
+    else
+      __issue_claiming_stop project, config, opts, issue
+    end
+  end
+
+  alias :__issue_claiming_close :close
+  def close project, config, opts, issue
+    if issue.claimed? && issue.claimer != config.user
+      raise Error, "issue #{issue.name} claimed by #{issue.claimer}"
+    else
+      __issue_claiming_close project, config, opts, issue
+    end
+  end
+
   operation :claim, "Claim an issue for yourself", :issue do
     opt :force, "Claim this issue even if someone else has claimed it", :default => false
   end
