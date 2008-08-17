@@ -5,7 +5,7 @@ desc: |-
   bits are per-user. Both should be supported.
 type: :feature
 component: ditz
-release: "0.5"
+release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -18,4 +18,9 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-08-17 19:43:06.041420 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.6 from 0.5
+  - ""
 git_branch: 
+claimer: 

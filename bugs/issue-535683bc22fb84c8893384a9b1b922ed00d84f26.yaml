@@ -5,7 +5,7 @@ desc: |-
   Git commits need to be deduped within the git plugin.
 type: :bugfix
 component: ditz
-release: 
+release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -17,6 +17,10 @@ log_events:
 - - 2008-08-04 15:39:17.094954 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
+  - ""
+- - 2008-08-17 19:42:26.701128 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.6 from unassigned
   - ""
 git_branch: 
 claimer: 
