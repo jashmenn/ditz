@@ -1,10 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title><%= project.name %> release <%= release.name %></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
@@ -15,27 +16,29 @@
 <div class="backptr"><%= link_to "index", "&laquo; #{project.name} project page" %></div>
 
 <table>
-  <tr>
-    <td class="attrname">Status:</td>
-    <td class="attrval"><%= release.status %></td>
-  </tr>
-  <% if release.released? %>
+  <tbody>
     <tr>
-      <td class="attrname">Release time:</td>
-      <td class="attrval"><%=t release.release_time %></td>
+      <td class="attrname">Status:</td>
+      <td class="attrval"><%= release.status %></td>
     </tr>
-  <% end %>
-  <tr>
-    <td>Completion:</td>
-    <td>
-    <%
-      num_done = issues.count_of { |i| i.closed? }
-      pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
-    %>
-    <%= progress_meter pct_done %>
-    <%= sprintf "%.0f%%", pct_done * 100.0 %>
-    </td>
-  </tr>
+    <% if release.released? %>
+      <tr>
+        <td class="attrname">Release time:</td>
+        <td class="attrval"><%=t release.release_time %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td>Completion:</td>
+      <td>
+      <%
+        num_done = issues.count_of { |i| i.closed? }
+        pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
+      %>
+      <%= progress_meter pct_done %>
+      <%= sprintf "%.0f%%", pct_done * 100.0 %>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 <h2>Issues</h2>
@@ -47,20 +50,22 @@
 
 <h2>Release log</h2>
 <table class="log">
+  <tbody>
 <% release.log_events.reverse.each_with_index do |(time, who, what, comment), i| %>
-  <tr class="<%= i % 2 == 0 ? "even-row" : "odd-row" %>">
-  <td class="date"><%=h time %></td>
-  <td class="person"><%=obscured_email who %></td>
-  <td class="message"><%=h what %></td>
-  </tr>
-  <tr><td colspan="3" class="logcomment">
-    <% if comment.empty? %>
-    <% else %>
-      <%= link_issue_names project, comment %>
-    <% end %>
-  </td></tr>
-  <tr><td></td></tr>
+    <tr class="<%= i % 2 == 0 ? "even-row" : "odd-row" %>">
+    <td class="date"><%=h time %></td>
+    <td class="person"><%=obscured_email who %></td>
+    <td class="message"><%=h what %></td>
+    </tr>
+    <tr><td colspan="3" class="logcomment">
+      <% if comment.empty? %>
+      <% else %>
+        <%= link_issue_names project, comment %>
+      <% end %>
+    </td></tr>
+    <tr><td></td></tr>
 <% end %>
+  </tbody>
 </table>
 
 </div>

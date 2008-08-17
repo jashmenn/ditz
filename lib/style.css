@@ -2,6 +2,7 @@ body {
   font-family: "lucida grande", "sans serif";
   color: #333;
   width: 60em;
+  margin: auto;
 }
 
 div.main {

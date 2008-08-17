@@ -1,10 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title><%= project.name %> Issue Tracker</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
@@ -17,32 +18,34 @@
   <p>No upcoming releases.</p>
 <% else %>
   <table>
-  <% upcoming_releases.each do |r| %>
-    <%
-      issues = project.issues_for_release r
-      num_done = issues.count_of { |i| i.closed? }
-      pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
-      open_issues = issues.select { |i| i.open? }
-    %>
-    <tr><td>
-      <%= link_to r, "#{r.name}" %> 
-      </td>
-      <td>
-      <% if issues.empty? %>
-        no issues
-      <% elsif open_issues.empty? %>
-          ready for release!
-      <% else %>
-        <%= progress_meter pct_done %>
-        <%= sprintf "%.0f%%", pct_done * 100.0 %> complete
+    <tbody>
+    <% upcoming_releases.each do |r| %>
+      <%
+        issues = project.issues_for_release r
+        num_done = issues.count_of { |i| i.closed? }
+        pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
+        open_issues = issues.select { |i| i.open? }
+      %>
+      <tr><td>
+        <%= link_to r, "#{r.name}" %>
         </td>
-        <tr><td></td><td>
-        <%= num_done %> / <%= issues.size %> issues closed.
-        <%= link_to r, "See issues &raquo;" %>
-      <% end %>
-      </td>
-    </tr>
-  <% end %>
+        <td>
+        <% if issues.empty? %>
+          no issues
+        <% elsif open_issues.empty? %>
+            ready for release!
+        <% else %>
+          <%= progress_meter pct_done %>
+          <%= sprintf "%.0f%%", pct_done * 100.0 %> complete
+          </td>
+          </tr><tr><td></td><td>
+          <%= num_done %> / <%= issues.size %> issues closed.
+          <%= link_to r, "See issues &raquo;" %>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
   </table>
 <% end %>
 
@@ -51,9 +54,11 @@
   <p>No past releases.</p>
 <% else %>
   <table>
-  <% past_releases.sort_by { |r| r.release_time }.reverse.each do |r| %>
-    <tr><td><%= link_to r, r.name %></td><td class="littledate">on <%= r.release_time.pretty_date %></td></tr>
-  <% end %>
+    <tbody>
+    <% past_releases.sort_by { |r| r.release_time }.reverse.each do |r| %>
+      <tr><td><%= link_to r, r.name %></td><td class="littledate">on <%= r.release_time.pretty_date %></td></tr>
+    <% end %>
+    </tbody>
   </table>
 <% end %>
 
@@ -73,44 +78,48 @@
 <% if components.size > 1 %>
   <h2>Open Issues by component</h2>
   <table>
-  <% components.each do |c| %>
-    <%
-      issues = project.issues_for_component c
-      num_done = issues.count_of { |i| i.closed? }
-      pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
-      open_issues = issues.select { |i| i.open? }
-    %>
-    <% if open_issues.empty? %>
-      <tr class="dimmed">
-    <% else %>
-      <tr>
+    <tbody>
+    <% components.each do |c| %>
+      <%
+        issues = project.issues_for_component c
+        num_done = issues.count_of { |i| i.closed? }
+        pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
+        open_issues = issues.select { |i| i.open? }
+      %>
+      <% if open_issues.empty? %>
+        <tr class="dimmed">
+      <% else %>
+        <tr>
+      <% end %>
+      <td>
+        <%= link_to c, c.name %>
+      </td><td>
+        <%= "open issue".pluralize(open_issues.size) %>
+      </td></tr>
     <% end %>
-    <td>
-      <%= link_to c, c.name %>
-    </td><td>
-      <%= "open issue".pluralize(open_issues.size) %>
-    </td></tr>
-  <% end %>
+    </tbody>
   </table>
 <% end %>
 
 <h2>Recent activity</h2>
 
 <table class="log">
-<% project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
-      flatten_one_level.
-      sort_by { |e| e.first.first }.
-      reverse[0 ... 10].
-      each_with_index do |((date, who, what, comment), i), idx| %>
-  <tr class="<%= idx % 2 == 0 ? "even-row" : "odd-row" %>">
-    <td class="date"><%= date.pretty_date %></td>
-    <td class="issuename">
-      <%= link_issue_names project, h(i.name) %>
-    </td>
-    <td> <%= what %> </td>
-  </tr>
-  <tr><td></td></tr>
-<% end %>
+  <tbody>
+  <% project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
+        flatten_one_level.
+        sort_by { |e| e.first.first }.
+        reverse[0 ... 10].
+        each_with_index do |((date, who, what, comment), i), idx| %>
+    <tr class="<%= idx % 2 == 0 ? "even-row" : "odd-row" %>">
+      <td class="date"><%= date.pretty_date %></td>
+      <td class="issuename">
+        <%= link_issue_names project, h(i.name) %>
+      </td>
+      <td> <%= what %> </td>
+    </tr>
+    <tr><td></td></tr>
+  <% end %>
+  </tbody>
 </table>
 
 </div>
