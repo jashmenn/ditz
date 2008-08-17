@@ -362,8 +362,6 @@ EOS
       "not assigned to any release."
     end
 
-    puts "Assigning to release #{maybe_release.name}." if maybe_release
-
     release = maybe_release || begin
       releases = project.releases.sort_by { |r| (r.release_time || 0).to_i }
       releases -= [releases.find { |r| r.name == issue.release }] if issue.release
