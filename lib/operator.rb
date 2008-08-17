@@ -301,14 +301,11 @@ EOS
     end
   end
 
-  operation :todo, "Generate todo list", :maybe_release
-  def todo project, config, releases
-    actually_do_todo project, config, releases, false
+  operation :todo, "Generate todo list", :maybe_release do
+    opt :all, "Show all issues, included completed ones", :default => false
   end
-
-  operation :todo_full, "Generate full todo list, including completed items", :maybe_release
-  def todo_full project, config, releases
-    actually_do_todo project, config, releases, true
+  def todo project, config, opts, releases
+    actually_do_todo project, config, releases, opts[:all]
   end
 
   def actually_do_todo project, config, releases, full
