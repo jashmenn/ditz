@@ -21,6 +21,8 @@ lib/util.rb
 lib/view.rb
 lib/views.rb
 lib/plugins/git.rb
+lib/plugins/git-sync.rb
+lib/plugins/issue-claiming.rb
 contrib/completion/ditz.bash
 contrib/completion/_ditz.zsh
 man/ditz.1
