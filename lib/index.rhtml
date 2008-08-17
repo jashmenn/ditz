@@ -113,7 +113,7 @@
     <tr class="<%= idx % 2 == 0 ? "even-row" : "odd-row" %>">
       <td class="date"><%= date.pretty_date %></td>
       <td class="issuename">
-        <%= link_issue_names project, h(i.name) %>
+        <%= issue_link_for i, :status_image => true %>
       </td>
       <td> <%= what %> </td>
     </tr>

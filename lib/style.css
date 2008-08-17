@@ -41,7 +41,7 @@ p {
 
 .inline-status-image {
   position: relative;
-  top: 0.3em;
+  top: 0.2em;
 }
 
 .dimmed {
@@ -110,6 +110,14 @@ h2 {
 
 .issue-closed-reorg {
   background-image: "blue-check.png";
+}
+
+.inline-issue-link {
+  text-decoration: underline;
+}
+
+img {
+  border: 0;
 }
 
 /*

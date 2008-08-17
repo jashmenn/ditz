@@ -49,14 +49,6 @@ class ErbHtml
     "<a href=\"#{dest}\">#{name}</a>"
   end
 
-  def issue_link_for i
-    "<span class=\"#{i.status}_issue\">" + link_to(i, "#{i.title}") + "</span>"
-  end
-
-  def fancy_issue_link_for i
-    "<span class=\"#{i.status}_issue\">" + link_to(i, "#{i.title}") + issue_status_img_for(i, :class => "inline-status-image") + "</span>"
-  end
-
   def issue_status_img_for i, opts={}
     fn, title = if i.closed?
       case i.disposition
@@ -78,9 +70,16 @@ class ErbHtml
     "<img " + args.map { |k, v| "#{k}=#{v.inspect}" }.join(" ") + "/>"
   end
 
-  def link_issue_names project, s
+  def issue_link_for i, opts={}
+    link = link_to i, "#{i.title}"
+    link = "<span class=\"inline-issue-link\">" + link + "</span>" if opts[:inline]
+    link = link + issue_status_img_for(i, :class => "inline-status-image") if opts[:status_image]
+    link
+  end
+
+  def link_issue_names project, s, opts={}
     project.issues.inject(s) do |s, i|
-      s.gsub(/\b#{i.name}\b/, fancy_issue_link_for(i))
+      s.gsub(/\b#{i.name}\b/, issue_link_for(i, {:inline => true, :status_image => true}.merge(opts)))
     end
   end
 
