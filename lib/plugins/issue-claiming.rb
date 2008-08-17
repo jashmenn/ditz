@@ -1,3 +1,17 @@
+## issue-claiming ditz plugin
+## 
+## This plugin allows people to claim issues. This is useful for avoiding
+## duplication of work---you can check to see if someone's claimed an
+## issue before starting to work on it, and you can let people know what
+## you're working on.
+##
+## Commands added:
+##   ditz claim: claim an issue for yourself
+##   ditz unclaim: unclaim a claimed issue
+##   ditz mine: show all issues claimed by you
+##   ditz claimed: show all claimed issues, by developer
+##   ditz unclaimed: show all unclaimed issues
+
 module Ditz
 class Issue
   field :claimer, :ask => false
