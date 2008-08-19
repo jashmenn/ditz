@@ -241,27 +241,29 @@ class Issue < ModelObject
   end
   private :change_status
 
-  def change hash, who, comment
+  def change hash, who, comment, silent
     what = []
     if title != hash[:title]
-      what << "changed title"
+      what << "title"
       self.title = hash[:title]
     end
 
     if desc != hash[:description]
-      what << "changed description"
+      what << "description"
       self.desc = hash[:description]
     end
 
     if reporter != hash[:reporter]
-      what << "changed reporter"
+      what << "reporter"
       self.reporter = hash[:reporter]
     end
 
-    unless what.empty?
-      log what.join(", "), who, comment
+    unless what.empty? || silent
+      log "edited " + what.join(", "), who, comment
       true
     end
+
+    !what.empty?
   end
 
   def assign_to_release release, who, comment

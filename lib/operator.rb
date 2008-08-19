@@ -565,6 +565,7 @@ EOS
   operation :edit, "Edit an issue", :issue do
     opt :comment, "Specify a comment", :short => 'm', :type => String
     opt :no_comment, "Skip asking for a comment", :default => false
+    opt :silent, "Don't add a log message detailing the change", :default => false
   end
   def edit project, config, opts, issue
     data = { :title => issue.title, :description => issue.desc,
@@ -579,7 +580,8 @@ EOS
 
     begin
       edits = YAML.load_file fn
-      if issue.change edits, config.user, get_comment(opts)
+      comment = opts[:silent] ? nil : get_comment(opts)
+      if issue.change edits, config.user, comment, opts[:silent]
         puts "Change recorded."
       else
         puts "No changes."
