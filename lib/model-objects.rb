@@ -81,7 +81,7 @@ EOS
 
   def issues_for ident
     by_name = issues.find { |i| i.name == ident }
-    by_name ? [by_name] : issues.select { |i| i.id =~ /^#{ident}/ }
+    by_name ? [by_name] : issues.select { |i| i.id =~ /^#{Regexp::escape ident}/ }
   end
 
   def component_for component_name
