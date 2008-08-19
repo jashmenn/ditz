@@ -146,7 +146,7 @@ class ModelObject
   end
 
   def to_yaml opts={}
-    YAML::quick_emit(object_id, opts) do |out|
+    ret = YAML::quick_emit(object_id, opts) do |out|
       out.map(taguri, nil) do |map|
         self.class.fields.each do |f, fops|
           v = if @serialized_values.member?(f)
@@ -159,6 +159,7 @@ class ModelObject
         end
       end
     end
+    ret.decode
   end
 
   def log what, who, comment

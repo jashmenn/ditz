@@ -2,6 +2,8 @@
 
 ## requires are split in two for efficiency reasons: ditz should be really
 ## fast when using it for completion.
+$KCODE = "u"
+
 require 'operator'
 op = Ditz::Operator.new
 
@@ -16,6 +18,7 @@ require 'fileutils'
 require 'pathname'
 require 'trollop'; include Trollop
 require "ditz"
+require "vendor/yaml_waml"
 
 PROJECT_FN = "project.yaml"
 CONFIG_FN = ".ditz-config"
