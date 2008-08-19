@@ -51,6 +51,26 @@
   <%= render "issue_table", :show_component => false, :show_release => false %>
 <% end %>
 
+<h2>Recent activity for this release</h2>
+<table class="log">
+  <tbody>
+  <% issues.map { |i| i.log_events.map { |e| [e, i] } }.
+        flatten_one_level.
+        sort_by { |e| e.first.first }.
+        reverse[0 ... 10].
+        each_with_index do |((date, who, what, comment), i), idx| %>
+    <tr class="<%= idx % 2 == 0 ? "even-row" : "odd-row" %>">
+      <td class="date"><%= date.pretty_date %></td>
+      <td class="issuename">
+        <%= issue_link_for i, :status_image => true %>
+      </td>
+      <td> <%= what %> </td>
+    </tr>
+    <tr><td></td></tr>
+  <% end %>
+  </tbody>
+</table>
+
 <h2>Release log</h2>
 <table class="log">
   <tbody>
