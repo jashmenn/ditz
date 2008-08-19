@@ -15,12 +15,14 @@ lib/model-objects.rb
 lib/model.rb
 lib/operator.rb
 lib/release.rhtml
+lib/trollop.rb
 lib/style.css
 lib/unassigned.rhtml
 lib/util.rb
 lib/view.rb
 lib/views.rb
 lib/plugins/git.rb
+lib/plugins/issue-claiming.rb
 contrib/completion/ditz.bash
 contrib/completion/_ditz.zsh
 man/ditz.1
