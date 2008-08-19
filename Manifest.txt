@@ -23,7 +23,7 @@ lib/view.rb
 lib/views.rb
 lib/plugins/git.rb
 lib/plugins/issue-claiming.rb
+lib/vendor/yaml_waml.rb
 contrib/completion/ditz.bash
 contrib/completion/_ditz.zsh
-vendor/lib/yaml_waml.rb
 man/ditz.1
