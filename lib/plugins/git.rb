@@ -116,6 +116,8 @@ class Operator
     else
       "#{comment}\n#{tag}"
     end
+
+    message = message.gsub("\"", "\\\"")
     exec "git commit #{args} --message=\"#{message}\""
   end
 end
