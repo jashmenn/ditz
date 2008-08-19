@@ -1,0 +1,31 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: allow model object post-deserialization validation
+desc: |-
+  model objects should be able to validate their fields after being
+  deserialized. for example, if there's a line missing from a log_events
+  entry, you just get a weird error down the pipe.
+type: :task
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :in_progress
+disposition: 
+creation_time: 2008-08-19 05:44:35.953636 Z
+references: []
+
+id: c83a8f4048424c0b18ff4633a818adf5096d7e8a
+log_events: 
+- - 2008-08-19 05:44:36.670500 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-19 05:46:45.596433 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed status from unstarted to in_progress
+  - ""
+- - 2008-08-19 05:51:14.431967 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.6 from unassigned
+  - ""
+git_branch: 
+claimer: 

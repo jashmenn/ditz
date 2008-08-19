@@ -1,0 +1,23 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: upgrade 'ditz archive' to FileStorage mechanism
+desc: |-
+  The ditz archive code currently uses issue.pathname, which is deprecated.
+  It should use FileStorage (which probably has to be extended) in order
+  to deal with disk interactions.
+type: :task
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-19 05:26:50.935511 Z
+references: []
+
+id: 3982f81ec9523a31b3c711d66a36c5914fda3223
+log_events: 
+- - 2008-08-19 05:26:51.812129 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

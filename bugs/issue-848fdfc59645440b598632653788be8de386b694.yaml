@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add "recent activity on this release" section of webpage
+desc: ""
+type: :feature
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-17 20:44:55.726604 Z
+references: []
+
+id: 848fdfc59645440b598632653788be8de386b694
+log_events: 
+- - 2008-08-17 20:44:56.522399 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
