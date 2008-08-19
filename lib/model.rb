@@ -90,6 +90,10 @@ class ModelObject
       @serialized_values[name] = o
     end
 
+    define_method "__serialized_#{name}" do
+      @serialized_values[name]
+    end
+
     define_method name do
       return @values[name] if @values.member?(name)
       @values[name] = deserialized_form_of name, @serialized_values[name]
@@ -110,6 +114,14 @@ class ModelObject
     returning YAML::load_file(fn) do |o|
       raise ModelError, "error loading from yaml file #{fn.inspect}: expected a #{self}, got a #{o.class}" unless o.class == self
       o.pathname = fn if o.respond_to? :pathname=
+
+      o.class.fields.each do |f, opts|
+        m = "__serialized_#{f}"
+        if opts[:multi] && o.send(m).nil?
+          $stderr.puts "Warning: corrected nil multi-field #{f}"
+          o.send "#{m}=", []
+        end
+      end
     end
   end
 
