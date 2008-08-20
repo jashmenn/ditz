@@ -14,7 +14,18 @@ Ditz maintains an issue database directory on disk, with files written in a
 line-based and human-editable format. This directory can be kept under version
 control, alongside project code.
 
-There are several different ways to use ditz:
+Ditz provides a simple, console-based interface for creating and updating the
+issue database files, and some basic static HTML generation capabilities for
+producing world-readable status pages (for a demo, see the ditz ditz page).
+
+Ditz includes a robust plugin system for adding commands, model fields, and
+modifying output. See PLUGINS.txt for documentation on the pre-shipped plugins.
+
+Ditz currently offers no central public method of bug submission. 
+
+== USING DITZ
+
+There are several different ways to use Ditz:
 
 1. Treat issue change the same as code change: include it as part of commits,
    and merge it with changes from other developers, resolving conflicts in the
@@ -24,12 +35,18 @@ There are several different ways to use ditz:
    commits.
 3. Keep the issue database separate and not under VCS at all.
 
-Ditz provides a simple, console-based interface for creating and updating the
-issue database file, and some rudimentary static HTML generation capabilities
-for producing world-readable status pages (for a demo, see the ditz ditz page).
-It currently offers no central public method of bug submission. 
+All of these options are supported; the choice of which to use depends on your
+workflow.
 
-== SYNOPSIS
+Option #1 is probably most appropriate for the unsynchronized, distributed
+development, since it allows individual developers to modify issue state with a
+minimum of hassle. Option #2 is most suitable for synchronized development, as
+issue state change can be transmitted independently of code change (see also
+the git-sync plugin) and can act as a sychronization mechanism. Option #3 is
+only useful with some other distribution mechanism, like a central web
+interface.
+
+== COMMANDLINE SYNOPSIS
 
 # set up project. creates the bugs.yaml file.
 1. ditz init
@@ -53,16 +70,17 @@ It currently offers no central public method of bug submission.
 
 == THE DITZ DATA MODEL
 
-Ditz includes the bare minimum set of features necessary for open-source
-development. Features like time spent, priority, assignment of tasks to
-developers, due dates, etc. are purposely excluded.
+By default, Ditz includes the bare minimum set of features necessary for
+open-source development. Features like time spent, priority, assignment of
+tasks to developers, due dates, etc. are purposely relegated to the plugin
+system.
 
-A ditz project consists of issues, releases and components.
+A Ditz project consists of issues, releases and components.
 
 Issues:
-  Issues are the fundamental currency of issue tracking. A ditz issue is either
-  a feature or a bug, but this distinction doesn't affect anything other than
-  how they're displayed.
+  Issues are the fundamental currency of issue tracking. A Ditz issue is either
+  a feature or a bug, but this distinction currently doesn't affect anything
+  other than how they're displayed.
 
   Each issue belongs to exactly one component, and is part of zero or one
   releases.
@@ -72,9 +90,13 @@ Issues:
   developers, present and future. Issue ids are typically not exposed to the
   user.
 
-  Issues also have a non-exportable name, which is short and human-readable.
-  All ditz commands use issue names instead of issue ids. Issue ids may change
-  in certain circumstances, specifically after a "ditz drop" command.
+  Issues also have a non-global, non-exportable name, which is short and
+  human-readable. All Ditz commands use issue names in addition to issue ids.
+  Issue names (but not issue ids) may change in certain circumstances, e.g.
+  after a "ditz drop" command.
+
+  Issue names can be specified in comments, titles and descriptions, and Ditz
+  will automatically rewrite them as necessary when they change.
 
 Components:
   There is always one "general" component, named after the project itself. In
@@ -82,20 +104,14 @@ Components:
   with the question of which component to assign an issue to.
 
   Components simply provide a way of organizing issues, and have no real
-  functionality. Issues are assigned names derived form the component they're
-  assigned to.
+  functionality. Issues names are derived from the component they're assigned
+  to.
 
 Releases:
   A release is the primary grouping mechanism for issues. Status commands like
   "ditz status" and "ditz todo" always group issues by release. When a release
-  is 100% complete, it can be marked as released, in which case the associated
-  issues will cease appearing in ditz status and todo messages.
-
-== FUTURE WORK
-
-In future releases, Ditz will have a plugin architecture to allow tighter
-integration with specific SCMs and developer communication channels. (See
-http://ditz.rubyforge.org/ditz/issue-0704dafe4aef96279364013aba177a0971d425cb.html)
+  is 100% complete, it can be marked as released, and its issues will cease
+  appearing in Ditz status and todo messages.
 
 == LEARNING MORE
 
@@ -104,7 +120,7 @@ http://ditz.rubyforge.org/ditz/issue-0704dafe4aef96279364013aba177a0971d425cb.ht
 
 == REQUIREMENTS
 
-* trollop >= 1.8.2
+* trollop >= 1.8.2, if running via RubyGems.
 
 == INSTALLATION
 
