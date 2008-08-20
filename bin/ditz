@@ -168,14 +168,19 @@ unless project.deleted_issues.empty?
   end
 end
 
-## hack upon a hack
-project.pathname = storage.filename_for_project
-changed_not_added_issues << project
-
 unless changed_not_added_issues.empty?
   unless Ditz::HookManager.run :after_update, project, config, changed_not_added_issues
     puts "You may have to inform your SCM that the following files have been modified:"
     changed_not_added_issues.each { |i| puts "  " + storage.filename_for_issue(i) }
+  end
+end
+
+## hack upon a hack
+if project.changed?
+  project.pathname = storage.filename_for_project
+  unless Ditz::HookManager.run :after_update, project, config, [project]
+    puts "You may have to inform your SCM that the following files have been modified:"
+    puts "  " + storage.filename_for_project
   end
 end
 
