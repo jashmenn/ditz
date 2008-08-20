@@ -11,6 +11,11 @@
 ##   ditz mine: show all issues claimed by you
 ##   ditz claimed: show all claimed issues, by developer
 ##   ditz unclaimed: show all unclaimed issues
+##
+## Usage:
+##   1. add a line "- issue-claiming" to the .ditz-plugins file in the project
+##      root
+##   2. use the above commands to abandon
 
 module Ditz
 class Issue

@@ -1,3 +1,31 @@
+## git ditz plugin
+## 
+## This plugin allows issues to be associated with git commits and git
+## branches.  Git commits can be easily tagged with a ditz issue with the 'ditz
+## commit' command, and both 'ditz show' and the ditz HTML output will then
+## contain a list of associated commits for each issue.
+##
+## Issues can also be assigned a single git feature branch. In this case, all
+## commits on that branch will listed as commits for that issue. This
+## particular feature is fairly rudimentary, however---it assumes the reference
+## point is the 'master' branch, and once the feature branch is merged back
+## into master, the list of commits disappears.
+##
+## Two configuration variables are added, which, when specified, are used to
+## construct HTML links for the git commit id and branch names in the generated
+## HTML output.
+##
+## Commands added:
+##   ditz set-branch: set the git branch of an issue
+##   ditz commit: run git-commit, and insert the issue id into the commit
+##     message.
+##
+## Usage: 
+##   1. add a line "- git" to the .ditz-plugins file in the project root
+##   2. run ditz reconfigure, and enter the URL prefixes, if any, from
+##      which to create commit and branch links.
+##   3. use 'ditz commit' with abandon.
+
 require 'time'
 
 module Ditz

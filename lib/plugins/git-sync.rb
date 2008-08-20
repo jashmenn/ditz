@@ -32,6 +32,13 @@
 ## This complicated setup is necessary to avoid accidentally mingling code
 ## change and issue change. With this setup, issue change is synchronized,
 ## but how you synchronize code is still up to you.
+##
+## Usage:
+##   0. read all the above text very carefully
+##   1. add a line "- git-sync" to the .ditz-plugins file in the project
+##      root
+##   2. run 'ditz reconfigure' and answer its questions
+##   3. run 'ditz sync' with abandon
 
 module Ditz
 
