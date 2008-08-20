@@ -5,6 +5,7 @@ ReleaseNotes
 bin/ditz
 lib/component.rhtml
 lib/ditz.rb
+lib/file-storage.rb
 lib/hook.rb
 lib/html.rb
 lib/index.rhtml
