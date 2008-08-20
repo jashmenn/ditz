@@ -1,6 +1,6 @@
 module Ditz
 
-VERSION = "0.4"
+VERSION = "0.5"
 
 def debug s
   puts "# #{s}" if $verbose

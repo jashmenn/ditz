@@ -1,3 +1,9 @@
+0.5
+---
+
+Two new plugins: git-sync, for synchronized git usage, and issue-claiming,
+which allows you to claim issues for yourself. See PLUGINS.txt for details.
+
 0.4
 ---
 - Command-line completion scripts are now included for bash and zsh. To

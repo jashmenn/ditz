@@ -1,3 +1,18 @@
+== 0.5 / 2008-08-20
+* ditz tarball now installable without requiring rubygems
+* commands now take their own arguments. use 'ditz help' to see them.
+* 'todo-full' has been replaced with 'todo --all'
+* all commands that required comments now take --comment and --no-comment
+* new git-sync hooks git-sync for synchronized git usage
+* new issue-claiming hook for claiming issues for oneself
+* update hook now called on project.yaml as well as changed issue yaml files
+* hooks no longer run twice if a project devel root is under a home directory
+* when editing a field in an editor, comments are now at the bottom of the buffer
+* ditz now acceps issue ids as well as issue names on the commandline
+* ditz edit takes a --silent option to avoid generating a log message
+* a 'reconfigure' command has been added
+* various webpage tweaks
+* more unix-centrisms fixed
 == 0.4 / 2008-07-27
 * bugfix: HOME environment variable now correctly detected on windows
 * hooks loaded from both home directory and project directory
