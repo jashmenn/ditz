@@ -20,7 +20,7 @@ Hoe.new('ditz', Ditz::VERSION) do |p|
   p.extra_deps = [['trollop', '>= 1.8.2']]
 end
 
-WWW_FILES = FileList["www/*"] + %w(README.txt)
+WWW_FILES = FileList["www/*"] + %w(README.txt PLUGINS.txt)
 
 task :upload_webpage => WWW_FILES do |t|
   sh "rsync -essh -cavz #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
@@ -29,6 +29,10 @@ end
 task :upload_report do |t|
   sh "ruby -Ilib bin/ditz html ditz"
   sh "rsync -essh -cavz ditz wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
+end
+
+task :plugins  do |t|
+  sh "ruby -w ./make-plugins.txt.rb > PLUGINS.txt"
 end
 
 # vim: syntax=ruby
