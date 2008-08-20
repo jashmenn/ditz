@@ -52,7 +52,7 @@ def load_plugins fn
   plugins.each do |p|
     fn = Ditz::find_ditz_file "plugins/#{p}.rb"
     Ditz::debug "loading plugin #{p.inspect} from #{fn}"
-    load fn
+    require File.expand_path(fn)
   end
   plugins
 end

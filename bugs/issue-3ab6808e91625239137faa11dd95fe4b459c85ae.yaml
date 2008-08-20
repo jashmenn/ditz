@@ -5,8 +5,8 @@ type: :bugfix
 component: ditz
 release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-08-04 15:24:02.505439 Z
 references: []
 
@@ -16,5 +16,12 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-08-20 00:07:30.531696 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - |-
+    replaced load with require and expanded the path name. i think that should do it.
+    
+    also did this for plugins.
 git_branch: 
 claimer: 
