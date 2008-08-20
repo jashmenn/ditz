@@ -41,6 +41,8 @@ class Project < ModelObject
   field :components, :multi => true, :generator => :get_components
   field :releases, :multi => true, :ask => false
 
+  attr_accessor :pathname
+
   ## issues are not model fields proper, so we build up their interface here.
   attr_reader :issues
   def issues= issues

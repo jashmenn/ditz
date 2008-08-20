@@ -48,6 +48,7 @@ class FileStorage
   end
 
   def filename_for_issue i; File.join @base_dir, ISSUE_TO_FN(i) end
+  def filename_for_project; @project_fn end
 end
 
 end
