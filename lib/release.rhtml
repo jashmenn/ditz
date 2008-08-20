@@ -28,7 +28,7 @@
       </tr>
     <% end %>
     <tr>
-      <td>Completion:</td>
+      <td class="attrname">Completion:</td>
       <td>
       <%
         num_done = issues.count_of { |i| i.closed? }
@@ -38,7 +38,7 @@
       <%= sprintf "%.0f%%", pct_done * 100.0 %>
       </td>
     </tr>
-    <tr><td></td><td>
+    <tr><td></td><td class="attrval">
       <%= num_done %> / <%= issues.size %> issues
     </td></tr>
   </tbody>
