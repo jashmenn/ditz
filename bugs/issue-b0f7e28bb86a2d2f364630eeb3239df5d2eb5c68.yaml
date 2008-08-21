@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: make sheila work
+desc: |-
+  i think all that's required at this point is {issue d637e20f09a656887adf0ae6e508b5f77acc6376} and then
+  some tweaking.
+type: :feature
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-21 20:13:19.223290 Z
+references: []
+
+id: b0f7e28bb86a2d2f364630eeb3239df5d2eb5c68
+log_events: 
+- - 2008-08-21 20:13:19.223796 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
