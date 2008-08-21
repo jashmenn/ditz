@@ -1,3 +1,22 @@
+## issue-claiming ditz plugin
+## 
+## This plugin allows people to claim issues. This is useful for avoiding
+## duplication of work---you can check to see if someone's claimed an
+## issue before starting to work on it, and you can let people know what
+## you're working on.
+##
+## Commands added:
+##   ditz claim: claim an issue for yourself
+##   ditz unclaim: unclaim a claimed issue
+##   ditz mine: show all issues claimed by you
+##   ditz claimed: show all claimed issues, by developer
+##   ditz unclaimed: show all unclaimed issues
+##
+## Usage:
+##   1. add a line "- issue-claiming" to the .ditz-plugins file in the project
+##      root
+##   2. use the above commands to abandon
+
 module Ditz
 class Issue
   field :claimer, :ask => false
@@ -31,17 +50,44 @@ end
 
 class HtmlView
   add_to_view :issue_summary do |issue, config|
-    next unless issue.git_branch
-    [<<EOS, { :issue => issue, :url_prefix => config.git_branch_url_prefix }]
+    next unless issue.claimer
+    [<<EOS, { :issue => issue }]
 <tr>
   <td class='attrname'>Claimed by:</td>
-  <td class='attrval'>h(issue.claimer) %></td>
+  <td class='attrval'><%= h(issue.claimer) %></td>
 </tr>
 EOS
   end
 end
 
 class Operator
+  alias :__issue_claiming_start :start
+  def start project, config, opts, issue
+    if issue.claimed? && issue.claimer != config.user
+      raise Error, "issue #{issue.name} claimed by #{issue.claimer}"
+    else
+      __issue_claiming_start project, config, opts, issue
+    end
+  end
+
+  alias :__issue_claiming_stop :stop
+  def stop project, config, opts, issue
+    if issue.claimed? && issue.claimer != config.user
+      raise Error, "issue #{issue.name} claimed by #{issue.claimer}"
+    else
+      __issue_claiming_stop project, config, opts, issue
+    end
+  end
+
+  alias :__issue_claiming_close :close
+  def close project, config, opts, issue
+    if issue.claimed? && issue.claimer != config.user
+      raise Error, "issue #{issue.name} claimed by #{issue.claimer}"
+    else
+      __issue_claiming_close project, config, opts, issue
+    end
+  end
+
   operation :claim, "Claim an issue for yourself", :issue do
     opt :force, "Claim this issue even if someone else has claimed it", :default => false
   end
@@ -62,12 +108,17 @@ class Operator
     puts "Issue #{issue.name} marked as unclaimed."
   end
 
-  operation :claimed, "Show all issues claimed by you" do
+  operation :mine, "Show all issues claimed by you", :maybe_release do
     opt :all, "Show all issues, not just open ones"
   end
-  def claimed project, config, opts
-    puts "#{opts[:all] ? "All" : "Open"} issues claimed by you:"
-    issues = project.issues.select { |i| i.claimer == config.user && (opts[:all] || i.open?) }
+  def mine project, config, opts, releases
+    releases ||= project.unreleased_releases + [:unassigned]
+    releases = [*releases]
+
+    issues = project.issues.select do |i|
+      r = project.release_for(i.release) || :unassigned
+      releases.member?(r) && i.claimer == config.user && (opts[:all] || i.open?)
+    end
     if issues.empty?
       puts "No issues."
     else
@@ -75,12 +126,43 @@ class Operator
     end
   end
 
-  operation :unclaimed, "Show all unclaimed issues" do
+  operation :claimed, "Show claimed issues by claimer", :maybe_release do
     opt :all, "Show all issues, not just open ones"
   end
-  def unclaimed project, config, opts
-    puts "Unclaimed#{opts[:all] ? "" : ", open"} issues:"
-    issues = project.issues.select { |i| i.claimer.nil? && (opts[:all] || i.open?) }
+  def claimed project, config, opts, releases
+    releases ||= project.unreleased_releases + [:unassigned]
+    releases = [*releases]
+
+    issues = project.issues.inject({}) do |h, i|
+      r = project.release_for(i.release) || :unassigned
+      if i.claimed? && (opts[:all] || i.open?) && releases.member?(r)
+        (h[i.claimer] ||= []) << i
+      end
+      h
+    end
+
+    if issues.empty?
+      puts "No issues."
+    else
+      issues.keys.sort.each do |c|
+        puts "#{c}:"
+        puts todo_list_for(issues[c], :show_release => true)
+        puts
+      end
+    end
+  end
+
+  operation :unclaimed, "Show all unclaimed issues", :maybe_release do
+    opt :all, "Show all issues, not just open ones"
+  end
+  def unclaimed project, config, opts, releases
+    releases ||= project.unreleased_releases + [:unassigned]
+    releases = [*releases]
+
+    issues = project.issues.select do |i|
+      r = project.release_for(i.release) || :unassigned
+      releases.member?(r) && i.claimer.nil? && (opts[:all] || i.open?)
+    end
     if issues.empty?
       puts "No issues."
     else

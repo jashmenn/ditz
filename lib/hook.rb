@@ -57,7 +57,7 @@ EOS
         files = dirs.map { |d| Dir[File.join(d, "*.rb")] }.flatten
         files.each do |fn|
           Ditz::debug "loading hook file #{fn}"
-          load fn
+          require File.expand_path(fn)
         end
       end
 

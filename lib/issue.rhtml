@@ -1,111 +1,119 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title><%= issue.title %></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
 
-<div><%= link_to "index", "&laquo; #{project.name} project page" %></div>
+<div class="main">
 
 <h1><%= link_issue_names project, issue.title %></h1>
+<div class="backptr"><%= link_to "index", "&laquo; #{project.name} project page" %></div>
 
-<%= link_issue_names project, p(issue.desc) %>
+<% if issue.desc && !issue.desc.empty? %>
+  <div class="description">
+  <%= link_issue_names project, p(issue.desc) %>
+  </div>
+<% end %>
 
+<h2>Details</h2>
 <table>
-  <tr>
-    <td class="attrname">Id:</td>
-    <td class="attrval"><%= issue.id %></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td class="attrname">Id:</td>
+      <td class="attrval"><span class="id"><%= issue.id %></span></td>
+    </tr>
 
-  <tr>
-    <td class="attrname">Type:</td>
-    <td class="attrval"><%= issue.type %></td>
-  </tr>
+    <tr>
+      <td class="attrname">Type:</td>
+      <td class="attrval"><%= issue.type %></td>
+    </tr>
 
-  <tr>
-    <td class="attrname">Creation time:</td>
-    <td class="attrval"><%= issue.creation_time %></td>
-  </tr>
+    <tr>
+      <td class="attrname">Creation time:</td>
+      <td class="attrval"><%=t issue.creation_time %></td>
+    </tr>
 
-  <tr>
-    <td class="attrname">Creator:</td>
-    <td class="attrval"><%=obscured_email issue.reporter %></td>
-  </tr>
+    <tr>
+      <td class="attrname">Creator:</td>
+      <td class="attrval"><span class="person"><%=obscured_email issue.reporter %></span></td>
+    </tr>
 
-  <% unless issue.references.empty? %>
-  <tr>
-    <td class="attrname">References:</td>
-    <td class="attrval">
-      <% issue.references.each_with_index do |r, i| %>
-        [<%= i + 1 %>] <%= link_to r, r %><br/>
-      <% end %>
-    </td>
-  </tr>
-
-  <% end %>
-
-  <tr>
-    <td class="attrname">Release:</td>
-    <td class="attrval">
-      <% if release %>
-        <%= link_to release, release.name %>
-        <% if release.released? %>
-          (released <%= release.release_time.pretty_date %>)
-        <% else %>
-          (unreleased)
+    <% unless issue.references.empty? %>
+    <tr>
+      <td class="attrname">References:</td>
+      <td class="attrval">
+        <% issue.references.each_with_index do |r, i| %>
+          [<%= i + 1 %>] <%= link_to r, r %><br/>
         <% end %>
-      <% else %>
-        <%= link_to "unassigned", "unassigned" %>
-      <% end %>
-    </td>
-  </tr>
+      </td>
+    </tr>
 
-  <tr>
-    <td class="attrname">Component:</td>
-    <td class="attrval"><%= link_to component, component.name %></td>
-  </tr>
+    <% end %>
 
-  <tr>
-    <td class="attrname">Status:</td>
-    <td class="attrval"> 
-      <%= issue.status_string %><% if issue.closed? %>: <%= issue.disposition_string %><% end %>
-    </td>
-  </tr>
+    <tr>
+      <td class="attrname">Release:</td>
+      <td class="attrval">
+        <% if release %>
+          <%= link_to release, release.name %>
+          <% if release.released? %>
+            (released <%= release.release_time.pretty_date %>)
+          <% else %>
+            (unreleased)
+          <% end %>
+        <% else %>
+          <%= link_to "unassigned", "unassigned" %>
+        <% end %>
+      </td>
+    </tr>
 
-  <%= extra_summary_html %>
+    <tr>
+      <td class="attrname">Component:</td>
+      <td class="attrval"><%= link_to component, component.name %></td>
+    </tr>
 
+    <tr>
+      <td class="attrname">Status:</td>
+      <td class="attrval">
+        <%= issue.status_string %><% if issue.closed? %>: <%= issue.disposition_string %><% end %>
+        <%= issue_status_img_for issue, :class => "inline-status-image" %>
+      </td>
+    </tr>
+
+    <%= extra_summary_html %>
+  </tbody>
 </table>
 
 <%= extra_details_html %>
 
 <h2>Issue log</h2>
 
-<table>
-<% issue.log_events.each_with_index do |(time, who, what, comment), i| %>
-<% if i % 2 == 0 %>
-  <tr class="logentryeven">
-<% else %>
-  <tr class="logentryodd">
-<% end %>
-  <td class="logtime"><%=t time %></td>
-  <td class="logwho"><%=obscured_email who %></td>
-  <td class="logwhat"><%=h what %></td>
-  </tr>
-  <tr><td colspan="3" class="logcomment">
-    <% if comment.empty? %>
-    <% else %>
-      <%= link_issue_names project, p(comment) %>
+<table class="log">
+  <tbody>
+  <% issue.log_events.reverse.each_with_index do |(time, who, what, comment), i| %>
+    <tr class="<%= i % 2 == 0 ? "even-row" : "odd-row" %>">
+      <td class="date"><%=t time %></td>
+      <td class="person"><%=obscured_email who %></td>
+      <td class="message"><%=h what %></td>
+    </tr>
+    <% unless comment.empty? %>
+      <tr><td colspan="3" class="logcomment">
+      <%= link_issue_names project, comment %>
+      </td></tr>
     <% end %>
-  </td></tr>
-<% end %>
+    <tr><td></td></tr>
+  <% end %>
+  </tbody>
 </table>
 
-<p class="footer">Generated by <a
-href="http://ditz.rubyforge.org/">ditz</a>.</p>
+</div>
+<div class="footer">Generated by <a href="http://ditz.rubyforge.org/">ditz</a>.</div>
+
 </body>
 </html>

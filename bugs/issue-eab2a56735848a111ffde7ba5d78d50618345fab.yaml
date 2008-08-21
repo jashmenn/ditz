@@ -3,7 +3,7 @@ title: ruby 1.9 breaks ditz
 desc: possibly just a matter of digest/sha1 -> sha1
 type: :bugfix
 component: ditz
-release: "0.5"
+release: 
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -16,4 +16,22 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-08-17 02:28:11.930050 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - unassigned from release 0.5
+  - |-
+    When I run it with ruby 1.9 I see errors like this:
+    
+      /home/w/devel/ditz/lib/model-objects.rb:1:in `require': /home/w/devel/ditz/lib/model.rb:194: multiple assignment in conditional (SyntaxError)
+      /home/w/devel/ditz/lib/model.rb:212: multiple assignment in conditional from /home/w/devel/ditz/lib/model-objects.rb:1:in `<top (required)>'
+              from /home/w/devel/ditz/lib/ditz.rb:63:in `require'
+              from /home/w/devel/ditz/lib/ditz.rb:63:in `<top (required)>'
+              from bin/ditz:22:in `require'
+              from bin/ditz:22:in `<main>'
+    
+    Which seems plumb crazy to me. Those are perfectly valid blocks of Ruby.
+    
+    As of now, I'm delaying fixing the Ruby 1.9 issue until I understand
+    what the above is and whether I should care.
 git_branch: 
+claimer: 

@@ -17,9 +17,10 @@ Hoe.new('ditz', Ditz::VERSION) do |p|
   p.url = "http://ditz.rubyforge.org"
   p.changes = p.paragraphs_of('Changelog', 0..0).join("\n\n")
   p.email = "wmorgan-ditz@masanjin.net"
+  p.extra_deps = [['trollop', '>= 1.9']]
 end
 
-WWW_FILES = FileList["www/*"] + %w(README.txt)
+WWW_FILES = FileList["www/*"] + %w(README.txt PLUGINS.txt)
 
 task :upload_webpage => WWW_FILES do |t|
   sh "rsync -essh -cavz #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
@@ -28,6 +29,38 @@ end
 task :upload_report do |t|
   sh "ruby -Ilib bin/ditz html ditz"
   sh "rsync -essh -cavz ditz wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
+end
+
+task :plugins  do |t|
+  sh "ruby -w ./make-plugins.txt.rb > PLUGINS.txt"
+end
+
+task :really_check_manifest do |t|
+  f1 = Tempfile.new "manifest"; f1.close
+  f2 = Tempfile.new "manifest"; f2.close
+  sh "git ls-files | egrep -v \"^bugs/\" | sort > #{f1.path}"
+  sh "sort Manifest.txt > #{f2.path}"
+
+  f3 = Tempfile.new "manifest"; f3.close
+  sh "diff -u #{f1.path} #{f2.path} > #{f3.path}; /bin/true"
+
+  left, right = [], []
+  IO.foreach(f3.path) do |l|
+    case l
+    when /^\-\-\-/
+    when /^\+\+\+/
+    when /^\-(.*)\n$/; left << $1
+    when /^\+(.*)\n$/; right << $2
+    end
+  end
+
+  puts
+  puts "Tracked by git but not in Manifest.txt:"
+  puts left.empty? ? "  <nothing>" : left.map { |l| "  " + l }
+
+  puts
+  puts "In Manifest.txt, but not tracked by git:"
+  puts right.empty? ? "  <nothing>" : right.map { |l| "  " + l }
 end
 
 # vim: syntax=ruby

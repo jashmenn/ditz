@@ -134,7 +134,7 @@ class Operator
     if opts[:cow]
       puts "MOO!"
       puts "All is well with the world now. A bit more methane though."
-      exit 0
+      return
     end
     return help_single(command) if command
     puts <<EOS
@@ -170,11 +170,32 @@ Usage: ditz #{name} #{args}
 EOS
   end
 
-  operation :add, "Add an issue"
-  def add project, config
+  ## gets a comment from the user, assuming the standard argument setup
+  def get_comment opts
+    comment = if opts[:no_comment]
+      nil
+    elsif opts[:comment]
+      opts[:comment]
+    else
+      ask_multiline "Comments"
+    end
+  end
+  private :get_comment
+
+  operation :reconfigure, "Rerun configuration script"
+  def reconfigure project, config
+    new_config = Config.create_interactively :defaults_from => config
+    new_config.save! $opts[:config_file]
+    puts "Configuration written."
+  end
+
+  operation :add, "Add an issue" do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def add project, config, opts
     issue = Issue.create_interactively(:args => [config, project]) or return
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-    issue.log "created", config.user, comment
+    issue.log "created", config.user, get_comment(opts)
     project.add_issue issue
     project.assign_issue_names!
     puts "Added issue #{issue.name}."
@@ -186,12 +207,14 @@ EOS
     puts "Dropped #{issue.name}. Note that other issue names may have changed."
   end
 
-  operation :add_release, "Add a release", :maybe_name
-  def add_release project, config, maybe_name
+  operation :add_release, "Add a release", :maybe_name do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def add_release project, config, opts, maybe_name
     puts "Adding release #{maybe_name}." if maybe_name
     release = Release.create_interactively(:args => [project, config], :with => { :name => maybe_name }) or return
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-    release.log "created", config.user, comment
+    release.log "created", config.user, get_comment(opts)
     project.add_release release
     puts "Added release #{release.name}."
   end
@@ -203,13 +226,15 @@ EOS
     puts "Added component #{component.name}."
   end
 
-  operation :add_reference, "Add a reference to an issue", :issue
-  def add_reference project, config, issue
+  operation :add_reference, "Add a reference to an issue", :issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def add_reference project, config, opts, issue
     puts "Adding a reference to #{issue.name}: #{issue.title}."
     reference = ask "Reference"
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
     issue.add_reference reference
-    issue.log "added reference #{issue.references.size}", config.user, comment
+    issue.log "added reference #{issue.references.size}", config.user, get_comment(opts)
     puts "Added reference to #{issue.name}."
   end
 
@@ -233,7 +258,9 @@ EOS
         "%2d/%2d %s" % [nc, num, type.to_s.pluralize(num, false)]
       end
 
-      bar = if r != :unassigned && r.released?
+      bar = if r == :unassigned
+        ""
+      elsif r.released?
         "(released)"
       elsif issues.empty?
         "(no issues)"
@@ -273,23 +300,25 @@ EOS
       join
   end
 
-  def todo_list_for issues
+  def todo_list_for issues, opts={}
     return if issues.empty?
     name_len = issues.max_of { |i| i.name.length }
     issues.map do |i|
-      sprintf "%s %#{name_len}s: %s\n", i.status_widget, i.name, i.title
+      s = sprintf "%s %#{name_len}s: %s", i.status_widget, i.name, i.title
+      s += " [#{i.release}]" if opts[:show_release] && i.release
+      s + "\n"
     end.join
   end
 
   def print_todo_list_by_release_for project, issues
     by_release = issues.inject({}) do |h, i|
-      r = project.release_for i.release
+      r = project.release_for(i.release) || :unassigned
       h[r] ||= []
       h[r] << i
       h
     end
 
-    project.releases.each do |r|
+    (project.releases + [:unassigned]).each do |r|
       next unless by_release.member? r
       puts r == :unassigned ? "Unassigned:" : "#{r.name} (#{r.status}):"
       print todo_list_for(by_release[r])
@@ -297,14 +326,11 @@ EOS
     end
   end
 
-  operation :todo, "Generate todo list", :maybe_release
-  def todo project, config, releases
-    actually_do_todo project, config, releases, false
+  operation :todo, "Generate todo list", :maybe_release do
+    opt :all, "Show all issues, included completed ones", :default => false
   end
-
-  operation :todo_full, "Generate full todo list, including completed items", :maybe_release
-  def todo_full project, config, releases
-    actually_do_todo project, config, releases, true
+  def todo project, config, opts, releases
+    actually_do_todo project, config, releases, opts[:all]
   end
 
   def actually_do_todo project, config, releases, full
@@ -324,33 +350,42 @@ EOS
     ScreenView.new(project, config).render_issue issue
   end
 
-  operation :start, "Start work on an issue", :unstarted_issue
-  def start project, config, issue
+  operation :start, "Start work on an issue", :unstarted_issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def start project, config, opts, issue
     puts "Starting work on issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-    issue.start_work config.user, comment
+    issue.start_work config.user, get_comment(opts)
     puts "Recorded start of work for #{issue.name}."
   end
 
-  operation :stop, "Stop work on an issue", :started_issue
-  def stop project, config, issue
+  operation :stop, "Stop work on an issue", :started_issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def stop project, config, opts, issue
     puts "Stopping work on issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-    issue.stop_work config.user, comment
+    issue.stop_work config.user, get_comment(opts)
     puts "Recorded work stop for #{issue.name}."
   end
 
-  operation :close, "Close an issue", :open_issue
-  def close project, config, issue
+  operation :close, "Close an issue", :open_issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def close project, config, opts, issue
     puts "Closing issue #{issue.name}: #{issue.title}."
     disp = ask_for_selection Issue::DISPOSITIONS, "disposition", lambda { |x| Issue::DISPOSITION_STRINGS[x] || x.to_s }
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-    issue.close disp, config.user, comment
+    issue.close disp, config.user, get_comment(opts)
     puts "Closed issue #{issue.name} with disposition #{issue.disposition_string}."
   end
 
-  operation :assign, "Assign an issue to a release", :issue, :maybe_release
-  def assign project, config, issue, maybe_release
+  operation :assign, "Assign an issue to a release", :issue, :maybe_release do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def assign project, config, opts, issue, maybe_release
     if maybe_release && maybe_release.name == issue.release
       raise Error, "issue #{issue.name} already assigned to release #{issue.release}"
     end
@@ -360,8 +395,6 @@ EOS
     else
       "not assigned to any release."
     end
-
-    puts "Assigning to release #{maybe_release.name}." if maybe_release
 
     release = maybe_release || begin
       releases = project.releases.sort_by { |r| (r.release_time || 0).to_i }
@@ -374,13 +407,15 @@ EOS
         end
       end
     end
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-    issue.assign_to_release release, config.user, comment
+    issue.assign_to_release release, config.user, get_comment(opts)
     puts "Assigned #{issue.name} to #{release.name}."
   end
 
-  operation :set_component, "Set an issue's component", :issue, :maybe_component
-  def set_component project, config, issue, maybe_component
+  operation :set_component, "Set an issue's component", :issue, :maybe_component do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def set_component project, config, opts, issue, maybe_component
     puts "Changing the component of issue #{issue.name}: #{issue.title}."
 
     if project.components.size == 1
@@ -396,8 +431,7 @@ EOS
       components -= [components.find { |r| r.name == issue.component }] if issue.component
       ask_for_selection(components, "component") { |r| r.name }
     end
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-    issue.assign_to_component component, config.user, comment
+    issue.assign_to_component component, config.user, get_comment(opts)
     oldname = issue.name
     project.assign_issue_names!
     puts <<EOS
@@ -406,18 +440,23 @@ have changed as well.
 EOS
   end
 
-  operation :unassign, "Unassign an issue from any releases", :assigned_issue
-  def unassign project, config, issue
+  operation :unassign, "Unassign an issue from any releases", :assigned_issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def unassign project, config, opts, issue
     puts "Unassigning issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-    issue.unassign config.user, comment
+    issue.unassign config.user, get_comment(opts)
     puts "Unassigned #{issue.name}."
   end
 
-  operation :comment, "Comment on an issue", :issue
-  def comment project, config, issue
+  operation :comment, "Comment on an issue", :issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def comment project, config, opts, issue
     puts "Commenting on issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments"
+    comment = get_comment opts
     if comment.blank?
       puts "Empty comment, aborted."
     else
@@ -435,10 +474,12 @@ EOS
     end
   end
 
-  operation :release, "Release a release", :unreleased_release
-  def release project, config, release
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-    release.release! project, config.user, comment
+  operation :release, "Release a release", :unreleased_release do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+  end
+  def release project, config, opts, release
+    release.release! project, config.user, get_comment(opts)
     puts "Release #{release.name} released!"
   end
 
@@ -521,8 +562,12 @@ EOS
     puts "Archived to #{dir}."
   end
 
-  operation :edit, "Edit an issue", :issue
-  def edit project, config, issue
+  operation :edit, "Edit an issue", :issue do
+    opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :no_comment, "Skip asking for a comment", :default => false
+    opt :silent, "Don't add a log message detailing the change", :default => false
+  end
+  def edit project, config, opts, issue
     data = { :title => issue.title, :description => issue.desc,
              :reporter => issue.reporter }
 
@@ -533,11 +578,10 @@ EOS
       return
     end
 
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
-
     begin
       edits = YAML.load_file fn
-      if issue.change edits, config.user, comment
+      comment = opts[:silent] ? nil : get_comment(opts)
+      if issue.change edits, config.user, comment, opts[:silent]
         puts "Change recorded."
       else
         puts "No changes."

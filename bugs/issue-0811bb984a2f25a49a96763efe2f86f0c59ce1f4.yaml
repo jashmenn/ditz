@@ -6,7 +6,7 @@ component: ditz
 release: "0.1"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :closed
-disposition: fixed
+disposition: :fixed
 creation_time: 2008-03-07 05:03:22.972968 Z
 references: []
 

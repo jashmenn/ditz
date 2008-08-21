@@ -3,10 +3,10 @@ title: add 'reconfigure' command
 desc: will prompt you and rebuild config object
 type: :feature
 component: ditz
-release: 
+release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-06-26 20:47:35.121342 Z
 references: []
 
@@ -20,4 +20,13 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - unassigned from release 0.4
   - unscheduling from 0.4
+- - 2008-08-17 18:38:59.512225 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.5 from unassigned
+  - going to need this now that there are plugins
+- - 2008-08-17 18:39:06.698724 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - ""
 git_branch: 
+claimer: 

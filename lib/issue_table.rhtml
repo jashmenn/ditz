@@ -1,33 +1,28 @@
 <table>
-<% issues.sort_by { |i| i.sort_order }.each do |i| %>
-  <tr>
-    <td class="issuestatus_<%= i.status %>">
-      <% if i.closed? %>
-        <%= i.disposition_string %>
-      <% else %>
-        <%= i.status_string %>
+  <tbody>
+  <% issues.sort_by { |i| i.creation_time }.reverse.each do |i| %>
+    <tr>
+      <td> <%= issue_status_img_for i %> </td>
+      <td class="littledate"><%= i.creation_time.pretty_date %></td>
+      <td class="issuename">
+        <%= issue_link_for i %>
+      </td>
+      <% if show_release %>
+        <td class="issuerelease">
+          <% if i.release %>
+            <% r = project.release_for i.release %>
+            <%= link_to r, i.release %>
+          <% else %>
+          <% end %>
+        </td>
       <% end %>
-    </td>
-    <td class="issuename">
-      <%= fancy_issue_link_for i %>
-      <%= i.bug? ? '(bug)' : '' %>
-    </td>
-    <% if show_release %>
-      <td class="issuerelease">
-        <% if i.release %>
-          <% r = project.release_for i.release %>
-          in <%= link_to r, "release #{i.release}" %>
-          (<%= r.status %>)
-        <% else %>
-        <% end %>
-      </td>
-    <% end %>
-    <% if show_component %>
-      <td class="issuecomponent">
-        component <%= link_to project.component_for(i.component), i.component %>
-      </td>
-    <% end %>
-  </tr>
-<% end %>
+      <% if show_component %>
+        <td class="issuecomponent">
+          component <%= link_to project.component_for(i.component), i.component %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
 </table>
 

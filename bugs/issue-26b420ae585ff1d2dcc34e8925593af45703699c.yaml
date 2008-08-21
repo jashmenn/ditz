@@ -7,8 +7,8 @@ type: :bugfix
 component: ditz
 release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-07-27 22:07:51.979508 Z
 references: []
 
@@ -22,4 +22,9 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - assigned to release 0.5 from unassigned
   - ""
+- - 2008-08-20 00:54:35.002997 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - fixed in a hacky way. created {issue 9937f07269c2918b081f9e87aa6011169a11074f} for the proper fix.
 git_branch: 
+claimer: 

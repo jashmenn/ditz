@@ -1,0 +1,34 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "support tiny issue identifiers (like #34) in the single-component case"
+desc: |-
+  If there's only one component, the issue names can be quite short. "#34"
+  instead of "potato-34" as an example.
+  
+  I would want to work in such a way that later adding a component automatically
+  switches everything back to the traditional naming scheme.
+  
+  I don't think this would be terribly hard to do, since the names are computed
+  on the fly. Should probably be enabled by a configuration option, though.
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-06 16:22:40.961795 Z
+references: []
+
+id: 2cd9e99ca6ca316f37262022b4277913fd23eae0
+log_events: 
+- - 2008-08-06 16:22:42.947317 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-17 19:49:42.852283 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - changed description
+  - |-
+    changed example issue name so it wouldn't get interpolated like a 
+    real issue name. now the description is actually understandable.
+git_branch: 
+claimer: 

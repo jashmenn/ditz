@@ -98,11 +98,10 @@ module Lowline
 
   def ask_via_editor q, default=nil
     fn = run_editor do |f|
+      f.puts(default || "")
       f.puts q.gsub(/^/, "## ")
       f.puts "##"
-      f.puts "## Enter your text below. Lines starting with a '#' will be ignored."
-      f.puts
-      f.puts default if default
+      f.puts "## Enter your text above. Lines starting with a '#' will be ignored."
     end
     return unless fn
     IO.read(fn).gsub(/^#.*$/, "").multistrip

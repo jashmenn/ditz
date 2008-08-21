@@ -90,6 +90,10 @@ class ModelObject
       @serialized_values[name] = o
     end
 
+    define_method "__serialized_#{name}" do
+      @serialized_values[name]
+    end
+
     define_method name do
       return @values[name] if @values.member?(name)
       @values[name] = deserialized_form_of name, @serialized_values[name]
@@ -110,6 +114,14 @@ class ModelObject
     returning YAML::load_file(fn) do |o|
       raise ModelError, "error loading from yaml file #{fn.inspect}: expected a #{self}, got a #{o.class}" unless o.class == self
       o.pathname = fn if o.respond_to? :pathname=
+
+      o.class.fields.each do |f, opts|
+        m = "__serialized_#{f}"
+        if opts[:multi] && o.send(m).nil?
+          $stderr.puts "Warning: corrected nil multi-field #{f}"
+          o.send "#{m}=", []
+        end
+      end
     end
   end
 
@@ -171,37 +183,83 @@ class ModelObject
   def changed!; @changed = true end
   def unchanged!; @changed = false end
 
-  def self.create_interactively opts={}
-    o = self.new
-    args = opts[:args] || []
-    @fields.each do |name, field_opts|
-      val = if opts[:with] && opts[:with][name]
-        opts[:with][name]
-      elsif field_opts[:generator].is_a? Proc
-        field_opts[:generator].call(*args)
-      elsif field_opts[:generator]
-        o.send field_opts[:generator], *args
-      elsif field_opts[:ask] == false # nil counts as true here
-        field_opts[:default] || (field_opts[:multi] ? [] : nil)
-      else
-        q = field_opts[:prompt] || name.to_s.capitalize
-        if field_opts[:multiline]
-          ask_multiline q
+  class << self
+    ## creates the object, prompting the user when necessary. can take
+    ## a :with => { hash } parameter for pre-filling model fields.
+    ##
+    ## can also take a :defaults_from => obj parameter for pre-filling model
+    ## fields from another object with (some of) those fields. kinda like a
+    ## bizarre interactive copy constructor.
+    def create_interactively opts={}
+      o = self.new
+      generator_args = opts[:args] || []
+      @fields.each do |name, field_opts|
+        val = if opts[:with] && opts[:with][name]
+          opts[:with][name]
+        elsif(found, x = generate_field_value(o, field_opts, generator_args)) && found
+          x
         else
-          default = if field_opts[:default_generator].is_a? Proc
-            field_opts[:default_generator].call(*args)
-          elsif field_opts[:default_generator]
-            o.send field_opts[:default_generator], *args
-          elsif field_opts[:default]
-            field_opts[:default]
+          q = field_opts[:prompt] || name.to_s.capitalize
+          if field_opts[:multiline]
+            ## multiline options currently aren't allowed to have a default
+            ## value, so just ask.
+            ask_multiline q
+          else
+            default = if opts[:defaults_from] && opts[:defaults_from].respond_to?(name) && (x = opts[:defaults_from].send(name))
+              x
+            else
+              default = generate_field_default o, field_opts, generator_args
+            end
+            ask q, :default => default
           end
-            
-          ask q, :default => default
         end
+        o.send "#{name}=", val
       end
-      o.send("#{name}=", val)
+      o
     end
-    o
+
+    ## creates the object, filling in fields from 'vals', and throwing a
+    ## ModelError when it can't find all the requisite fields
+    def create generator_args, vals={}
+      o = self.new
+      @fields.each do |name, opts|
+        val = if vals[name]
+          vals[name]
+        elsif(found, x = generate_field_value(o, opts, generator_args)) && found
+          x
+        else
+          raise ModelError, "missing required field #{name}"
+        end
+        o.send "#{name}=", val
+      end
+      o
+    end
+
+  private
+
+    ## get the value for a field if it can be automatically determined
+    ## returns [success, value] (because a successful value can be ni)
+    def generate_field_value o, opts, args
+      if opts[:generator].is_a? Proc
+        [true, opts[:generator].call(*args)]
+      elsif opts[:generator]
+        [true, o.send(opts[:generator], *args)]
+      elsif opts[:ask] == false # nil counts as true here
+        [true, opts[:default] || (opts[:multi] ? [] : nil)]
+      else
+        [false, nil]
+      end
+    end
+
+    def generate_field_default o, opts, args
+      if opts[:default_generator].is_a? Proc
+        opts[:default_generator].call(*args)
+      elsif opts[:default_generator]
+        o.send opts[:default_generator], *args
+      elsif opts[:default]
+        opts[:default]
+      end
+    end
   end
 end
 

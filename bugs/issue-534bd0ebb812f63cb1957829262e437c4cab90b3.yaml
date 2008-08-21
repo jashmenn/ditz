@@ -1,0 +1,28 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "'ditz unclaimed' doesn't show unassigned unclaimed issues"
+desc: ""
+type: :bugfix
+component: ditz
+release: "0.5"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-08-05 02:36:30.244216 Z
+references: []
+
+id: 534bd0ebb812f63cb1957829262e437c4cab90b3
+log_events: 
+- - 2008-08-05 02:36:30.852235 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-05 05:25:43.263421 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - issue claimed
+  - ""
+- - 2008-08-05 15:09:45.274422 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - fixed!
+git_branch: 
+claimer: William Morgan <wmorgan-ditz@masanjin.net>

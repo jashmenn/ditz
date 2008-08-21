@@ -36,17 +36,37 @@ end
 class Project < ModelObject
   class Error < StandardError; end
 
-  attr_accessor :pathname
-
-  field :name, :default_generator => lambda { File.basename(Dir.pwd) }
+  field :name, :prompt => "Project name", :default_generator => lambda { File.basename(Dir.pwd) }
   field :version, :default => Ditz::VERSION, :ask => false
   field :components, :multi => true, :generator => :get_components
   field :releases, :multi => true, :ask => false
 
+  attr_accessor :pathname
+
   ## issues are not model fields proper, so we build up their interface here.
-  attr_accessor :issues
-  def add_issue issue; added_issues << issue; issues << issue end
-  def drop_issue issue; deleted_issues << issue if issues.delete issue end
+  attr_reader :issues
+  def issues= issues
+    @issues = issues
+    @issues.each { |i| i.project = self }
+    assign_issue_names!
+    issues
+  end
+
+  def add_issue issue
+    added_issues << issue
+    issues << issue
+    issue.project = self
+    assign_issue_names!
+    issue
+  end
+
+  def drop_issue issue
+    if issues.delete issue
+      deleted_issues << issue
+      assign_issue_names!
+    end
+  end
+
   def added_issues; @added_issues ||= [] end
   def deleted_issues; @deleted_issues ||= [] end
 
@@ -63,7 +83,7 @@ EOS
 
   def issues_for ident
     by_name = issues.find { |i| i.name == ident }
-    by_name ? [by_name] : issues.select { |i| i.id =~ /^#{ident}/ }
+    by_name ? [by_name] : issues.select { |i| i.id =~ /^#{Regexp::escape ident}/ }
   end
 
   def component_for component_name
@@ -106,6 +126,12 @@ EOS
     elsif(dup = releases.map { |r| r.name }.first_duplicate)
       raise Error, "more than one release named #{dup.inspect}"
     end
+  end
+
+  def self.from *a
+    p = super(*a)
+    p.validate!
+    p
   end
 end
 
@@ -194,6 +220,7 @@ class Issue < ModelObject
   def feature?; type == :feature end
   def unassigned?; release.nil? end
   def assigned?; !unassigned? end
+  def paused?; status == :paused end
 
   def start_work who, comment; change_status :in_progress, who, comment end
   def stop_work who, comment
@@ -216,27 +243,29 @@ class Issue < ModelObject
   end
   private :change_status
 
-  def change hash, who, comment
+  def change hash, who, comment, silent
     what = []
     if title != hash[:title]
-      what << "changed title"
+      what << "title"
       self.title = hash[:title]
     end
 
     if desc != hash[:description]
-      what << "changed description"
+      what << "description"
       self.desc = hash[:description]
     end
 
     if reporter != hash[:reporter]
-      what << "changed reporter"
+      what << "reporter"
       self.reporter = hash[:reporter]
     end
 
-    unless what.empty?
-      log what.join(", "), who, comment
+    unless what.empty? || silent
+      log "edited " + what.join(", "), who, comment
       true
     end
+
+    !what.empty?
   end
 
   def assign_to_release release, who, comment
@@ -289,15 +318,18 @@ end
 class Config < ModelObject
   field :name, :prompt => "Your name", :default_generator => :get_default_name
   field :email, :prompt => "Your email address", :default_generator => :get_default_email
-  field :issue_dir, :ask => false, :default => "bugs"
+  field :issue_dir, :prompt => "Directory to store issues state in", :default => "bugs"
 
   def user; "#{name} <#{email}>" end
 
   def get_default_name
     require 'etc'
 
-    name = Etc.getpwnam(ENV["USER"])
-    name = name ? name.gecos.split(/,/).first : ""
+    name = if ENV["USER"]
+      pwent = Etc.getpwnam ENV["USER"]
+      pwent ? pwent.gecos.split(/,/).first : nil
+    end
+    name || "Ditz User"
   end
 
   def get_default_email

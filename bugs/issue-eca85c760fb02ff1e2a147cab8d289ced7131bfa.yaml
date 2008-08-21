@@ -1,24 +1,22 @@
 --- !ditz.rubyforge.org,2008-03-06/issue 
-title: move comments to the bottom of the buffer when editing a multline
-desc: |-
-  probably better for comments to appear at the bottom, since editors
-  typically start you at the top of the file.
+title: issue-claiming plugin should prevent you from closing or starting an issue claimed by someone else
+desc: ""
 type: :feature
 component: ditz
 release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :closed
 disposition: :fixed
-creation_time: 2008-07-29 16:13:03.957609 Z
+creation_time: 2008-08-05 02:38:07.039707 Z
 references: []
 
-id: 5fb1747c0e0ee24f637b2c5c6ab96ec663550773
+id: eca85c760fb02ff1e2a147cab8d289ced7131bfa
 log_events: 
-- - 2008-07-29 16:13:05.509677 Z
+- - 2008-08-05 02:38:07.743780 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
-- - 2008-08-17 18:16:43.742575 Z
+- - 2008-08-17 19:40:07.130156 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - closed with disposition fixed
   - ""

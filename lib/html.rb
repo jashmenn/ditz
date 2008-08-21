@@ -48,14 +48,49 @@ class ErbHtml
     raise ArgumentError, "no link for #{o.inspect}" unless dest
     "<a href=\"#{dest}\">#{name}</a>"
   end
-  def fancy_issue_link_for i
-    "<span class=\"issuestatus_#{i.status}\">" + link_to(i, "[#{i.title}]") + "</span>"
+
+  def issue_status_img_for i, opts={}
+    fn, title = if i.closed?
+      case i.disposition
+      when :fixed; ["green-check.png", "fixed"]
+      when :wontfix; ["red-check.png", "won't fix"]
+      when :reorg; ["blue-check.png", "reorganized"]
+      end
+    elsif i.in_progress?
+      ["green-bar.png", "in progress"]
+    elsif i.paused?
+      ["yellow-bar.png", "paused"]
+    end
+
+    return "" unless fn
+
+    args = {:src => fn, :alt => title, :title => title}
+    args[:class] = opts[:class] if opts[:class]
+
+    "<img " + args.map { |k, v| "#{k}=#{v.inspect}" }.join(" ") + "/>"
   end
 
-  def link_issue_names project, s
+  def issue_link_for i, opts={}
+    link = link_to i, "#{i.title}"
+    link = "<span class=\"inline-issue-link\">" + link + "</span>" if opts[:inline]
+    link = link + " " + issue_status_img_for(i, :class => "inline-status-image") if opts[:status_image]
+    link
+  end
+
+  def link_issue_names project, s, opts={}
     project.issues.inject(s) do |s, i|
-      s.gsub(/\b#{i.name}\b/, fancy_issue_link_for(i))
+      s.gsub(/\b#{i.name}\b/, issue_link_for(i, {:inline => true, :status_image => true}.merge(opts)))
     end
+  end
+
+  def progress_meter p, size=50
+    done = (p * size).to_i
+    undone = [size - done, 0].max
+    "<span class='progress-meter'><span class='progress-meter-done'>" +
+      ("&nbsp;" * done) +
+      "</span><span class='progress-meter-undone'>" +
+      ("&nbsp;" * undone) +
+      "</span></span>"
   end
 
   ## render a nested ERB

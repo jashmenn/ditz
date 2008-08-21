@@ -6,10 +6,10 @@ desc: |-
   committed it.
 type: :feature
 component: ditz
-release: 
+release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-08-03 22:22:20.889577 Z
 references: []
 
@@ -19,4 +19,13 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-08-17 19:41:55.939223 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.5 from unassigned
+  - ""
+- - 2008-08-19 23:59:22.676094 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - ""
 git_branch: 
+claimer: 

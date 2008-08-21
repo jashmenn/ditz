@@ -1,24 +1,24 @@
 --- !ditz.rubyforge.org,2008-03-06/issue 
-title: move comments to the bottom of the buffer when editing a multline
+title: "unix-centrism: USER environment variable assumed"
 desc: |-
-  probably better for comments to appear at the bottom, since editors
-  typically start you at the top of the file.
-type: :feature
+  when creating an initial configuration object the first time it's run,
+  ditz crashes unless there's a USER environment variable.
+type: :bugfix
 component: ditz
 release: "0.5"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :closed
 disposition: :fixed
-creation_time: 2008-07-29 16:13:03.957609 Z
+creation_time: 2008-08-06 15:40:21.016827 Z
 references: []
 
-id: 5fb1747c0e0ee24f637b2c5c6ab96ec663550773
+id: 14dd05552a5b39a173c0250fdb35922b28a2aff4
 log_events: 
-- - 2008-07-29 16:13:05.509677 Z
+- - 2008-08-06 15:40:21.820637 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
-- - 2008-08-17 18:16:43.742575 Z
+- - 2008-08-06 15:41:28.547664 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - closed with disposition fixed
   - ""

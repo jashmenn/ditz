@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "add a 'dependencies' plugin, for formally modeling issue deps "
+desc: ""
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-17 02:33:16.705134 Z
+references: []
+
+id: ce36abcc8f40cf3ae46a369985af0afe08447cbd
+log_events: 
+- - 2008-08-17 02:33:17.314616 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
