@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "bash completion: support for --comment and --no-comment"
+desc: add bash completion support for the feature new in 0.5 "all commands that required comments now take --comment and --no-comment"
+type: :task
+component: ditz
+release: "0.6"
+reporter: Christian Garbs <mitch@cgarbs.de>
+status: :in_progress
+disposition: 
+creation_time: 2008-08-22 12:19:45.501116 Z
+references: []
+
+id: b3468b77d26514af3c7667f0d644b3f38f9e29f0
+log_events: 
+- - 2008-08-22 12:19:47.334102 Z
+  - Christian Garbs <mitch@cgarbs.de>
+  - created
+  - ""
+- - 2008-08-22 12:25:51.489908 Z
+  - Christian Garbs <mitch@cgarbs.de>
+  - changed status from unstarted to in_progress
+  - ""
+git_branch: 
+claimer: 
