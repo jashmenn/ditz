@@ -39,7 +39,7 @@ class Issue
     filters << "master..#{git_branch}" if git_branch
 
     output = filters.map do |f|
-      `git log --pretty=format:\"%aD\t%an <%ae>\t%h\t%s\" #{f}`
+      `git log --pretty=format:\"%aD\t%an <%ae>\t%h\t%s\" #{f} 2> /dev/null`
     end.join
 
     @git_commits = output.split(/\n/).map { |l| l.split("\t") }.

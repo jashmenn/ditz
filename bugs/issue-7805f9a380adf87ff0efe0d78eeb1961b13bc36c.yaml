@@ -1,0 +1,28 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: hide git errors when a branch doesn't exist
+desc: |-
+  You see useless but scary warnings like this:
+  
+    fatal: ambiguous argument 'master..better-html': unknown revision or path not in the working tree.
+    Use '--' to separate paths from revisions
+type: :bugfix
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-08-25 01:03:20.231844 Z
+references: []
+
+id: 7805f9a380adf87ff0efe0d78eeb1961b13bc36c
+log_events: 
+- - 2008-08-25 01:03:21.578174 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-25 01:04:06.040311 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - ""
+git_branch: 
+claimer: 
