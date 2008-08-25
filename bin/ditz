@@ -1,5 +1,7 @@
 #!/usr/bin/ruby1.8
 
+$LOAD_PATH.unshift(File.expand_path("#{File.dirname($0)}/../lib"))
+
 ## requires are split in two for efficiency reasons: ditz should be really
 ## fast when using it for completion.
 require 'ditz/operator'
