@@ -60,6 +60,8 @@ end
 module_function :home_dir, :find_dir_containing, :find_ditz_file, :load_plugins
 end
 
+$: << File.dirname(__FILE__)
+$: << File.dirname(__FILE__)+"/ditz"
 require 'model-objects'
 require 'operator'
 require 'views'

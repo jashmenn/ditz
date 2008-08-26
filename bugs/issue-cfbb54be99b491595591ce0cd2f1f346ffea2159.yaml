@@ -20,5 +20,9 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-08-26 19:21:21.812666 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - commented
+  - May need a bit of cleaning, but I think this should mostly close the issue.
 git_branch: 
 claimer: 

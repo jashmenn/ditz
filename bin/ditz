@@ -2,7 +2,7 @@
 
 ## requires are split in two for efficiency reasons: ditz should be really
 ## fast when using it for completion.
-require 'operator'
+require 'ditz/operator'
 op = Ditz::Operator.new
 
 ## a secret option for shell completion
