@@ -9,8 +9,8 @@ type: :task
 component: ditz
 release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-08-25 00:49:34.273604 Z
 references: []
 
@@ -24,5 +24,9 @@ log_events:
   - Nolan Darilek <nolan@thewordnerd.info>
   - commented
   - May need a bit of cleaning, but I think this should mostly close the issue.
+- - 2008-08-27 17:38:37.929613 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - ""
 git_branch: 
 claimer: 
