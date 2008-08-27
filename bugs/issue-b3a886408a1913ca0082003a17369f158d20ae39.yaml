@@ -5,8 +5,8 @@ type: :task
 component: ditz
 release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-08-21 19:56:01.420372 Z
 references: []
 
@@ -20,5 +20,12 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - commented
   - see {issue cfbb54be99b491595591ce0cd2f1f346ffea2159}
+- - 2008-08-27 17:42:23.778911 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - |-
+    also moved css file
+    
+    (and the dir is share/ditz/)
 git_branch: 
 claimer: 
