@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: move ditz.1 man page to man/man1/
+desc: in conformance with the proper filesystem layout as set down by our ancestors.
+type: :bugfix
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-08-27 18:16:24.298452 Z
+references: []
+
+id: a9ffc7044c7488be22427167dd36cf839e45c7c9
+log_events: 
+- - 2008-08-27 18:16:27.020068 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-27 18:17:35.835950 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - ""
+git_branch: 
+claimer: 
