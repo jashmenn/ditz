@@ -30,7 +30,7 @@ lib/ditz/plugins/issue-claiming.rb
 lib/ditz/red-check.png
 lib/ditz/release.rhtml
 lib/ditz/style.css
-lib/ditz/trollop.rb
+lib/trollop.rb
 lib/ditz/unassigned.rhtml
 lib/ditz/util.rb
 lib/ditz/view.rb
