@@ -38,5 +38,3 @@ lib/ditz/views.rb
 share/ditz/yellow-bar.png
 man/man1/ditz.1
 setup.rb
-www/index.html
-www/main.css
