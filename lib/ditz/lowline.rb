@@ -1,5 +1,5 @@
 require 'tempfile'
-require "util"
+require "ditz/util"
 
 class Numeric
   def to_pretty_s

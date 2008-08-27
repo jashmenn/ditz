@@ -1,7 +1,7 @@
 require 'yaml'
 require 'sha1'
-require "lowline"; include Lowline
-require "util"
+require "ditz/lowline"; include Lowline
+require "ditz/util"
 
 class Time
   alias :old_to_yaml :to_yaml

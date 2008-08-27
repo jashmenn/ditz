@@ -1,5 +1,5 @@
-require 'view'
-require 'html'
+require "ditz/view"
+require "ditz/html"
 
 module Ditz
 

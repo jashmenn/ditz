@@ -1,4 +1,4 @@
-require 'model'
+require 'ditz/model'
 
 module Ditz
 
