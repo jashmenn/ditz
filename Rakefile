@@ -5,8 +5,8 @@ $:.unshift "lib"
 require 'ditz'
 
 class Hoe
-  def extra_deps; @extra_deps.reject { |x| Array(x).first == "hoe" } end
-end # thanks to "Mike H"
+  def extra_dev_deps; @extra_dev_deps.reject { |x| x[0] == "hoe" } end
+end
 
 Hoe.new('ditz', Ditz::VERSION) do |p|
   p.rubyforge_name = 'ditz'
