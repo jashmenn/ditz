@@ -5,7 +5,7 @@ type: :feature
 component: ditz
 release: 
 reporter: Nolan Darilek <nolan@thewordnerd.info>
-status: :unstarted
+status: :in_progress
 disposition: 
 creation_time: 2008-08-28 00:04:47.243418 Z
 references: []
@@ -15,6 +15,10 @@ log_events:
 - - 2008-08-28 00:04:51.130645 Z
   - Nolan Darilek <nolan@thewordnerd.info>
   - created
+  - ""
+- - 2008-08-28 00:09:18.267527 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - changed status from unstarted to in_progress
   - ""
 git_branch: 
 claimer: 
