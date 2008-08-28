@@ -1,9 +1,13 @@
+require 'pathname'
+
 module Ditz
 
 VERSION = "0.5"
+attr_accessor :verbose
+module_function :verbose, :verbose=
 
 def debug s
-  puts "# #{s}" if $verbose
+  puts "# #{s}" if $verbose || Ditz::verbose
 end
 module_function :debug
 
@@ -48,7 +52,7 @@ end
 
 def load_plugins fn
   Ditz::debug "loading plugins from #{fn}"
-  plugins = YAML::load_file $opts[:plugins_file]
+  plugins = YAML::load_file fn
   plugins.each do |p|
     fn = Ditz::find_ditz_file "ditz/plugins/#{p}.rb"
     Ditz::debug "loading plugin #{p.inspect} from #{fn}"
