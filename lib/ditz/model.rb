@@ -54,7 +54,53 @@ class ModelObject
     @values[field]
   end
 
-  ## add a new field to a model object
+  ## Add a field to a model object
+  ##
+  ## The options you specify here determine how the field is populated when an
+  ## instance of this object is created. Objects can be created interactively,
+  ## with #create_interactively, or non-interactively, with #create, and the
+  ## creation mode, combined with these options, determine how the field is
+  ## populated on a new model object.
+  ##
+  ## The default behavior is to simply prompt the user with the field name when
+  ## in interactive mode, and to raise an exception if the value is not passed
+  ## to #create in non-interactive mode.
+  ##
+  ## Options:
+  ##   :interactive_generator => a method name or Proc that will be called to
+  ##     return the value of this field, if the model object is created
+  ##     interactively.
+  ##   :generator => a method name or Proc that will be called to return the
+  ##     value of this field. If the model object is created interactively, and
+  ##     a :interactive_generator option is specified, that will be used instead.
+  ##   :multi => a boolean determining whether the field has multiple values,
+  ##     i.e., is an array. If created with :ask => false, will be initialized
+  ##     to [] instead of to nil. Additionally, the model object will have
+  ##     #add_<field> and #drop_<field> methods.
+  ##   :ask => a boolean determining whether, if the model object is created
+  ##     interactively, the user will be prompted for the value of this field.
+  ##     TRUE BY DEFAULT. If :interactive_generator or :generator are specified,
+  ##     those will be called instead.
+  ##
+  ##     If this is true, non-interactive creation
+  ##     will raise an exception unless the field value is passed as an argument.
+  ##     If this is false, non-interactive creation will initialize this to nil
+  ##     (or [] if this field is additionally marked :multi) unless the value is
+  ##     passed as an argument.
+  ##  :prompt => a string to display to the user when prompting for the field
+  ##    value during interactive creation. Not used if :generator or
+  ##    :interactive_generator is specified.
+  ##  :multiline => a boolean determining whether to prompt the user for a
+  ##    multiline answer during interactive creation. Default false. Not used
+  ##    if :generator or :interactive_generator is specified.
+  ##  :default => a default value when prompting for the field value during
+  ##    interactive creation. Not used if :generator, :interactive_generator,
+  ##    :multiline, or :default_generator is specified.
+  ##  :default_generator => a method name or Proc which will be called to
+  ##    generate the default value when prompting for the field value during
+  ##    interactive creation. Not used if :generator, :interactive_generator,
+  ##    or :multiline is specified.
+  ##
   def self.field name, opts={}
     @fields ||= [] # can't use a hash because we need to preserve field order
     raise ModelError, "field with name #{name} already defined" if @fields.any? { |k, v| k == name }
