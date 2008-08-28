@@ -3,10 +3,10 @@ title: Perform git-style automatic pagination
 desc: I like that Git runs less or another pager of choice where it makes sense. Ditz should do this as well.
 type: :feature
 component: ditz
-release: 
+release: "0.6"
 reporter: Nolan Darilek <nolan@thewordnerd.info>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-08-28 00:04:47.243418 Z
 references: []
 
@@ -20,5 +20,13 @@ log_events:
   - Nolan Darilek <nolan@thewordnerd.info>
   - changed status from unstarted to in_progress
   - ""
+- - 2008-08-28 03:43:13.692582 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - assigned to release 0.6 from unassigned
+  - ""
+- - 2008-08-28 03:44:21.297051 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - closed with disposition fixed
+  - This should probably get more testing, but as of not it works for me.
 git_branch: 
 claimer: 
