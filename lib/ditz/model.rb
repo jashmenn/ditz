@@ -100,7 +100,11 @@ class ModelObject
   ##    generate the default value when prompting for the field value during
   ##    interactive creation. Not used if :generator, :interactive_generator,
   ##    or :multiline is specified.
-  ##
+  ##  :nil_ok => a boolean determining whether, if created in non-interactive
+  ##    mode and the value for this field is not passed in, (or is passed in
+  ##    as nil), that's ok. Default is false. This is not necessary if :ask =>
+  ##    false is specified; it's only necessary for fields that you want an
+  ##    interactive prompt for, but a nil value is fine.
   def self.field name, opts={}
     @fields ||= [] # can't use a hash because we need to preserve field order
     raise ModelError, "field with name #{name} already defined" if @fields.any? { |k, v| k == name }
@@ -241,8 +245,8 @@ class ModelObject
       @fields.each do |name, field_opts|
         val = if opts[:with] && opts[:with][name]
           opts[:with][name]
-        elsif(found, x = generate_field_value(o, field_opts, generator_args)) && found
-          x
+        elsif(found, v = generate_field_value(o, field_opts, generator_args, :interactive => true)) && found
+          v
         else
           q = field_opts[:prompt] || name.to_s.capitalize
           if field_opts[:multiline]
@@ -265,17 +269,17 @@ class ModelObject
 
     ## creates the object, filling in fields from 'vals', and throwing a
     ## ModelError when it can't find all the requisite fields
-    def create generator_args, vals={}
+    def create vals={}, generator_args=[]
       o = self.new
-      @fields.each do |name, opts|
-        val = if vals[name]
-          vals[name]
-        elsif(found, x = generate_field_value(o, opts, generator_args)) && found
+      @fields.each do |fname, fopts|
+        val = if(x = vals[fname] || vals[fname.to_s])
           x
-        else
-          raise ModelError, "missing required field #{name}"
+        elsif(found, x = generate_field_value(o, fopts, generator_args, :interactive => false)) && found
+          x
+        elsif !fopts[:nil_ok]
+          raise ModelError, "missing required field #{fname.inspect} on #{self.name} object (got #{vals.keys.inspect})"
         end
-        o.send "#{name}=", val
+        o.send "#{fname}=", val if val
       end
       o
     end
@@ -283,26 +287,32 @@ class ModelObject
   private
 
     ## get the value for a field if it can be automatically determined
-    ## returns [success, value] (because a successful value can be ni)
-    def generate_field_value o, opts, args
-      if opts[:generator].is_a? Proc
-        [true, opts[:generator].call(*args)]
-      elsif opts[:generator]
-        [true, o.send(opts[:generator], *args)]
-      elsif opts[:ask] == false # nil counts as true here
-        [true, opts[:default] || (opts[:multi] ? [] : nil)]
+    ## returns [success, value] (because a successful value can be nil)
+    def generate_field_value o, field_opts, args, opts={}
+      gen = if opts[:interactive_ok]
+        field_opts[:interactive_generator] || field_opts[:generator]
+      else
+        field_opts[:generator]
+      end
+
+      if gen.is_a? Proc
+        [true, field_opts[:generator].call(*args)]
+      elsif gen
+        [true, o.send(field_opts[:generator], *args)]
+      elsif field_opts[:ask] == false # nil counts as true here
+        [true, field_opts[:default] || (field_opts[:multi] ? [] : nil)]
       else
         [false, nil]
       end
     end
 
-    def generate_field_default o, opts, args
-      if opts[:default_generator].is_a? Proc
-        opts[:default_generator].call(*args)
-      elsif opts[:default_generator]
-        o.send opts[:default_generator], *args
-      elsif opts[:default]
-        opts[:default]
+    def generate_field_default o, field_opts, args
+      if field_opts[:default_generator].is_a? Proc
+        field_opts[:default_generator].call(*args)
+      elsif field_opts[:default_generator]
+        o.send field_opts[:default_generator], *args
+      elsif field_opts[:default]
+        field_opts[:default]
       end
     end
   end
