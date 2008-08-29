@@ -159,7 +159,7 @@ class ModelObject
         end
       end
     end
-    ret.decode
+    ret.respond_to?(:decode) ? ret.decode : ret
   end
 
   def log what, who, comment
