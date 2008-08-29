@@ -5,8 +5,8 @@ type: :task
 component: ditz
 release: "0.6"
 reporter: Christian Garbs <mitch@cgarbs.de>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-08-22 12:19:45.501116 Z
 references: []
 
@@ -20,5 +20,9 @@ log_events:
   - Christian Garbs <mitch@cgarbs.de>
   - changed status from unstarted to in_progress
   - ""
+- - 2008-08-29 20:40:26.189706 Z
+  - Christian Garbs <mitch@cgarbs.de>
+  - closed with disposition fixed
+  - fixed, also enabled --silent for the edit command
 git_branch: 
 claimer: 
