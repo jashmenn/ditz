@@ -1,0 +1,25 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: releases and components should be separate files, like issues are
+desc: |-
+  otherwise unnecessary conflicts will be created whenever two people add
+  a component or release at the same time.
+  
+  not as big a deal as issues (because these happen much less frequently),
+  but still important.
+type: :bugfix
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-30 22:06:20.845882 Z
+references: []
+
+id: 80c023565e81acb7ad0ee4c41ebe894dac4ba743
+log_events: 
+- - 2008-08-30 22:06:21.554609 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
