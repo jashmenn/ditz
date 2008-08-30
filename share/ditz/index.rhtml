@@ -108,7 +108,7 @@
   <% project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
         flatten_one_level.
         sort_by { |e| e.first.first }.
-        reverse[0 ... 10].
+        reverse[0 ... 25].
         each_with_index do |((date, who, what, comment), i), idx| %>
     <tr class="<%= idx % 2 == 0 ? "even-row" : "odd-row" %>">
       <td class="date"><%= date.pretty_date %></td>
