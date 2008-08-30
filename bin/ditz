@@ -116,8 +116,11 @@ when "init"
   project.save! fn
   puts "Ok, #{issue_dir} directory created successfully."
   exit
+when "reconfigure" # might not be able to load the project
+  op.do cmd, nil, config, ARGV
+  exit
 when "help"
-  op.do "help", nil, nil, ARGV
+  op.do cmd, nil, nil, ARGV
   exit
 end
 

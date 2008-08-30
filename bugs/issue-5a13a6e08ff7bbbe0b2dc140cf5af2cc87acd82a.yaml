@@ -1,0 +1,27 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "'reconfigure' command needs to work without loading the project"
+desc: |-
+  if you moved or renamed the bugs directory, this command is what you'd
+  use to update your configuration. thus it can't require loading the
+  project.
+type: :bugfix
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-08-30 22:03:56.073498 Z
+references: []
+
+id: 5a13a6e08ff7bbbe0b2dc140cf5af2cc87acd82a
+log_events: 
+- - 2008-08-30 22:03:57.199803 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-30 22:04:06.323792 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - ""
+git_branch: 
+claimer: 
