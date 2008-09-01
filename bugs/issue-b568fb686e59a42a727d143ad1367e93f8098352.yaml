@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Use text editor for multiline input where possible.
+desc: Multiline input should transparently use a text editor if at all possible.
+type: feature
+component: ditz
+release: "0.6"
+reporter: Nolan Darilek <nolan@thewordnerd.info>
+status: :in_progress
+disposition: 
+creation_time: 2008-09-01 16:02:38.517923 Z
+references: []
+
+id: b568fb686e59a42a727d143ad1367e93f8098352
+log_events: 
+- - 2008-09-01 16:02:42.364318 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - created
+  - ""
+- - 2008-09-01 16:04:55.864342 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - changed status from unstarted to in_progress
+  - ""
+git_branch: 
+claimer: 
