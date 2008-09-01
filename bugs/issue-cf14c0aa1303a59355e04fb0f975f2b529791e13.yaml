@@ -1,0 +1,31 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Extract and abstract issue types.
+desc: |-
+  At the moment, issue types seem a bit inflexible. Here are a few 
+  thoughts:
+  
+   * Move them into a plugin.
+   * Move their definition into config files and provide a set of examples 
+  to get you started. Configuration could include type name, how it is 
+  rendered in changelogs/ditz internal displays, etc. This also paves the 
+  way for new issue types--support requests entered from a web interface, 
+  for example.
+   * Make existing operators check for the plugin's presence, not 
+  requiring it to be used.
+type: feature
+component: ditz
+release: "0.6"
+reporter: Nolan Darilek <nolan@thewordnerd.info>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-01 17:12:40.989241 Z
+references: []
+
+id: cf14c0aa1303a59355e04fb0f975f2b529791e13
+log_events: 
+- - 2008-09-01 17:12:42.838117 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - created
+  - ""
+git_branch: 
+claimer: 
