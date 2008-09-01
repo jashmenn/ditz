@@ -140,6 +140,15 @@ module Lowline
     ans.multistrip
   end
 
+  def can_run_editor?
+    !ENV["EDITOR"].nil? || File.exist?("/usr/bin/sensible-editor") || File.exist?("/usr/bin/vi")
+  end
+
+  def ask_multiline_smartly q
+    can_run_editor? ? ask_via_editor(q) : ask_multiline(q)
+  end
+
+
   def ask_yon q
     while true
       print "#{q} (y/n): "

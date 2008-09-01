@@ -5,8 +5,8 @@ type: feature
 component: ditz
 release: "0.6"
 reporter: Nolan Darilek <nolan@thewordnerd.info>
-status: :in_progress
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-09-01 16:02:38.517923 Z
 references: []
 
@@ -19,6 +19,16 @@ log_events:
 - - 2008-09-01 16:04:55.864342 Z
   - Nolan Darilek <nolan@thewordnerd.info>
   - changed status from unstarted to in_progress
+  - ""
+- - 2008-09-01 16:28:22.294470 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - commented
+  - |-
+    Looks like most of the work was already in place for this. I'm making a 
+    test comment to see if it works.
+- - 2008-09-01 16:29:48.954545 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - closed with disposition fixed
   - ""
 git_branch: 
 claimer: 
