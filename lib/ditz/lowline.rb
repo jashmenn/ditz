@@ -57,7 +57,9 @@ module Lowline
     yield f
     f.close
 
-    editor = ENV["EDITOR"] || "/usr/bin/vi"
+    editor = ENV["EDITOR"]
+    editor ||= "/usr/bin/sensible-editor" if File.exist?("/usr/bin/sensible-editor")
+    editor ||= "/usr/bin/vi"
     cmd = "#{editor} #{f.path.inspect}"
 
     mtime = File.mtime f.path
