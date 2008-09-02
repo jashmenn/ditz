@@ -121,7 +121,7 @@ class ModelObject
       end
 
       define_method "drop_#{single_name}" do |obj|
-        return unless @values[name].delete obj
+        return unless send(name).delete obj
         @serialized_values.delete name
         changed!
         obj
@@ -176,7 +176,7 @@ class ModelObject
   end
 
   def to_s
-    "<#{self.class.name}: " + self.class.field_names.map { |f| "#{f}: " + (@values[f].to_s || @serialized_values[f]).inspect }.join(", ") + ">"
+    "<#{self.class.name}: " + self.class.field_names.map { |f| "#{f}: " + send(f).inspect }.join(", ") + ">"
   end
 
   def inspect; to_s end
