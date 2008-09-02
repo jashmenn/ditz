@@ -86,7 +86,8 @@ def run_pager
   read.close
   write.close
 
-  ENV['LESS'] = 'FSRX' # Don't page if the input is short enough
+  ENV['LESS'] ||= 'FSRX'  # Don't page if the input is short enough, unless
+                          # the user already have a LESS variable.
 
   Kernel.select [STDIN] # Wait until we have input before we start the pager
   pager = ENV['PAGER'] || 'less'
