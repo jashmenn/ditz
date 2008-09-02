@@ -27,6 +27,7 @@ lib/ditz/operator.rb
 lib/ditz/plugins/git-sync.rb
 lib/ditz/plugins/git.rb
 lib/ditz/plugins/issue-claiming.rb
+lib/ditz/plugins/issue-labeling.rb
 share/ditz/red-check.png
 share/ditz/release.rhtml
 share/ditz/style.css
