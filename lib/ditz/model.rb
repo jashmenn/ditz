@@ -46,12 +46,12 @@ class ModelObject
   ##
   ## convert disk form => memory form
   def deserialized_form_of field, value
-    @serialized_values[field]
+    value
   end
 
   ## convert memory form => disk form
   def serialized_form_of field, value
-    @values[field]
+    value
   end
 
   ## Add a field to a model object
