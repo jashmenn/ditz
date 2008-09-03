@@ -178,7 +178,7 @@ EOS
     elsif opts[:comment]
       opts[:comment]
     else
-      ask_multiline "Comments"
+      ask_multiline_smartly "Comments"
     end
   end
   private :get_comment

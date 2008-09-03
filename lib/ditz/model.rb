@@ -252,7 +252,7 @@ class ModelObject
           if field_opts[:multiline]
             ## multiline options currently aren't allowed to have a default
             ## value, so just ask.
-            ask_multiline q
+            ask_multiline_smartly q
           else
             default = if opts[:defaults_from] && opts[:defaults_from].respond_to?(name) && (x = opts[:defaults_from].send(name))
               x

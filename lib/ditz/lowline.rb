@@ -57,7 +57,9 @@ module Lowline
     yield f
     f.close
 
-    editor = ENV["EDITOR"] || "/usr/bin/vi"
+    editor = ENV["EDITOR"]
+    editor ||= "/usr/bin/sensible-editor" if File.exist?("/usr/bin/sensible-editor")
+    editor ||= "/usr/bin/vi"
     cmd = "#{editor} #{f.path.inspect}"
 
     mtime = File.mtime f.path
@@ -137,6 +139,15 @@ module Lowline
     end
     ans.multistrip
   end
+
+  def can_run_editor?
+    !ENV["EDITOR"].nil? || File.exist?("/usr/bin/sensible-editor") || File.exist?("/usr/bin/vi")
+  end
+
+  def ask_multiline_smartly q
+    can_run_editor? ? ask_via_editor(q) : ask_multiline(q)
+  end
+
 
   def ask_yon q
     while true
