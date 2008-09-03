@@ -289,16 +289,16 @@ class ModelObject
     ## get the value for a field if it can be automatically determined
     ## returns [success, value] (because a successful value can be nil)
     def generate_field_value o, field_opts, args, opts={}
-      gen = if opts[:interactive_ok]
+      gen = if opts[:interactive]
         field_opts[:interactive_generator] || field_opts[:generator]
       else
         field_opts[:generator]
       end
 
       if gen.is_a? Proc
-        [true, field_opts[:generator].call(*args)]
+        [true, gen.call(*args)]
       elsif gen
-        [true, o.send(field_opts[:generator], *args)]
+        [true, o.send(gen, *args)]
       elsif field_opts[:ask] == false # nil counts as true here
         [true, field_opts[:default] || (field_opts[:multi] ? [] : nil)]
       else
