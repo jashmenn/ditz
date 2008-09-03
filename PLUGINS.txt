@@ -26,6 +26,7 @@ shipped plugins:
 1. git
 2. git-sync
 3. issue-claiming
+4. issue-labeling
 
 git
 ---
@@ -116,6 +117,24 @@ Commands added:
 
 Usage:
   1. add a line "- issue-claiming" to the .ditz-plugins file in the project
+     root
+  2. use the above commands to abandon
+
+issue-labeling
+--------------
+
+This plugin allows label issues. This can replace the issue component
+and/or issue types (bug,feature,task), by providing a more flexible
+to organize your issues.
+
+Commands added:
+  ditz new_label [label]: create a new label for the project
+  ditz label <issue> <labels>: label an issue with some labels
+  ditz unlabel <issue> [labels]: remove some label(s) of an issue
+  ditz labeled <labels> [release]: show all issues with these labels
+
+Usage:
+  1. add a line "- issue-labeling" to the .ditz-plugins file in the project
      root
   2. use the above commands to abandon
 
