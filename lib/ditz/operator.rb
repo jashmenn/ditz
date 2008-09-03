@@ -199,7 +199,7 @@ EOS
     issue.log "created", config.user, get_comment(opts)
     project.add_issue issue
     project.assign_issue_names!
-    puts "Added issue #{issue.name}."
+    puts "Added issue #{issue.name} (#{issue.id})."
   end
 
   operation :drop, "Drop an issue", :issue
