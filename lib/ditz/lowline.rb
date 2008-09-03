@@ -174,8 +174,13 @@ module Lowline
     stuff
   end
 
-  def ask_for_selection stuff, name, to_string=:to_s
-    puts "Choose a #{name}:"
+  def ask_for_selection stuff, name, to_string=:to_s, many=false
+    if many
+      name = name.pluralize(2, false)
+      puts "Choose one or more #{name} (comma separated list):"
+    else
+      puts "Choose a #{name}:"
+    end
     stuff.each_with_index do |c, i|
       pretty = case to_string
       when block_given? && to_string # heh
@@ -190,12 +195,15 @@ module Lowline
       puts "  #{i + 1}) #{pretty}"
     end
 
-    j = while true
-      i = ask "#{name.capitalize} (1--#{stuff.size})"
-      break i.to_i if i && (1 .. stuff.size).member?(i.to_i)
+    js = while true
+      is = ask "#{name.capitalize} (1--#{stuff.size})"
+      next unless is
+      is = is.strip.split(/\s*,\s*/).map { |i| i.to_i }
+      break is if is.all? { |i| (1 .. stuff.size).member?(i) }
     end
 
-    stuff[j - 1]
+    ss = js.map { |j| stuff[j - 1] }
+    (many)? ss : ss.first
   end
 end
 
