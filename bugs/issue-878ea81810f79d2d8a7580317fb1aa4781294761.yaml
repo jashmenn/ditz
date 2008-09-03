@@ -63,5 +63,11 @@ log_events:
   - Nolan Darilek <nolan@thewordnerd.info>
   - created
   - ""
+- - 2008-09-03 03:41:09.675028 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - |-
+    ok, you're the second person to notice this and i can't figure out
+    what's going on. can you try it with the ditz in git master?
 git_branch: 
 claimer: 

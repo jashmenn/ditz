@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add recent comments to commented section when composing a comment in $EDITOR
+desc: |-
+  as a follow-on to {issue b568fb686e59a42a727d143ad1367e93f8098352}, it would be nice to see recent comment
+  history and maybe the project description when using your editor
+  to compose a comment. these can just be thrown into the commented
+  area.
+type: :feature
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-03 03:43:06.887449 Z
+references: []
+
+id: b7c55cf9ab77e2a8114936e47af823acbd373b87
+log_events: 
+- - 2008-09-03 03:43:09.172279 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

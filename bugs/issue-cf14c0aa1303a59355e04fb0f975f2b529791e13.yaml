@@ -14,7 +14,7 @@ desc: |-
   requiring it to be used.
 type: feature
 component: ditz
-release: "0.6"
+release: 
 reporter: Nolan Darilek <nolan@thewordnerd.info>
 status: :unstarted
 disposition: 
@@ -27,5 +27,11 @@ log_events:
   - Nolan Darilek <nolan@thewordnerd.info>
   - created
   - ""
+- - 2008-09-03 03:38:05.955501 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - unassigned from release 0.6
+  - |-
+    a good idea and worth some discussion. definitely not going to be
+    part of 0.6 though.
 git_branch: 
 claimer: 
