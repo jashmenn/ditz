@@ -24,7 +24,7 @@ require 'fileutils'
 require 'pathname'
 require 'trollop'; include Trollop
 require "ditz"
-require "vendor/yaml_waml"
+require "yaml_waml"
 
 CONFIG_FN = ".ditz-config"
 PLUGIN_FN = ".ditz-plugins"
