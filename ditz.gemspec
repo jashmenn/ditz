@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email = %q{wmorgan-ditz@masanjin.net}
   s.executables = ["ditz"]
   s.extra_rdoc_files = ["Manifest.txt", "PLUGINS.txt", "README.txt"]
-  s.files = ["Changelog", "INSTALL", "LICENSE", "Manifest.txt", "PLUGINS.txt", "README.txt", "Rakefile", "ReleaseNotes", "bin/ditz", "contrib/completion/_ditz.zsh", "contrib/completion/ditz.bash", "lib/blue-check.png", "lib/component.rhtml", "lib/ditz.rb", "lib/file-storage.rb", "lib/green-bar.png", "lib/green-check.png", "lib/hook.rb", "lib/html.rb", "lib/index.rhtml", "lib/issue.rhtml", "lib/issue_table.rhtml", "lib/lowline.rb", "lib/model-objects.rb", "lib/model.rb", "lib/operator.rb", "lib/plugins/git-sync.rb", "lib/plugins/git.rb", "lib/plugins/issue-claiming.rb", "lib/red-check.png", "lib/release.rhtml", "lib/trollop.rb", "lib/style.css", "lib/unassigned.rhtml", "lib/util.rb", "lib/view.rb", "lib/views.rb", "lib/vendor/yaml_waml.rb", "lib/yellow-bar.png", "man/ditz.1", "setup.rb", "www/index.html", "www/main.css"]
+  s.files = ["Changelog", "INSTALL", "LICENSE", "Manifest.txt", "PLUGINS.txt", "README.txt", "Rakefile", "ReleaseNotes", "bin/ditz", "contrib/completion/_ditz.zsh", "contrib/completion/ditz.bash", "lib/blue-check.png", "lib/component.rhtml", "lib/ditz.rb", "lib/file-storage.rb", "lib/green-bar.png", "lib/green-check.png", "lib/hook.rb", "lib/html.rb", "lib/index.rhtml", "lib/issue.rhtml", "lib/issue_table.rhtml", "lib/lowline.rb", "lib/model-objects.rb", "lib/model.rb", "lib/operator.rb", "lib/plugins/git-sync.rb", "lib/plugins/git.rb", "lib/plugins/issue-claiming.rb", "lib/red-check.png", "lib/release.rhtml", "lib/trollop.rb", "lib/style.css", "lib/unassigned.rhtml", "lib/util.rb", "lib/view.rb", "lib/views.rb", "lib/yellow-bar.png", "man/ditz.1", "setup.rb", "www/index.html", "www/main.css"]
   s.has_rdoc = true
   s.homepage = %q{http://ditz.rubyforge.org}
   s.rdoc_options = ["--main", "README.txt"]
@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
     s.specification_version = 2
 
     if current_version >= 3 then
+      s.add_runtime_dependency(%q<kakutani-yaml_waml>)
       s.add_runtime_dependency(%q<trollop>, [">= 1.9"])
       s.add_development_dependency(%q<hoe>, [">= 1.7.0"])
     else
