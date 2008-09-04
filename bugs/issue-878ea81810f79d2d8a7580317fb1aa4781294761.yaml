@@ -1,0 +1,73 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Improve the 'ditz init' experience
+desc: |-
+  I decided to use ditz on one of my personal projects, but it fails and, 
+  as a new user, leaves me a bit bewildered.
+  
+  i'm confused about how to enter initial components. Entering a single 
+  word causes 'ditz add' to fail:
+  
+  /var/lib/gems/1.8/gems/ditz-0.5/lib/ditz/model-objects.rb:124:in 
+  `validate!': undefined method `name' for "bookme":String (NoMethodError)
+  
+  	from /usr/lib/ruby/1.8/yaml.rb:143:in `map'
+  
+  	from 
+  /var/lib/gems/1.8/gems/ditz-0.5/lib/ditz/model-objects.rb:124:in `each'
+  
+  	from 
+  /var/lib/gems/1.8/gems/ditz-0.5/lib/ditz/model-objects.rb:124:in `map'
+  
+  	from 
+  /var/lib/gems/1.8/gems/ditz-0.5/lib/ditz/model-objects.rb:124:in 
+  `validate!'
+  
+  	from 
+  /var/lib/gems/1.8/gems/ditz-0.5/lib/ditz/model-objects.rb:133:in `from'
+  
+  	from 
+  /var/lib/gems/1.8/gems/ditz-0.5/lib/ditz/file-storage.rb:17:in `load'
+  
+  	from /var/lib/gems/1.8/gems/ditz-0.5/bin/ditz:135
+  
+  	from /usr/local/bin/ditz:19:in `load'
+  
+  	from /usr/local/bin/ditz:19
+  
+  --- project.yaml
+  --- !ditz.rubyforge.org,2008-03-06/project 
+  
+  name: bookme
+  
+  version: "0.5"
+  
+  components: bookme
+  
+  releases: []
+  
+  Perhaps nothing entered for a component should default it to a downcase 
+  version of the project name? Either way, I'm not clear on what I should 
+  enter here.
+type: bug
+component: ditz
+release: "0.6"
+reporter: Nolan Darilek <nolan@thewordnerd.info>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-01 16:56:03.309806 Z
+references: []
+
+id: 878ea81810f79d2d8a7580317fb1aa4781294761
+log_events: 
+- - 2008-09-01 16:56:07.036883 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - created
+  - ""
+- - 2008-09-03 03:41:09.675028 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - |-
+    ok, you're the second person to notice this and i can't figure out
+    what's going on. can you try it with the ditz in git master?
+git_branch: 
+claimer: 

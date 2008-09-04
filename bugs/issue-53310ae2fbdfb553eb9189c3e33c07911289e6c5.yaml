@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: markdown/textile/redcloth support in descriptions and comments
+desc: ""
+type: :feature
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-03 01:53:17.320063 Z
+references: []
+
+id: 53310ae2fbdfb553eb9189c3e33c07911289e6c5
+log_events: 
+- - 2008-09-03 01:53:17.959937 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

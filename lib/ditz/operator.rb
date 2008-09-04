@@ -136,6 +136,7 @@ class Operator
       puts "All is well with the world now. A bit more methane though."
       return
     end
+    run_pager
     return help_single(command) if command
     puts <<EOS
 Ditz commands:
@@ -177,7 +178,7 @@ EOS
     elsif opts[:comment]
       opts[:comment]
     else
-      ask_multiline "Comments"
+      ask_multiline_smartly "Comments"
     end
   end
   private :get_comment
@@ -198,7 +199,7 @@ EOS
     issue.log "created", config.user, get_comment(opts)
     project.add_issue issue
     project.assign_issue_names!
-    puts "Added issue #{issue.name}."
+    puts "Added issue #{issue.name} (#{issue.id})."
   end
 
   operation :drop, "Drop an issue", :issue
@@ -240,6 +241,7 @@ EOS
 
   operation :status, "Show project status", :maybe_release
   def status project, config, releases
+    run_pager
     releases ||= project.unreleased_releases + [:unassigned]
 
     if releases.empty?
@@ -334,6 +336,7 @@ EOS
   end
 
   def actually_do_todo project, config, releases, full
+    run_pager
     releases ||= project.unreleased_releases + [:unassigned]
     releases = [*releases]
     releases.each do |r|
@@ -467,6 +470,7 @@ EOS
 
   operation :releases, "Show releases"
   def releases project, config
+    run_pager
     a, b = project.releases.partition { |r| r.released? }
     (b + a.sort_by { |r| r.release_time }).each do |r|
       status = r.released? ? "released #{r.release_time.pretty_date}" : r.status
@@ -485,6 +489,7 @@ EOS
 
   operation :changelog, "Generate a changelog for a release", :release
   def changelog project, config, r
+    run_pager
     puts "== #{r.name} / #{r.released? ? r.release_time.pretty_date : 'unreleased'}"
     project.group_issues(project.issues_for_release(r)).each do |type, issues|
       issues.select { |i| i.closed? }.each do |i|
@@ -510,6 +515,7 @@ EOS
 
   operation :grep, "Show issues matching a string or regular expression", :string
   def grep project, config, match
+    run_pager
     re = /#{match}/
     issues = project.issues.select do |i|
       i.title =~ re || i.desc =~ re ||
@@ -520,6 +526,7 @@ EOS
 
   operation :log, "Show recent activity"
   def log project, config
+    run_pager
     project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
       flatten_one_level.sort_by { |e| e.first.first }.reverse.
       each do |(date, author, what, comment), i|
@@ -537,6 +544,7 @@ EOS
 
   operation :shortlog, "Show recent activity (short form)"
   def shortlog project, config
+    run_pager
     project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
       flatten_one_level.sort_by { |e| e.first.first }.reverse.
       each do |(date, author, what, comment), i|

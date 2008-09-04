@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: make 'git grep' take a -i for case-insensitivity
+desc: just like regular ol' grep does.
+type: :feature
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-03 01:52:45.802953 Z
+references: []
+
+id: 22f7bce01e356e40ad5f041cd8c91ec06fde60ca
+log_events: 
+- - 2008-09-03 01:52:47.178198 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

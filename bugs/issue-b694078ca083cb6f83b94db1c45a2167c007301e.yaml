@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: detect URLs in comments, title, descriptions and linkify them in html output
+desc: ""
+type: :feature
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-08-30 23:38:13.818930 Z
+references: []
+
+id: b694078ca083cb6f83b94db1c45a2167c007301e
+log_events: 
+- - 2008-08-30 23:38:15.544264 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

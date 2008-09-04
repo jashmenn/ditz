@@ -1,0 +1,31 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: explicitly mark model object generators that require interaction as such
+desc: |-
+  some model object field generators and field default generators interact with
+  the user. in order to make programmatic, non-interactive constructors work
+  reasonably, this can't happen. the non-interactive constructor should instead
+  throw an exception if it isn't supplied a value for this field.
+  
+  in order to do this, the constructor must know which generators are interactive
+  and which are not.
+type: :task
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-08-21 20:12:54.833844 Z
+references: []
+
+id: d637e20f09a656887adf0ae6e508b5f77acc6376
+log_events: 
+- - 2008-08-21 20:12:55.481603 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-28 21:07:22.033362 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - ""
+git_branch: 
+claimer: 

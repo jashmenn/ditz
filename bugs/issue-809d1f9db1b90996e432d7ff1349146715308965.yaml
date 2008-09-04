@@ -1,0 +1,27 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Issue types and releases arren't displayed on issue add.
+desc: |-
+  It seems like issue types and releases were displayed in a menu when 
+  issues were being added, so you'd pick from a menu rather than from 
+  memory. That doesn't seem to be the case anymore.
+type: bug
+component: ditz
+release: "0.6"
+reporter: Nolan Darilek <nolan@thewordnerd.info>
+status: :closed
+disposition: :fixed
+creation_time: 2008-09-01 17:05:40.712005 Z
+references: []
+
+id: 809d1f9db1b90996e432d7ff1349146715308965
+log_events: 
+- - 2008-09-01 17:05:42.850262 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - created
+  - ""
+- - 2008-09-03 03:38:48.307155 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - should be fixed in recent gits (independently by both nicolas and myself)
+git_branch: 
+claimer: 

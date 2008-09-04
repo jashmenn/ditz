@@ -1,9 +1,13 @@
+require 'pathname'
+
 module Ditz
 
 VERSION = "0.5"
+attr_accessor :verbose
+module_function :verbose, :verbose=
 
 def debug s
-  puts "# #{s}" if $verbose
+  puts "# #{s}" if $verbose || Ditz::verbose
 end
 module_function :debug
 
@@ -48,9 +52,9 @@ end
 
 def load_plugins fn
   Ditz::debug "loading plugins from #{fn}"
-  plugins = YAML::load_file $opts[:plugins_file]
+  plugins = YAML::load_file fn
   plugins.each do |p|
-    fn = Ditz::find_ditz_file "plugins/#{p}.rb"
+    fn = Ditz::find_ditz_file "ditz/plugins/#{p}.rb"
     Ditz::debug "loading plugin #{p.inspect} from #{fn}"
     require File.expand_path(fn)
   end
@@ -60,9 +64,38 @@ end
 module_function :home_dir, :find_dir_containing, :find_ditz_file, :load_plugins
 end
 
-require 'model-objects'
-require 'operator'
-require 'views'
-require 'hook'
-require 'file-storage'
+# Git-style automatic pagination of all output.
+# Call run_pa	ger from any opperator needing pagination.
+# Yoinked from http://nex-3.com/posts/73-git-style-automatic-paging-in-ruby#comments
+def run_pager
+  return if PLATFORM =~ /win32/
+  return unless STDOUT.tty?
 
+  read, write = IO.pipe
+
+  unless Kernel.fork # Child process
+    STDOUT.reopen(write)
+    STDERR.reopen(write) if STDERR.tty?
+    read.close
+    write.close
+    return
+  end
+
+  # Parent process, become pager
+  STDIN.reopen(read)
+  read.close
+  write.close
+
+  ENV['LESS'] ||= 'FSRX'  # Don't page if the input is short enough, unless
+                          # the user already have a LESS variable.
+
+  Kernel.select [STDIN] # Wait until we have input before we start the pager
+  pager = ENV['PAGER'] || 'less'
+  exec pager rescue exec "/bin/sh", "-c", pager
+end
+
+require 'ditz/model-objects'
+require 'ditz/operator'
+require 'ditz/views'
+require 'ditz/hook'
+require 'ditz/file-storage'

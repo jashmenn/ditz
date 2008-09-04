@@ -1,4 +1,4 @@
-require 'model'
+require 'ditz/model'
 
 module Ditz
 
@@ -38,7 +38,7 @@ class Project < ModelObject
 
   field :name, :prompt => "Project name", :default_generator => lambda { File.basename(Dir.pwd) }
   field :version, :default => Ditz::VERSION, :ask => false
-  field :components, :multi => true, :generator => :get_components
+  field :components, :multi => true, :interactive_generator => :get_components
   field :releases, :multi => true, :ask => false
 
   attr_accessor :pathname
@@ -140,9 +140,9 @@ class Issue < ModelObject
 
   field :title
   field :desc, :prompt => "Description", :multiline => true
-  field :type, :generator => :get_type
-  field :component, :generator => :get_component
-  field :release, :generator => :get_release
+  field :type, :interactive_generator => :get_type
+  field :component, :interactive_generator => :get_component
+  field :release, :interactive_generator => :get_release, :nil_ok => true
   field :reporter, :prompt => "Issue creator", :default_generator => lambda { |config, proj| config.user }
   field :status, :ask => false, :default => :unstarted
   field :disposition, :ask => false

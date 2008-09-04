@@ -1,0 +1,31 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: move png and rhtml files to a share/ directory
+desc: to be more in line with the traditional filesystem layout.
+type: :task
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-08-21 19:56:01.420372 Z
+references: []
+
+id: b3a886408a1913ca0082003a17369f158d20ae39
+log_events: 
+- - 2008-08-21 19:56:02.152999 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-08-25 00:49:51.206849 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - see {issue cfbb54be99b491595591ce0cd2f1f346ffea2159}
+- - 2008-08-27 17:42:23.778911 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - |-
+    also moved css file
+    
+    (and the dir is share/ditz/)
+git_branch: 
+claimer: 

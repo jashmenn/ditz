@@ -11,7 +11,7 @@ desc: |-
   on the fly. Should probably be enabled by a configuration option, though.
 type: :feature
 component: ditz
-release: 
+release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -30,5 +30,9 @@ log_events:
   - |-
     changed example issue name so it wouldn't get interpolated like a 
     real issue name. now the description is actually understandable.
+- - 2008-08-21 19:58:28.237568 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.6 from unassigned
+  - ""
 git_branch: 
 claimer: 

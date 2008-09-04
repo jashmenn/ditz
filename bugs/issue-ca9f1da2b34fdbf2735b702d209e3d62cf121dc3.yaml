@@ -1,0 +1,32 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Perform git-style automatic pagination
+desc: I like that Git runs less or another pager of choice where it makes sense. Ditz should do this as well.
+type: :feature
+component: ditz
+release: "0.6"
+reporter: Nolan Darilek <nolan@thewordnerd.info>
+status: :closed
+disposition: :fixed
+creation_time: 2008-08-28 00:04:47.243418 Z
+references: []
+
+id: ca9f1da2b34fdbf2735b702d209e3d62cf121dc3
+log_events: 
+- - 2008-08-28 00:04:51.130645 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - created
+  - ""
+- - 2008-08-28 00:09:18.267527 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - changed status from unstarted to in_progress
+  - ""
+- - 2008-08-28 03:43:13.692582 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - assigned to release 0.6 from unassigned
+  - ""
+- - 2008-08-28 03:44:21.297051 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - closed with disposition fixed
+  - This should probably get more testing, but as of not it works for me.
+git_branch: 
+claimer: 

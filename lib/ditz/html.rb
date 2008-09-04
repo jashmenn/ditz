@@ -71,8 +71,11 @@ class ErbHtml
   end
 
   def issue_link_for i, opts={}
-    link = link_to i, "#{i.title}"
-    link = "<span class=\"inline-issue-link\">" + link + "</span>" if opts[:inline]
+    link = if opts[:inline]
+      "<span class=\"inline-issue-link\">" + link_to(i, "issue <span class=\"id\">#{i.id[0,8]}</span>: #{i.title}") + "</span>"
+    else
+      link_to i, i.title
+    end
     link = link + " " + issue_status_img_for(i, :class => "inline-status-image") if opts[:status_image]
     link
   end

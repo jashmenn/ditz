@@ -1,10 +1,12 @@
 #!/usr/bin/ruby1.8
 
+$LOAD_PATH.unshift(File.expand_path("#{File.dirname($0)}/../lib"))
+
 ## requires are split in two for efficiency reasons: ditz should be really
 ## fast when using it for completion.
 $KCODE = "u"
 
-require 'operator'
+require 'ditz/operator'
 op = Ditz::Operator.new
 
 ## a secret option for shell completion
@@ -119,8 +121,11 @@ when "init"
   project.save! fn
   puts "Ok, #{issue_dir} directory created successfully."
   exit
+when "reconfigure" # might not be able to load the project
+  op.do cmd, nil, config, ARGV
+  exit
 when "help"
-  op.do "help", nil, nil, ARGV
+  op.do cmd, nil, nil, ARGV
   exit
 end
 

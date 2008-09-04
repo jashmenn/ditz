@@ -9,8 +9,6 @@ ReleaseNotes
 bin/ditz
 contrib/completion/_ditz.zsh
 contrib/completion/ditz.bash
-lib/blue-check.png
-lib/component.rhtml
 lib/ditz.rb
 lib/file-storage.rb
 lib/green-bar.png
@@ -40,5 +38,3 @@ lib/vendor/yaml_waml.rb
 lib/yellow-bar.png
 man/ditz.1
 setup.rb
-www/index.html
-www/main.css
