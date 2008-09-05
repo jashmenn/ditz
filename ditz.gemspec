@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["William Morgan"]
-  s.date = %q{2008-09-04}
+  s.date = %q{2008-09-05}
   s.default_executable = %q{ditz}
   s.description = %q{Ditz is a simple, light-weight distributed issue tracker designed to work with distributed version control systems like git, darcs, Mercurial, and Bazaar. It can also be used with centralized systems like SVN.  Ditz maintains an issue database directory on disk, with files written in a line-based and human-editable format. This directory can be kept under version control, alongside project code.  Ditz provides a simple, console-based interface for creating and updating the issue database files, and some basic static HTML generation capabilities for producing world-readable status pages (for a demo, see the ditz ditz page).  Ditz includes a robust plugin system for adding commands, model fields, and modifying output. See PLUGINS.txt for documentation on the pre-shipped plugins.  Ditz currently offers no central public method of bug submission.   == USING DITZ  There are several different ways to use Ditz:  1. Treat issue change the same as code change: include it as part of commits, and merge it with changes from other developers, resolving conflicts in the usual manner. 2. Keep the issue database in the repository but in a separate branch. Issue changes can be managed by your VCS, but is not tied directly to code commits. 3. Keep the issue database separate and not under VCS at all.}
   s.email = %q{wmorgan-ditz@masanjin.net}
@@ -25,13 +25,13 @@ Gem::Specification.new do |s|
 
     if current_version >= 3 then
       s.add_runtime_dependency(%q<trollop>, [">= 1.9"])
-      s.add_runtime_dependency(%q<kakutani-yaml_waml>, [">= 0"])
+      s.add_runtime_dependency(%q<kakutani-yaml_waml>, [">= 0.3"])
     else
       s.add_dependency(%q<trollop>, [">= 1.9"])
-      s.add_dependency(%q<kakutani-yaml_waml>, [">= 0"])
+      s.add_dependency(%q<kakutani-yaml_waml>, [">= 0.3"])
     end
   else
     s.add_dependency(%q<trollop>, [">= 1.9"])
-    s.add_dependency(%q<kakutani-yaml_waml>, [">= 0"])
+    s.add_dependency(%q<kakutani-yaml_waml>, [">= 0.3"])
   end
 end

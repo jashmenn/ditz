@@ -17,6 +17,9 @@ end
 
 begin
   require 'rubygems'
+  # list version dependant gems here.
+  gem 'kakutani-yaml_waml', '>= 0.3'
+  gem 'trollop', '>= 1.9'
 rescue LoadError
 end
 
@@ -24,7 +27,6 @@ require 'fileutils'
 require 'pathname'
 require 'trollop'; include Trollop
 require "ditz"
-require "yaml_waml"
 
 CONFIG_FN = ".ditz-config"
 PLUGIN_FN = ".ditz-plugins"
