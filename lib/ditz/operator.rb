@@ -513,10 +513,13 @@ EOS
     ## a no-op
   end
 
-  operation :grep, "Show issues matching a string or regular expression", :string
-  def grep project, config, match
+  operation :grep, "Show issues matching a string or regular expression", :string do
+    opt :ignore_case, "Ignore case distinctions in both the expression and in the issue data", :default => false
+  end
+
+  def grep project, config, opts, match
     run_pager
-    re = /#{match}/
+    re = Regexp.new match, opts[:ignore_case]
     issues = project.issues.select do |i|
       i.title =~ re || i.desc =~ re ||
         i.log_events.map { |time, who, what, comments| comments }.join(" ") =~ re
