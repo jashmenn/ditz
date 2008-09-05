@@ -1,4 +1,5 @@
 require 'yaml'
+require "yaml_waml"
 require 'sha1'
 require "ditz/lowline"; include Lowline
 require "ditz/util"
@@ -221,7 +222,7 @@ class ModelObject
         end
       end
     end
-    ret.respond_to?(:decode) ? ret.decode : ret
+    YamlWaml.decode(ret)
   end
 
   def log what, who, comment
