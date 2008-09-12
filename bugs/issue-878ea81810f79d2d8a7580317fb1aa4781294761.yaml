@@ -69,5 +69,11 @@ log_events:
   - |-
     ok, you're the second person to notice this and i can't figure out
     what's going on. can you try it with the ditz in git master?
+- - 2008-09-03 17:44:28.789880 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - commented
+  - |-
+    Now it works for me. I'll leave this issue open until the others who've 
+    experienced it have a chance to chime in.
 git_branch: 
 claimer: 
