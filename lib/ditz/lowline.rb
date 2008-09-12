@@ -187,9 +187,11 @@ module Lowline
 
   def ask_for_selection stuff, name, to_string=:to_s, many=false
     if many
+      return [] if stuff.empty?
       name = name.pluralize(2, false)
       puts "Choose one or more #{name} (comma separated list):"
     else
+      return nil if stuff.empty?
       puts "Choose a #{name}:"
     end
     stuff.each_with_index do |c, i|
