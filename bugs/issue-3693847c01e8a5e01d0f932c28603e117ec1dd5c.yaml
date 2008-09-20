@@ -1,0 +1,24 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add icalendar (rfc2445) output
+desc: ""
+type: :task
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :closed
+disposition: :fixed
+creation_time: 2008-09-20 00:31:53.945775 Z
+references: []
+
+id: 3693847c01e8a5e01d0f932c28603e117ec1dd5c
+log_events: 
+- - 2008-09-20 00:31:55.495692 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+- - 2008-09-20 00:32:09.015139 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
+  - contributed by pavel shramov
+git_branch: 
+claimer: 
