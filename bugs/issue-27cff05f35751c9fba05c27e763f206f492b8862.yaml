@@ -1,0 +1,27 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Store issues in .ditz directory by default
+desc: |-
+  A directory called "bugs" is rather ambiguous because:
+  1. Not all Ditz issues are bugs.
+  2. It does not indicate what tool created the issues.
+  3. It isn't in keeping with the common convention of RCSs wherein 
+  project metadata is stored in hidden .directories.
+  
+  Ditz should, IMHO, store issues in a .ditz directory by default.
+type: :feature
+component: ditz
+release: "0.6"
+reporter: Nolan Darilek <nolan@thewordnerd.info>
+status: :unstarted
+disposition: 
+creation_time: 2008-09-26 18:27:02.508215 Z
+references: []
+
+id: 27cff05f35751c9fba05c27e763f206f492b8862
+log_events: 
+- - 2008-09-26 18:27:05.052923 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - created
+  - ""
+git_branch: 
+claimer: 
