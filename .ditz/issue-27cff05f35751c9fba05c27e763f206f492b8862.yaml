@@ -12,8 +12,8 @@ type: :feature
 component: ditz
 release: "0.6"
 reporter: Nolan Darilek <nolan@thewordnerd.info>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-09-26 18:27:02.508215 Z
 references: []
 
@@ -22,6 +22,10 @@ log_events:
 - - 2008-09-26 18:27:05.052923 Z
   - Nolan Darilek <nolan@thewordnerd.info>
   - created
+  - ""
+- - 2008-09-26 18:33:20.780215 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - closed with disposition fixed
   - ""
 git_branch: 
 claimer: 
