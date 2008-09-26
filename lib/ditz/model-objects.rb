@@ -318,7 +318,7 @@ end
 class Config < ModelObject
   field :name, :prompt => "Your name", :default_generator => :get_default_name
   field :email, :prompt => "Your email address", :default_generator => :get_default_email
-  field :issue_dir, :prompt => "Directory to store issues state in", :default => "bugs"
+  field :issue_dir, :prompt => "Directory to store issues state in", :default => ".ditz"
 
   def user; "#{name} <#{email}>" end
 
