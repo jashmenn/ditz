@@ -18,5 +18,17 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-10-11 19:36:28.612892 Z
+  - Matthew Wilson <matt@sprout.tplus1.com>
+  - commented
+  - |-
+    It might be nice to have these three options when deleting a release
+    with issues:
+    
+    --delete-issues
+    --unassign-issues
+    --assign-to (ditz would list other releases and ask for which one).
+    
+    Matt
 git_branch: 
 claimer: 
