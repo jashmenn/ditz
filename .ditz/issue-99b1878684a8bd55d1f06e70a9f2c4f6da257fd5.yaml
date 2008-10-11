@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: drop-release command
+desc: |-
+  there should be a command for removing a release. it should do something
+  intelligent with issues assigned to that release, if any.
+type: :feature
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-10-11 18:59:58.204920 Z
+references: []
+
+id: 99b1878684a8bd55d1f06e70a9f2c4f6da257fd5
+log_events: 
+- - 2008-10-11 18:59:59.711342 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
