@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "'ditz add' shouldn't ask for comments"
+desc: |-
+  an informal poll shows that no one actually uses comments when adding issues.
+  anything interesting goes in the description.
+type: :task
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-10-13 17:33:02.624956 Z
+references: []
+
+id: c4b03e199325484b293f3c66152419cb4b1b6732
+log_events: 
+- - 2008-10-13 17:33:04.130676 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
