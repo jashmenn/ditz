@@ -536,6 +536,7 @@ EOS
       puts <<EOS
 date  : #{date.localtime} (#{date.ago} ago)
 author: #{author}
+    id: #{i.id}
  issue: [#{i.name}] #{i.title}
 
   #{what}
