@@ -21,6 +21,10 @@ class ModelObject
     self.class.fields.map { |f, opts| @values[f] = [] if opts[:multi] }
   end
 
+  ## override me and throw ModelErrors if necessary
+  def validate! whence, context
+  end
+
   ## yamlability
   def self.yaml_domain; "ditz.rubyforge.org,2008-03-06" end
   def self.yaml_other_thing; name.split('::').last.dcfirst end
@@ -175,6 +179,7 @@ class ModelObject
     returning YAML::load_file(fn) do |o|
       raise ModelError, "error loading from yaml file #{fn.inspect}: expected a #{self}, got a #{o.class}" unless o.class == self
       o.pathname = fn if o.respond_to? :pathname=
+      o.validate! :load, []
     end
   end
 
@@ -262,6 +267,7 @@ class ModelObject
         end
         o.send "#{name}=", val
       end
+      o.validate! :create, generator_args
       o
     end
 
@@ -279,6 +285,7 @@ class ModelObject
         end
         o.send "#{fname}=", val if val
       end
+      o.validate! :create, generator_args
       o
     end
 

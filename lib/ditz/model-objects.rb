@@ -120,18 +120,13 @@ EOS
     end
   end
 
-  def validate!
+  def validate! whence, context
+    config, project = context
     if(dup = components.map { |c| c.name }.first_duplicate)
       raise Error, "more than one component named #{dup.inspect}: #{components.inspect}"
     elsif(dup = releases.map { |r| r.name }.first_duplicate)
       raise Error, "more than one release named #{dup.inspect}"
     end
-  end
-
-  def self.from *a
-    p = super(*a)
-    p.validate!
-    p
   end
 end
 
@@ -150,6 +145,17 @@ class Issue < ModelObject
   field :references, :ask => false, :multi => true
   field :id, :ask => false, :generator => :make_id
   changes_are_logged
+
+  ## we only have to check beyond what ModelObject.create already checks
+  def validate! whence, context
+    config, project = context
+    if whence == :create
+      raise ModelError, "title is empty" unless title =~ /\S/
+      raise ModelError, "invalid type #{type.inspect}" unless TYPES.member?(type)
+      raise ModelError, "invalid status #{status.inspect}" unless STATUSES.member?(status)
+      raise ModelError, "#{type}s can't be added to already-released releases" if release && [:feature, :task].include?(type) && project.release_for(release).released?
+    end
+  end
 
   attr_accessor :name, :pathname, :project
 
