@@ -12,9 +12,9 @@ end
 
 module Ditz
 
-class ModelObject
-  class ModelError < StandardError; end
+class ModelError < StandardError; end
 
+class ModelObject
   def initialize
     @values = {}
     @serialized_values = {}
