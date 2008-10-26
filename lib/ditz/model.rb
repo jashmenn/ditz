@@ -164,6 +164,11 @@ class ModelObject
   def self.changes_are_logged
     define_method(:changes_are_logged?) { true }
     field :log_events, :multi => true, :ask => false
+    define_method(:log) do |what, who, comment|
+      add_log_event([Time.now, who, what, comment || ""])
+      self
+    end
+    define_method(:last_event_time) { log_events.empty? ? nil : log_events.last[0] }
   end
 
   def self.from fn
@@ -219,11 +224,6 @@ class ModelObject
         end
       end
     end
-  end
-
-  def log what, who, comment
-    add_log_event([Time.now, who, what, comment || ""])
-    self
   end
 
   def changed?; @changed ||= false end
