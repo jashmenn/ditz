@@ -4,7 +4,7 @@ desc: |-
   It seems like issue types and releases were displayed in a menu when 
   issues were being added, so you'd pick from a menu rather than from 
   memory. That doesn't seem to be the case anymore.
-type: bug
+type: :bug
 component: ditz
 release: "0.6"
 reporter: Nolan Darilek <nolan@thewordnerd.info>

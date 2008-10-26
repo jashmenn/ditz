@@ -48,7 +48,7 @@ desc: |-
   Perhaps nothing entered for a component should default it to a downcase 
   version of the project name? Either way, I'm not clear on what I should 
   enter here.
-type: bug
+type: :bug
 component: ditz
 release: "0.6"
 reporter: Nolan Darilek <nolan@thewordnerd.info>

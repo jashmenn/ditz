@@ -12,7 +12,7 @@ desc: |-
   for example.
    * Make existing operators check for the plugin's presence, not 
   requiring it to be used.
-type: feature
+type: :feature
 component: ditz
 release: 
 reporter: Nolan Darilek <nolan@thewordnerd.info>
