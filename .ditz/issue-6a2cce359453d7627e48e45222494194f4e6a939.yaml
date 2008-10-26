@@ -1,0 +1,25 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: add model object post-creation validation
+desc: |-
+  model objects should be able to validate their fields after being created.
+  for example, issues should ensure that they have a title, that their email
+  addresses have at signs, etc.
+  
+  note similarity with {issue c83a8f4048424c0b18ff4633a818adf5096d7e8a}.
+type: :feature
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-10-26 19:43:30.460621 Z
+references: []
+
+id: 6a2cce359453d7627e48e45222494194f4e6a939
+log_events: 
+- - 2008-10-26 19:43:32.875171 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

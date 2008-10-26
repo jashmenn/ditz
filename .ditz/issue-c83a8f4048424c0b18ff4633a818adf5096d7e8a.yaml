@@ -27,5 +27,9 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - assigned to release 0.6 from unassigned
   - ""
+- - 2008-10-26 19:43:48.931682 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - note similarity with {issue 6a2cce359453d7627e48e45222494194f4e6a939}
 git_branch: 
 claimer: 
