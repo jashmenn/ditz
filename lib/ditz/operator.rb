@@ -577,6 +577,7 @@ EOS
       FileUtils.cp i.pathname, dir
       project.drop_issue i
     end
+    project.drop_release release
     puts "Archived to #{dir}."
   end
 
