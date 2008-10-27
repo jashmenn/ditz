@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "'ditz archive' should remove the release from the list of releases"
+desc: I.e. in addition to removing the issues for that release.
+type: :bugfix
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-10-27 00:40:30.829824 Z
+references: []
+
+id: 3354c7b81a58b65cb0d602ae03574c57e0de2a08
+log_events: 
+- - 2008-10-27 00:40:33.146437 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
