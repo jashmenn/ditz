@@ -568,9 +568,11 @@ EOS
       end
   end
 
-  operation :archive, "Archive a release", :release, :maybe_dir
-  def archive project, config, release, dir
-    dir ||= "ditz-archive-#{release.name}"
+  operation :archive, "Archive a release", :release, :maybe_dir do
+    opt :dir, "Specify the archive directory", :short => 'd', :type => String
+  end
+  def archive project, config, opts, release
+    dir = opts[:dir] || "./ditz-archive-#{release.name}"
     FileUtils.mkdir dir
     FileUtils.cp project.pathname, dir
     project.issues_for_release(release).each do |i|
@@ -578,7 +580,7 @@ EOS
       project.drop_issue i
     end
     project.drop_release release
-    puts "Archived to #{dir}."
+    puts "Archived to #{dir}. Note that issue names may have changed."
   end
 
   operation :edit, "Edit an issue", :issue do
