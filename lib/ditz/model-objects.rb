@@ -67,6 +67,12 @@ class Project < ModelObject
     end
   end
 
+  alias :__old_drop_release :drop_release
+  def drop_release release
+    raise Error, "only can drop releases without issues" unless issues_for_release(release).empty?
+    __old_drop_release release
+  end
+
   def added_issues; @added_issues ||= [] end
   def deleted_issues; @deleted_issues ||= [] end
 

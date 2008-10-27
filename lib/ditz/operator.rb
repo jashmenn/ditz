@@ -208,6 +208,12 @@ EOS
     puts "Dropped #{issue.name}. Note that other issue names may have changed."
   end
 
+  operation :drop_release, "Drop a release", :release
+  def drop_release project, config, release
+    project.drop_release release
+    puts "Dropped release #{release.name}."
+  end
+
   operation :add_release, "Add a release", :maybe_name do
     opt :comment, "Specify a comment", :short => 'm', :type => String
     opt :no_comment, "Skip asking for a comment", :default => false
