@@ -6,6 +6,19 @@ components:
   name: ditz
 releases: 
 - !ditz.rubyforge.org,2008-03-06/release 
+  name: "0.3"
+  status: :released
+  release_time: 2008-06-04 20:20:13.802806 Z
+  log_events: 
+  - - 2008-04-11 03:19:01.557643 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-06-04 20:20:13.802836 Z
+    - William Morgan <wmorgan@masanjin.net>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
   name: "0.4"
   status: :released
   release_time: 2008-07-27 21:48:29.414560 Z

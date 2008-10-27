@@ -1,0 +1,94 @@
+--- !ditz.rubyforge.org,2008-03-06/project 
+name: ditz
+version: 0.0.1
+components: 
+- !ditz.rubyforge.org,2008-03-06/component 
+  name: ditz
+releases: 
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: "0.2"
+  status: :released
+  release_time: 2008-04-11 16:46:05.962007 Z
+  log_events: 
+  - - 2008-03-31 03:27:33.598703 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-04-11 16:46:05.962045 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: 0.1.1
+  status: :released
+  release_time: 2008-04-04 17:12:03.870735 Z
+  log_events: 
+  - - 2008-04-04 17:09:36.524612 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-04-04 17:12:03.870791 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: 0.1.2
+  status: :released
+  release_time: 2008-04-05 01:19:48.042308 Z
+  log_events: 
+  - - 2008-04-05 01:18:42.258081 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-04-05 01:19:48.042346 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: "0.3"
+  status: :released
+  release_time: 2008-06-04 20:20:13.802806 Z
+  log_events: 
+  - - 2008-04-11 03:19:01.557643 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-06-04 20:20:13.802836 Z
+    - William Morgan <wmorgan@masanjin.net>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: "0.4"
+  status: :released
+  release_time: 2008-07-27 21:48:29.414560 Z
+  log_events: 
+  - - 2008-06-04 20:18:27.379790 Z
+    - William Morgan <wmorgan@masanjin.net>
+    - created
+    - next major release
+  - - 2008-07-27 21:48:29.414583 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: "0.5"
+  status: :released
+  release_time: 2008-08-20 04:30:36.737180 Z
+  log_events: 
+  - - 2008-07-25 00:27:26.462978 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
+  - - 2008-08-20 04:30:36.737211 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - released
+    - ""
+- !ditz.rubyforge.org,2008-03-06/release 
+  name: "0.6"
+  status: :unreleased
+  release_time: 
+  log_events: 
+  - - 2008-08-17 02:10:59.574477 Z
+    - William Morgan <wmorgan-ditz@masanjin.net>
+    - created
+    - ""
