@@ -192,11 +192,17 @@ EOS
 
   operation :add, "Add an issue" do
     opt :comment, "Specify a comment", :short => 'm', :type => String
-    opt :no_comment, "Skip asking for a comment", :default => false
+    opt :ask_for_comment, "Ask for a comment", :default => false
   end
   def add project, config, opts
     issue = Issue.create_interactively(:args => [config, project]) or return
-    issue.log "created", config.user, get_comment(opts)
+
+    comment = if opts[:comment]
+      opts[:comment]
+    elsif opts[:ask_for_comment]
+      ask_multiline_smartly "Comments"
+    end
+    issue.log "created", config.user, comment
     project.add_issue issue
     project.assign_issue_names!
     puts "Added issue #{issue.name} (#{issue.id})."
