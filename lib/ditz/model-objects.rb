@@ -331,8 +331,18 @@ class Config < ModelObject
   field :name, :prompt => "Your name", :default_generator => :get_default_name
   field :email, :prompt => "Your email address", :default_generator => :get_default_email
   field :issue_dir, :prompt => "Directory to store issues state in", :default => ".ditz"
+  field :use_editor_if_possible, :interactive_generator => :get_use_editor
 
   def user; "#{name} <#{email}>" end
+
+  def validate! whence, context
+    self.use_editor_if_possible = true if self.use_editor_if_possible.nil?
+  end
+
+  def get_use_editor
+    yon = ask "Use your text editor for multi-line input when possible (y/n)?", :restrict => /^(y|yes|n|no)$/i
+    yon =~ /y/ ? true : false
+  end
 
   def get_default_name
     require 'etc'

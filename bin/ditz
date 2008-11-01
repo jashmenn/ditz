@@ -103,6 +103,9 @@ EOS
   end
 end
 
+## configure any lowline settings
+Lowline.use_editor_if_possible = config.use_editor_if_possible
+
 issue_dir = Pathname.new($opts[:issue_dir] || config.issue_dir)
 cmd = ARGV.shift || "todo"
 unless op.has_operation? cmd
