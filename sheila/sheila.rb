@@ -162,6 +162,7 @@ module Sheila::Controllers
       render :ticket
     end
     def post sha
+      len = sha.length
       @issue = Sheila.project.issues.find { |i| i.id[0 ... len] == sha }
 
       # extra validation. probably not great that it's here.
