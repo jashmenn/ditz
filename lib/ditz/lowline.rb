@@ -144,7 +144,7 @@ module Lowline
     !ENV["EDITOR"].nil? || File.exist?("/usr/bin/sensible-editor") || File.exist?("/usr/bin/vi")
   end
 
-  def ask_multiline_smartly q
+  def ask_multiline_or_editor q
     can_run_editor? ? ask_via_editor(q) : ask_multiline(q)
   end
 

@@ -178,7 +178,7 @@ EOS
     elsif opts[:comment]
       opts[:comment]
     else
-      ask_multiline_smartly "Comments"
+      ask_multiline_or_editor "Comments"
     end
   end
   private :get_comment
@@ -200,7 +200,7 @@ EOS
     comment = if opts[:comment]
       opts[:comment]
     elsif opts[:ask_for_comment]
-      ask_multiline_smartly "Comments"
+      ask_multiline_or_editor "Comments"
     end
     issue.log "created", config.user, comment
     project.add_issue issue
