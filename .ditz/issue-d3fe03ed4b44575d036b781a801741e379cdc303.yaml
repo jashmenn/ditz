@@ -1,0 +1,25 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Show the results of ditz claimed and ditz mine in HTML
+desc: |-
+  This issue is really just a pretext to try out sheila.  Looks really neat!
+  
+  Anyhow, it might be nice when somebody claims an issue, if you could click on their name and then see all the other issues they claimed.
+  
+  Also, it would be neat to see "ditz claimed" as a report too.
+type: :feature
+component: ditz
+release: 
+reporter: Matt Wilson <matt@tplus1.com>
+status: :unstarted
+disposition: 
+creation_time: 2008-10-28 20:22:52.996900 Z
+references: []
+
+id: d3fe03ed4b44575d036b781a801741e379cdc303
+log_events: 
+- - 2008-10-28 20:22:53.016704 Z
+  - Matt Wilson <matt@tplus1.com>
+  - created
+  - Created via Sheila by  (76.241.155.2)
+git_branch: 
+claimer: 
