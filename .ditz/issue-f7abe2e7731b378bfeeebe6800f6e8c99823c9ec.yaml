@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: references to release and components should be by id instead of name
+desc: |-
+  once {issue 80c023565e81acb7ad0ee4c41ebe894dac4ba743} is complete, doing this will allow component and release
+  renames without requiring rewriting every reference thereof.
+type: :bugfix
+component: ditz
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-01 18:45:58.862619 Z
+references: []
+
+id: f7abe2e7731b378bfeeebe6800f6e8c99823c9ec
+log_events: 
+- - 2008-11-01 18:45:58.863198 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
