@@ -1,0 +1,26 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: sheila should auto-wrap descriptions when necessary
+desc: |-
+  descriptions are a little messy. sometimes they need to be wrapped and
+  sometimes they're fixed-width things. sheila should ideally detect this
+  and wrap as appropriate.
+  
+  (typically issues entered on the console are wrapped, and issues entered
+  via sheila itself are not wrapped.)
+type: :bugfix
+component: sheila
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-01 21:47:58.551102 Z
+references: []
+
+id: 2c097311263f2f078089c8cbfb2caf47dec62b6d
+log_events: 
+- - 2008-11-01 21:47:58.551590 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 
