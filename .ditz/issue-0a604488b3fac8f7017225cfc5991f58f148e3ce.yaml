@@ -1,0 +1,22 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: allow configuration of whether the editor is used or not
+desc: |-
+  as a follow-on to {issue b568fb686e59a42a727d143ad1367e93f8098352}, whether the editor is invoked should be a
+  configurable option. also see {issue 50c68d6ebd81149d12fc44e311792a3418f2e687}.
+type: :task
+component: ditz
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-01 19:46:00.924260 Z
+references: []
+
+id: 0a604488b3fac8f7017225cfc5991f58f148e3ce
+log_events: 
+- - 2008-11-01 19:46:00.924841 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

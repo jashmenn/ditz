@@ -52,14 +52,30 @@ class Time
 end
 
 module Lowline
+  ## UI configuration
+  @use_editor_if_possible = true
+  attr_accessor :use_editor_if_possible
+
+  class Error < StandardError; end
+
+  def editor
+    @editor ||=
+      if Lowline.use_editor_if_possible
+        if ENV["EDITOR"] && !ENV["EDITOR"].empty?
+          ENV["EDITOR"]
+        else
+          %w(/usr/bin/sensible-editor /usr/bin/vi).find { |e| File.exist?(e) }
+        end
+      end
+  end
+
   def run_editor
+    raise Error, "no editor" unless editor
+
     f = Tempfile.new "ditz"
     yield f
     f.close
 
-    editor = ENV["EDITOR"]
-    editor ||= "/usr/bin/sensible-editor" if File.exist?("/usr/bin/sensible-editor")
-    editor ||= "/usr/bin/vi"
     cmd = "#{editor} #{f.path.inspect}"
 
     mtime = File.mtime f.path
@@ -149,14 +165,13 @@ module Lowline
     ans.multistrip
   end
 
-  def can_run_editor?
-    !ENV["EDITOR"].nil? || File.exist?("/usr/bin/sensible-editor") || File.exist?("/usr/bin/vi")
+  def ask_multiline_or_editor q, opts={}
+    if editor
+      ask_via_editor q, :comments => opts[:comments]
+    else
+      ask_multiline q
+    end
   end
-
-  def ask_multiline_or_editor q, comments=nil
-    can_run_editor? ? ask_via_editor(q, :comments => comments) : ask_multiline(q)
-  end
-
 
   def ask_yon q
     while true
