@@ -16,5 +16,16 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-11-01 21:52:59.572749 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - |-
+    actually it's a little more complicated than that, because the working directory doesn't
+    get automatically updated when you push. so either sheila has to poll every once in a while,
+    or it has to reset the working directory when differences are detected.
+    
+    probably the latter is the best approach because it doesn't incur any unnecessary network traffic.
+    
+    (submitted via Sheila by 68.127.146.40 ())
 git_branch: 
 claimer: 
