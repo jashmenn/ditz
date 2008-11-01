@@ -140,9 +140,9 @@ class Operator
     message = if opts[:message] && !opts[:edit]
       "#{opts[:message]}\n\n#{tag}"
     elsif opts[:message] && opts[:edit]
-      "#{opts[:message]}\n\n#{comment}\n#{tag}"
+      "#{opts[:message]}\n\n#{tag}\n\n#{comment}"
     else
-      "#{comment}\n#{tag}"
+      "#{comment}\n\n#{tag}"
     end
 
     message = message.gsub("\"", "\\\"")
