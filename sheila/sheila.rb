@@ -144,6 +144,9 @@ module Sheila::Controllers
         (query ? "matching #{query.inspect}" : nil),
       ].compact.join(" ")
 
+      ## decide whether to show the "add new issue" link
+      @show_add_link = true
+
       ## go!
       render :index
     end
@@ -296,17 +299,20 @@ module Sheila::Views
     h2 "#{'result'.pluralize @issues.size} for #{@query.inspect}"
 
     unless @issues.empty?
-      ticket_table @issues, @show_add_link
+      ticket_table @issues, :show_add_link => false
     end
   end
 
   def index
     filter_list
     h2 @title
-    ticket_table @issues
+    ticket_table @issues, :show_add_link => @show_add_link, :add_link_params => @add_link_params
   end
 
-  def ticket_table issues
+  def ticket_table issues, opts={}
+    show_add_link = opts[:show_add_link]
+    add_link_params = opts[:add_link_params]
+
     h4 "Issues"
     table.tickets! do
       tr do
@@ -316,9 +322,10 @@ module Sheila::Views
       end
       tr do
         td.unique ""
-        td.title { a "Add a new issue", :href => R(New) }
+        add_link_extra = add_link_params ? "?" + add_link_params.map { |k, v| "#{k}=#{v}" }.join("&") : ""
+        td.title { a "Add a new issue", :href => R(New) + add_link_extra }
         td.status ""
-      end
+      end if show_add_link
       issues.each do |issue|
         tr do
           td.unique issue.id.prefix
@@ -357,7 +364,7 @@ module Sheila::Views
       text link_issue_names(@desc) if @desc
     end
 
-    ticket_table(@issues, @release.nil? || @release.unreleased?)
+    ticket_table @issues, :show_add_link => (@release.nil? || @release.unreleased?), :add_link_params => { "release" => (@release.nil? ? "unassigned" : @release.name) }
   end
 
   def ticket
@@ -478,10 +485,12 @@ module Sheila::Views
         end
         div.required do
           label.fieldname 'Release, if any', :for => 'ticket[release]'
+          current_r = @input.resolve "ticket[release]"
+          current_r = @input["release"] if current_r.blank?
           select.standard :name => 'ticket[release]' do
-            option "No release", prune_opts(:selected => @input.resolve("ticket[release]").empty?, :value => "")
-            Sheila.project.releases.sort_by { |r| r.release_time || Time.now }.reverse.each do |r|
-              option r.fancy_name, prune_opts(:value => r.name, :selected => @input.resolve("ticket[release]") == r.name)
+            option "No release", prune_opts(:selected => current_r.blank? || current_r == "unassigned", :value => "")
+            Sheila.project.releases.select { |r| r.unreleased? }.each do |r|
+              option r.fancy_name, prune_opts(:value => r.name, :selected => current_r == r.name)
             end
           end
         end
