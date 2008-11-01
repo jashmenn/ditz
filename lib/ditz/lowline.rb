@@ -98,12 +98,21 @@ module Lowline
     end
   end
 
-  def ask_via_editor q, default=nil
+  def ask_via_editor q, opts={}
+    default = opts[:default]
+    comments = opts[:comments]
     fn = run_editor do |f|
-      f.puts(default || "")
+      if default
+        f.puts default
+        f.puts
+      end
       f.puts q.gsub(/^/, "## ")
       f.puts "##"
       f.puts "## Enter your text above. Lines starting with a '#' will be ignored."
+      if comments
+        f.puts "##"
+        f.puts comments.gsub(/^/, "## ")
+      end
     end
     return unless fn
     IO.read(fn).gsub(/^#.*$/, "").multistrip
@@ -144,8 +153,8 @@ module Lowline
     !ENV["EDITOR"].nil? || File.exist?("/usr/bin/sensible-editor") || File.exist?("/usr/bin/vi")
   end
 
-  def ask_multiline_or_editor q
-    can_run_editor? ? ask_via_editor(q) : ask_multiline(q)
+  def ask_multiline_or_editor q, comments=nil
+    can_run_editor? ? ask_via_editor(q, :comments => comments) : ask_multiline(q)
   end
 
 
