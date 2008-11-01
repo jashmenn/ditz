@@ -93,7 +93,7 @@ class Operator
   end
   def claim project, config, opts, issue
     puts "Claiming issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = ask_multiline_or_editor "Comments" unless $opts[:no_comment]
     issue.claim config.user, comment, opts[:force]
     puts "Issue #{issue.name} marked as claimed by #{config.user}"
   end
@@ -103,7 +103,7 @@ class Operator
   end
   def unclaim project, config, opts, issue
     puts "Unclaiming issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = ask_multiline_or_editor "Comments" unless $opts[:no_comment]
     issue.unclaim config.user, comment, opts[:force]
     puts "Issue #{issue.name} marked as unclaimed."
   end
