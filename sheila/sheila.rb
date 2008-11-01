@@ -365,7 +365,7 @@ module Sheila::Views
     h3 { span.unique.right @issue.id.prefix; span "created #{@issue.creation_time.ago} ago by #{@issue.reporter.obfu}" }
     div.description do
       text link_issue_names(@issue.desc)
-    end if @issue.desc && !@issue.desc.empty?
+    end unless @issue.desc.blank?
     div.details do
       p { strong "Type: "; span @issue.type.to_s }
       ## unfortunately this next thing always raises a "bad route" if the
@@ -403,7 +403,7 @@ module Sheila::Views
           div.action action
           div.comment do
             text link_issue_names(comment)
-          end if comment && !comment.empty?
+          end unless comment.blank?
         end
       end
 
@@ -488,7 +488,7 @@ module Sheila::Views
         if Sheila.project.components.size > 1
           label.fieldname "Component", :for => 'ticket[component]'
           select.standard :name => 'ticket[component]' do
-            Sheila.project.components.each { |c| option prune_opts(c.name, :selected => @input.resolve("ticket[component]") == c.name) }
+            Sheila.project.components.each { |c| option c.name, prune_opts(:selected => @input.resolve("ticket[component]") == c.name) }
           end
         end
         div.buttons do
