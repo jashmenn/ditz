@@ -3,7 +3,7 @@ title: add a 'priority' plugin, for assigning priorities to issues
 desc: some people actually find this useful
 type: :feature
 component: ditz
-release: "0.6"
+release: 
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -24,5 +24,9 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - assigned to release 0.6 from 0.5
   - delaying
+- - 2008-11-01 20:40:57.906426 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - unassigned from release 0.6
+  - ""
 git_branch: 
 claimer: 

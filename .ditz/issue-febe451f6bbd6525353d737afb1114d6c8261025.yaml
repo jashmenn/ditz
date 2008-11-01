@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: check for a "git push" having updated the issue db, and reload if so
+desc: ""
+type: :task
+component: sheila
+release: "0.6"
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-01 20:32:23.252836 Z
+references: []
+
+id: febe451f6bbd6525353d737afb1114d6c8261025
+log_events: 
+- - 2008-11-01 20:32:23.253339 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

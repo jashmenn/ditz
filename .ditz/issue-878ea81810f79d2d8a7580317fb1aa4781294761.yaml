@@ -52,8 +52,8 @@ type: :bug
 component: ditz
 release: "0.6"
 reporter: Nolan Darilek <nolan@thewordnerd.info>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :wontfix
 creation_time: 2008-09-01 16:56:03.309806 Z
 references: []
 
@@ -75,5 +75,9 @@ log_events:
   - |-
     Now it works for me. I'll leave this issue open until the others who've 
     experienced it have a chance to chime in.
+- - 2008-11-01 20:41:35.467870 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition wontfix
+  - hasn't cropped up again.
 git_branch: 
 claimer: 

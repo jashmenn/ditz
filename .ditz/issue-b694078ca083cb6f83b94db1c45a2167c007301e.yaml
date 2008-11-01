@@ -3,7 +3,7 @@ title: detect URLs in comments, title, descriptions and linkify them in html out
 desc: ""
 type: :feature
 component: ditz
-release: "0.6"
+release: 
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -15,6 +15,10 @@ log_events:
 - - 2008-08-30 23:38:15.544264 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
+  - ""
+- - 2008-11-01 20:41:01.004775 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - unassigned from release 0.6
   - ""
 git_branch: 
 claimer: 

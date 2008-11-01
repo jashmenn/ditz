@@ -5,7 +5,7 @@ desc: |-
   this probably deserves some more thought before becoming reality.
 type: :task
 component: ditz
-release: "0.6"
+release: 
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :unstarted
 disposition: 
@@ -25,6 +25,10 @@ log_events:
 - - 2008-08-17 02:16:52.776836 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - assigned to release 0.6 from 0.5
+  - ""
+- - 2008-11-01 20:40:57.428456 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - unassigned from release 0.6
   - ""
 git_branch: 
 claimer: 
