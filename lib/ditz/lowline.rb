@@ -60,12 +60,10 @@ module Lowline
 
   def editor
     @editor ||=
-      if Lowline.use_editor_if_possible
-        if ENV["EDITOR"] && !ENV["EDITOR"].empty?
-          ENV["EDITOR"]
-        else
-          %w(/usr/bin/sensible-editor /usr/bin/vi).find { |e| File.exist?(e) }
-        end
+      if ENV["EDITOR"] && !ENV["EDITOR"].empty?
+        ENV["EDITOR"]
+      else
+        %w(/usr/bin/sensible-editor /usr/bin/vi).find { |e| File.exist?(e) }
       end
   end
 
@@ -166,7 +164,7 @@ module Lowline
   end
 
   def ask_multiline_or_editor q, opts={}
-    if editor
+    if Lowline.use_editor_if_possible && editor
       ask_via_editor q, :comments => opts[:comments]
     else
       ask_multiline q
