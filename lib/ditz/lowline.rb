@@ -86,7 +86,7 @@ module Lowline
     default_s = case opts[:default]
       when nil; nil
       when ""; " (enter for none)"
-      else; " (enter for #{opts[:default].inspect})"
+      else; " (enter for #{opts[:default].to_s})"
     end
 
     tail = case q
