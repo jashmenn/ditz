@@ -19,7 +19,7 @@ end
 class Ditz::Release
   def fancy_name
     if released?
-      "#{name} (released #{release_time.ago} ago)"
+      "#{name} (#{release_time.ago} ago)"
     else
       name
     end
@@ -263,7 +263,7 @@ module Sheila::Views
   def filter_list
     form.filters :action => R(Index) do
       fieldset.filters do
-        span "Issue status: "
+        span "Status: "
         select.filter :name => "type" do
           option "all", prune_opts(:selected => ["all", "", nil].member?(@input["type"]), :value => "")
           option "open", prune_opts(:selected => @input["type"] == "open", :value => "open")
@@ -290,7 +290,7 @@ module Sheila::Views
         span " Search: "
         input :value => @input["query"], :name => "query", :size => 10
         text " "
-        input :value => "Filter", :type => "submit"
+        input :value => ">", :type => "submit"
       end
     end
   end
