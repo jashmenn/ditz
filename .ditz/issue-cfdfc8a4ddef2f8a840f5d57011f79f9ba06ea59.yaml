@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Make necessary camping version easy to get
+desc: Sheila, IIRC, requires an unreleased version of camping. It'd be nice to include a README with the git repository URL. Even more helpful would be linking sheila/camping as a git submodule.
+type: :bugfix
+component: sheila
+release: 
+reporter: Nolan Darilek <nolan@thewordnerd.info>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-04 22:06:01.383868 Z
+references: []
+
+id: cfdfc8a4ddef2f8a840f5d57011f79f9ba06ea59
+log_events: 
+- - 2008-11-04 22:06:01.474401 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - created
+  - Created via Sheila by  (71.113.240.197)
+git_branch: 
+claimer: 
