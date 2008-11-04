@@ -327,15 +327,18 @@ module Sheila::Views
           td.title do
             h3 { a issue.title, :href => R(TicketX, issue.id) }
             p.about do
-              strong("#{(issue.last_event_time || issue.creation_time).ago} ago")
-              span(" by #{issue.reporter.obfu}")
-              comments = issue.log_events.select { |e| e[2] == "commented" } # :(
-              unless comments.empty?
-                name = case comments.size
-                when 1; "1 comment"
-                else "#{comments.size} comments"
-                end
-                span { a " (#{name})", :href => R(TicketX, issue.id) + "#log" }
+              unless issue.log_events.empty?
+                whenn, who, what, comment = issue.log_events.last
+                #strong("#{(issue.last_event_time || issue.creation_time).ago} ago")
+                span what
+                strong " #{whenn.ago} ago"
+                span " by #{who.obfu} "
+              end
+            end
+            comments = issue.log_events.select { |e| e[2] == "commented" } # :(
+            unless comments.empty?
+              p.about do
+                a "comment".pluralize(comments.size).capitalize, :href => R(TicketX, issue.id) + "#log"
               end
             end
           end
