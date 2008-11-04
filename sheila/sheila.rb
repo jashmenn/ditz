@@ -214,12 +214,6 @@ module Sheila::Controllers
       end
     end
   end
-  class Signup
-    def get
-      @me = User.new
-      render :profile
-    end
-  end
   class ReleaseX
     def get num
       @release = Sheila.project.releases[num.to_i] # see docs for Views#ticket
