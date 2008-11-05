@@ -148,6 +148,7 @@ module Sheila::Controllers
       @show_add_link = true
 
       ## go!
+      @releases = Sheila.project.releases
       render :index
     end
   end
@@ -216,7 +217,7 @@ module Sheila::Controllers
   end
   class ReleaseX
     def get num
-      @release = Sheila.project.releases[num.to_i] # see docs for Views#ticket
+      @release = Sheila.project.releases[num.to_i] # see docs for make_release_link
       @created, @desc = @release.log_events[0].first, @release.log_events[0].last
       @issues = Sheila.project.issues_for_release @release
       render :release
@@ -289,26 +290,97 @@ module Sheila::Views
     end
   end
 
-  def search_results
-    filter_list
-    h2 "#{'result'.pluralize @issues.size} for #{@query.inspect}"
+  def index
+    release_table @releases
+    ticket_table @issues, :show_add_link => @show_add_link, :add_link_params => @add_link_params
+  end
 
-    unless @issues.empty?
-      ticket_table @issues, :show_add_link => false
+  def progress_meter p, size=50
+    done = (p * size).to_i
+    undone = [size - done, 0].max
+    span.progress_meter do
+      span.progress_meter_done { text("&nbsp;" * done) }
+      span.progress_meter_undone { text("&nbsp;" * undone) }
     end
   end
 
-  def index
-    filter_list
-    h2 @title
-    ticket_table @issues, :show_add_link => @show_add_link, :add_link_params => @add_link_params
+  ## unfortunately R(ReleaseX, release_name) raises a "bad route" if the
+  ## release name has any dots or dashes in it
+  ##
+  ## so instead, we do this foul thing:
+  def make_release_link r; R(ReleaseX, Sheila.project.releases.index(r)) end
+
+  def unreleased_release_row r
+    issues = Sheila.project.issues_for_release r
+    num_done = issues.count_of { |i| i.closed? }
+    pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
+    open_issues = issues.select { |i| i.open? }
+
+    tr do
+      td.release_name do
+        a r.name, :href => make_release_link(r)
+        text " "
+        a.filter "[filter]", :href => R(Index) + "?release=#{r.name}"
+      end
+      td.release_desc do
+        progress_meter pct_done
+        text " "
+        if issues.empty?
+          text "(no issues)."
+        else
+          text sprintf(" %.0f%% complete ", pct_done * 100.0)
+          if open_issues.empty?
+            text "(ready for release!)."
+          else
+            #text "(#{num_done} / #{issues.size} issues)."
+          end
+        end
+      end
+    end
+  end
+
+  def release_table releases
+    h4 "Release".pluralize(releases.size).capitalize
+
+    table.releases do
+      releases.select { |r| r.unreleased? }.each do |r|
+        unreleased_release_row r
+      end
+
+      releases.select { |r| r.released? }.sort_by { |r| r.release_time }.reverse.each do |r|
+        tr do
+          td.release_name do
+            a r.name, :href => make_release_link(r)
+            text " "
+            a.filter "[filter]", :href => R(Index) + "?release=#{r.name}"
+          end
+          td.release_desc do
+            span "released #{r.release_time.strftime '%Y-%m-%d'}. "
+          end
+        end
+      end
+
+      unassigned_issues = Sheila.project.unassigned_issues
+      unassigned_open_issues = unassigned_issues.select { |i| i.open? }
+      tr do
+        td.release_name do
+          text "Unassigned "
+          a.filter "[filter]", :href => R(Index) + "?release=unassigned"
+        end
+        td.release_desc do
+          text "#{"open issue".pluralize unassigned_open_issues.size} "
+        end
+      end
+    end
   end
 
   def ticket_table issues, opts={}
     show_add_link = opts[:show_add_link]
     add_link_params = opts[:add_link_params]
 
-    h4 "Issues"
+    h4 "Issue".pluralize(issues.size).capitalize
+    filter_list
+
     table.tickets! do
       tr do
         th "ID"
@@ -373,17 +445,13 @@ module Sheila::Views
     end unless @issue.desc.blank?
     div.details do
       p { strong "Type: "; span @issue.type.to_s }
-      ## unfortunately this next thing always raises a "bad route" if the
-      ## release name has any dots or dashes in it
-      #p { strong "Release: "; a @issue.release, :href => R(ReleaseX, @issue.release) }
-      ## instead, we do this foul thing:
       foul = Sheila.project.releases.map { |r| r.name }.index @issue.release
       p do
         strong "Release: "
         if @issue.release
-          a @issue.release, :href => R(ReleaseX, foul)
+          a @issue.release, :href => make_release_link(@issue.release)
         else
-          a "unassigned", :href => R(Unassigned)
+          a "unassigned"
         end
       end
       p { strong "Status: "; span @issue.status.to_s }
@@ -543,7 +611,14 @@ body { font: 0.75em/1.5 'Lucida Grande', sans-serif; color: #333; }
 * { margin: 0; padding: 0; }
 a { text-decoration: none; color: blue; }
 a:hover { text-decoration: underline; }
-h2 { font-size: 36px; font-weight: normal; line-height: 120%; padding-bottom: 0.5em; padding-top: 0.5em; }
+
+h2 {
+  font-size: 36px;
+  font-weight: normal;
+  line-height: 120%;
+  padding-bottom: 0.1em;
+  padding-top: 0.5em;
+}
 
 label.fieldname {
   font-size: large;
@@ -633,6 +708,8 @@ h4 {
   color: white;
   background-color: #ccc;
   padding: 2px 6px;
+  margin-top: 1.0em;
+  margin-bottom: 1.0em;
 }
 ul.events li {
   border-bottom: solid 1px #eee;
@@ -672,6 +749,23 @@ fieldset.filters input {
 form.filters {
   text-align: right;
 }
+
+.progress_meter_done {
+  background-color: #03af00;
+}
+
+.progress_meter_undone {
+  background-color: #ddd;
+}
+
+td.release_name  {
+  padding-right: 2em;
+}
+
+a.filter {
+  font-size: x-small;
+}
+
 END
 
 ##### EXECUTION STARTS HERE #####
