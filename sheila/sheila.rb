@@ -308,7 +308,10 @@ module Sheila::Views
   ## release name has any dots or dashes in it
   ##
   ## so instead, we do this foul thing:
-  def make_release_link r; R(ReleaseX, Sheila.project.releases.index(r)) end
+  def make_release_link r
+    r = Sheila.project.releases.find { |x| x.name == r } if r.is_a?(String)
+    R ReleaseX, Sheila.project.releases.index(r)
+  end
 
   def unreleased_release_row r
     issues = Sheila.project.issues_for_release r
@@ -355,7 +358,7 @@ module Sheila::Views
             a.filter "[filter]", :href => R(Index) + "?release=#{r.name}"
           end
           td.release_desc do
-            span "released #{r.release_time.strftime '%Y-%m-%d'}. "
+            span "released #{r.release_time.strftime '%Y-%m-%d'}"
           end
         end
       end
@@ -421,7 +424,6 @@ module Sheila::Views
   end
 
   def release
-    filter_list
     h2(@release ? @release.name : "Unassigned issues")
 
     if @release.release_time
@@ -431,10 +433,19 @@ module Sheila::Views
     end if @release
 
     div.description do
-      text link_issue_names(@desc) if @desc
+      text link_issue_names(@desc)
+    end unless @desc.blank?
+
+    p do
+      text "issue".pluralize(@issues.size).capitalize
+      text ". "
+      a "See all.", :href => R(Index) + "?release=#{@release.name}"
     end
 
-    ticket_table @issues, :show_add_link => (@release.nil? || @release.unreleased?), :add_link_params => { "release" => (@release.nil? ? "unassigned" : @release.name) }
+    h4 "Log"
+    a :name => "log"
+
+    ul.events { event_log @release.log_events }
   end
 
   def ticket
@@ -451,14 +462,20 @@ module Sheila::Views
         if @issue.release
           a @issue.release, :href => make_release_link(@issue.release)
         else
-          a "unassigned"
+          text "unassigned"
         end
       end
       p { strong "Status: "; span @issue.status.to_s }
     end
+
     h4 "Log"
     a :name => "log"
-    issue_log @issue.log_events, @errors
+
+    ul.events do
+      event_log @issue.log_events
+      a :name => "new-comment"
+      li { issue_comment_form @issue, @errors }
+    end
   end
 
   def link_issue_names s
@@ -467,38 +484,34 @@ module Sheila::Views
     end
   end
 
-  def issue_log log, form_errors
-    ul.events do
-      log.each do |at, name, action, comment|
-        li do
-          div.ago "#{at.ago} ago"
-          div.who name.obfu
-          div.action action
-          div.comment do
-            text link_issue_names(comment)
-          end unless comment.blank?
-        end
-      end
-
-      # new comment form
-      a :name => "new-comment"
+  def event_log log
+    log.each do |at, name, action, comment|
       li do
-        form :method => 'POST', :action => R(TicketX, issue.id) + "#new-comment" do
-          fieldset do
-            div.required do
-              p.error "Sorry, I couldn't add that comment: #{@errors.first}" unless @errors.empty?
-              label.fieldname 'Comment', :for => 'comment'
-              textarea.standard @input.resolve("comment[text]"), :name => 'comment[text]'
-            end
-            div.required do
-              label.fieldname 'Your name & email', :for => 'ticket[reporter]'
-              div.fielddesc { "In standard email format, e.g. \"Bob Bobson &lt;bob@bobson.com&gt;\"" }
-              input.standard :name => 'comment[author]', :type => 'text', :value => @input.resolve("comment[author]")
-            end
-            div.buttons do
-              input :name => 'submit', :value => 'Submit comment', :type => 'submit'
-            end
-          end
+        div.ago "#{at.ago} ago"
+        div.who name.obfu
+        div.action action
+        div.comment do
+          text link_issue_names(comment)
+        end unless comment.blank?
+      end
+    end
+  end
+
+  def issue_comment_form issue, errors
+    form :method => 'POST', :action => R(TicketX, issue.id) + "#new-comment" do
+      fieldset do
+        div.required do
+          p.error "Sorry, I couldn't add that comment: #{errors.first}" unless errors.empty?
+          label.fieldname 'Comment', :for => 'comment'
+          textarea.standard @input.resolve("comment[text]"), :name => 'comment[text]'
+        end
+        div.required do
+          label.fieldname 'Your name & email', :for => 'ticket[reporter]'
+          div.fielddesc { "In standard email format, e.g. \"Bob Bobson &lt;bob@bobson.com&gt;\"" }
+          input.standard :name => 'comment[author]', :type => 'text', :value => @input.resolve("comment[author]")
+        end
+        div.buttons do
+          input :name => 'submit', :value => 'Submit comment', :type => 'submit'
         end
       end
     end
