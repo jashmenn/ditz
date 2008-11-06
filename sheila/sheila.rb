@@ -4,8 +4,6 @@ require 'socket'
 require 'trollop'
 require 'fastthread'
 
-## require ditz's camping
-# $:.push File.expand_path(File.join(File.dirname(__FILE__), "../camping/lib"))
 require 'camping'
 require 'camping/server'
 
@@ -19,7 +17,7 @@ end
 class Ditz::Release
   def fancy_name
     if released?
-      "#{name} (released #{release_time.ago} ago)"
+      "#{name} (#{release_time.ago} ago)"
     else
       name
     end
@@ -148,6 +146,7 @@ module Sheila::Controllers
       @show_add_link = true
 
       ## go!
+      @releases = Sheila.project.releases.select { |r| r.unreleased? }
       render :index
     end
   end
@@ -162,6 +161,7 @@ module Sheila::Controllers
       render :ticket
     end
     def post sha
+      len = sha.length
       @issue = Sheila.project.issues.find { |i| i.id[0 ... len] == sha }
 
       # extra validation. probably not great that it's here.
@@ -213,15 +213,9 @@ module Sheila::Controllers
       end
     end
   end
-  class Signup
-    def get
-      @me = User.new
-      render :profile
-    end
-  end
   class ReleaseX
     def get num
-      @release = Sheila.project.releases[num.to_i] # see docs for Views#ticket
+      @release = Sheila.project.releases[num.to_i] # see docs for make_release_link
       @created, @desc = @release.log_events[0].first, @release.log_events[0].last
       @issues = Sheila.project.issues_for_release @release
       render :release
@@ -262,7 +256,7 @@ module Sheila::Views
   def filter_list
     form.filters :action => R(Index) do
       fieldset.filters do
-        span "Issue status: "
+        span "Status: "
         select.filter :name => "type" do
           option "all", prune_opts(:selected => ["all", "", nil].member?(@input["type"]), :value => "")
           option "open", prune_opts(:selected => @input["type"] == "open", :value => "open")
@@ -289,24 +283,71 @@ module Sheila::Views
         span " Search: "
         input :value => @input["query"], :name => "query", :size => 10
         text " "
-        input :value => "Filter", :type => "submit"
+        input :value => ">", :type => "submit"
       end
     end
   end
 
-  def search_results
-    filter_list
-    h2 "#{'result'.pluralize @issues.size} for #{@query.inspect}"
+  def index
+    unreleased_release_table @releases
+    ticket_table @issues, :show_add_link => @show_add_link, :add_link_params => @add_link_params
+  end
 
-    unless @issues.empty?
-      ticket_table @issues, :show_add_link => false
+  def progress_meter p, size=50
+    done = (p * size).to_i
+    undone = [size - done, 0].max
+    span.progress_meter do
+      span.progress_meter_done { text("&nbsp;" * done) }
+      span.progress_meter_undone { text("&nbsp;" * undone) }
     end
   end
 
-  def index
-    filter_list
-    h2 @title
-    ticket_table @issues, :show_add_link => @show_add_link, :add_link_params => @add_link_params
+  ## unfortunately R(ReleaseX, release_name) raises a "bad route" if the
+  ## release name has any dots or dashes in it
+  ##
+  ## so instead, we do this foul thing:
+  def make_release_link r
+    r = Sheila.project.releases.find { |x| x.name == r } if r.is_a?(String)
+    R ReleaseX, Sheila.project.releases.index(r)
+  end
+
+  def unreleased_release_row r
+    issues = Sheila.project.issues_for_release r
+    num_done = issues.count_of { |i| i.closed? }
+    pct_done = issues.size == 0 ? 1.0 : (num_done.to_f / issues.size.to_f)
+    open_issues = issues.select { |i| i.open? }
+
+    tr do
+      td.release_name do
+        a r.name, :href => make_release_link(r)
+        text " "
+        a.filter "[filter]", :href => R(Index) + "?release=#{r.name}"
+      end
+      td.release_desc do
+        progress_meter pct_done
+        text " "
+        if issues.empty?
+          text "(no issues)."
+        else
+          text sprintf(" %.0f%% complete ", pct_done * 100.0)
+          if open_issues.empty?
+            text "(ready for release!)."
+          else
+            #text "(#{num_done} / #{issues.size} issues)."
+          end
+        end
+      end
+    end
+  end
+
+  def unreleased_release_table releases
+    h4 "Upcoming Releases"
+
+    table.releases do
+      releases.select { |r| r.unreleased? }.each do |r|
+        unreleased_release_row r
+      end
+    end
   end
 
   def ticket_table issues, opts={}
@@ -314,6 +355,8 @@ module Sheila::Views
     add_link_params = opts[:add_link_params]
 
     h4 "Issues"
+    filter_list
+
     table.tickets! do
       tr do
         th "ID"
@@ -332,15 +375,18 @@ module Sheila::Views
           td.title do
             h3 { a issue.title, :href => R(TicketX, issue.id) }
             p.about do
-              strong("#{(issue.last_event_time || issue.creation_time).ago} ago")
-              span(" by #{issue.reporter.obfu}")
-              comments = issue.log_events.select { |e| e[2] == "commented" } # :(
-              unless comments.empty?
-                name = case comments.size
-                when 1; "1 comment"
-                else "#{comments.size} comments"
-                end
-                span { a " (#{name})", :href => R(TicketX, issue.id) + "#log" }
+              unless issue.log_events.empty?
+                whenn, who, what, comment = issue.log_events.last
+                #strong("#{(issue.last_event_time || issue.creation_time).ago} ago")
+                span what
+                strong " #{whenn.ago} ago"
+                span " by #{who.obfu} "
+              end
+            end
+            comments = issue.log_events.select { |e| e[2] == "commented" } # :(
+            unless comments.empty?
+              p.about do
+                a "comment".pluralize(comments.size).capitalize, :href => R(TicketX, issue.id) + "#log"
               end
             end
           end
@@ -351,7 +397,6 @@ module Sheila::Views
   end
 
   def release
-    filter_list
     h2(@release ? @release.name : "Unassigned issues")
 
     if @release.release_time
@@ -361,10 +406,34 @@ module Sheila::Views
     end if @release
 
     div.description do
-      text link_issue_names(@desc) if @desc
+      text link_issue_names(@desc)
+    end unless @desc.blank?
+
+    p do
+      text "issue".pluralize(@issues.size).capitalize
+      text ". "
+      a "See all.", :href => R(Index) + "?release=#{@release.name}"
     end
 
-    ticket_table @issues, :show_add_link => (@release.nil? || @release.unreleased?), :add_link_params => { "release" => (@release.nil? ? "unassigned" : @release.name) }
+    h4 "Log"
+    a :name => "log"
+
+    table.log { event_log @release.log_events }
+  end
+
+  def commit_log commits
+    commits.each do |at, email, hash, message|
+      tr.logentry do
+        td.ago "#{at.ago} ago"
+        td.who email.obfu
+        td do
+          text message
+          text " ["
+          a hash, :href => Sheila.config.git_commit_url_prefix + hash
+          text "]"
+        end
+      end
+    end
   end
 
   def ticket
@@ -375,24 +444,36 @@ module Sheila::Views
     end unless @issue.desc.blank?
     div.details do
       p { strong "Type: "; span @issue.type.to_s }
-      ## unfortunately this next thing always raises a "bad route" if the
-      ## release name has any dots or dashes in it
-      #p { strong "Release: "; a @issue.release, :href => R(ReleaseX, @issue.release) }
-      ## instead, we do this foul thing:
       foul = Sheila.project.releases.map { |r| r.name }.index @issue.release
       p do
         strong "Release: "
         if @issue.release
-          a @issue.release, :href => R(ReleaseX, foul)
+          a @issue.release, :href => make_release_link(@issue.release)
         else
-          a "unassigned", :href => R(Unassigned)
+          text "unassigned"
         end
       end
       p { strong "Status: "; span @issue.status.to_s }
     end
+
+    if @issue.respond_to?(:git_commits)
+      commits = @issue.git_commits
+      unless commits.empty?
+        h4 "Commits"
+        a :name => "commits"
+
+        table.log { commit_log commits }
+      end
+    end
+
     h4 "Log"
     a :name => "log"
-    issue_log @issue.log_events, @errors
+
+    table.log { event_log @issue.log_events }
+    div do
+      a :name => "new-comment"
+      issue_comment_form @issue, @errors
+    end
   end
 
   def link_issue_names s
@@ -401,38 +482,34 @@ module Sheila::Views
     end
   end
 
-  def issue_log log, form_errors
-    ul.events do
-      log.each do |at, name, action, comment|
-        li do
-          div.ago "#{at.ago} ago"
-          div.who name.obfu
-          div.action action
-          div.comment do
-            text link_issue_names(comment)
-          end unless comment.blank?
-        end
+  def event_log log
+    log.each do |at, name, action, comment|
+      tr.logentry do
+        td.ago "#{at.ago} ago"
+        td.who name.obfu
+        td.action action
       end
+      unless comment.blank?
+        tr { td.comment(:colspan => 3) { text link_issue_names(comment) } }
+      end
+    end
+  end
 
-      # new comment form
-      a :name => "new-comment"
-      li do
-        form :method => 'POST', :action => R(TicketX, issue.id) + "#new-comment" do
-          fieldset do
-            div.required do
-              p.error "Sorry, I couldn't add that comment: #{@errors.first}" unless @errors.empty?
-              label.fieldname 'Comment', :for => 'comment'
-              textarea.standard @input.resolve("comment[text]"), :name => 'comment[text]'
-            end
-            div.required do
-              label.fieldname 'Your name & email', :for => 'ticket[reporter]'
-              div.fielddesc { "In standard email format, e.g. \"Bob Bobson &lt;bob@bobson.com&gt;\"" }
-              input.standard :name => 'comment[author]', :type => 'text', :value => @input.resolve("comment[author]")
-            end
-            div.buttons do
-              input :name => 'submit', :value => 'Submit comment', :type => 'submit'
-            end
-          end
+  def issue_comment_form issue, errors
+    form :method => 'POST', :action => R(TicketX, issue.id) + "#new-comment" do
+      fieldset do
+        div.required do
+          p.error "Sorry, I couldn't add that comment: #{errors.first}" unless errors.empty?
+          label.fieldname 'Comment', :for => 'comment'
+          textarea.standard @input.resolve("comment[text]"), :name => 'comment[text]'
+        end
+        div.required do
+          label.fieldname 'Your name & email', :for => 'ticket[reporter]'
+          div.fielddesc { "In standard email format, e.g. \"Bob Bobson &lt;bob@bobson.com&gt;\"" }
+          input.standard :name => 'comment[author]', :type => 'text', :value => @input.resolve("comment[author]")
+        end
+        div.buttons do
+          input :name => 'submit', :value => 'Submit comment', :type => 'submit'
         end
       end
     end
@@ -545,7 +622,14 @@ body { font: 0.75em/1.5 'Lucida Grande', sans-serif; color: #333; }
 * { margin: 0; padding: 0; }
 a { text-decoration: none; color: blue; }
 a:hover { text-decoration: underline; }
-h2 { font-size: 36px; font-weight: normal; line-height: 120%; padding-bottom: 0.5em; padding-top: 0.5em; }
+
+h2 {
+  font-size: 36px;
+  font-weight: normal;
+  line-height: 120%;
+  padding-bottom: 0.1em;
+  padding-top: 0.5em;
+}
 
 label.fieldname {
   font-size: large;
@@ -557,7 +641,7 @@ div.fielddesc {
 h1.header {
   background-color: #660;
   margin: 0; padding: 4px 16px;
-  width: 740px;
+  width: 800px;
   margin: 0 auto;
 }
 h1.header a {
@@ -620,7 +704,7 @@ div.right {
 }
 div.content {
   padding: 10px;
-  width: 740px;
+  width: 800px;
   margin: 0 auto;
 }
 p.error {
@@ -635,32 +719,37 @@ h4 {
   color: white;
   background-color: #ccc;
   padding: 2px 6px;
+  margin-top: 2.0em;
+  margin-bottom: 1.0em;
 }
-ul.events li {
+
+table.log {
+  width: 100%;
+}
+
+table.log td {
   border-bottom: solid 1px #eee;
-  list-style: none;
-  padding: 10px 0;
+}
+
+tr.logentry {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: small;
 }
 div.description {
   padding: 10px;
   white-space: pre;
   font-size: large;
 }
-div.ago {
+td.ago {
   font-weight: bold;
 }
-div.action {
+td.action {
   color: #a09;
 }
-ul.events div.ago,
-ul.events div.who {
-  display: block;
-  padding-right: 20px;
-  float: left;
-}
-ul.events div.comment {
+td.comment {
   background-color: #ffc;
-  padding: 3px;
+  padding: 10px;
   color: #777;
   white-space: pre;
 }
@@ -674,6 +763,23 @@ fieldset.filters input {
 form.filters {
   text-align: right;
 }
+
+.progress_meter_done {
+  background-color: #50a9d1;
+}
+
+.progress_meter {
+  border: solid 1px #bbb;
+}
+
+td.release_name  {
+  padding-right: 2em;
+}
+
+a.filter {
+  font-size: x-small;
+}
+
 END
 
 ##### EXECUTION STARTS HERE #####
