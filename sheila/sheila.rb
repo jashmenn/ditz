@@ -444,7 +444,6 @@ module Sheila::Views
     end unless @issue.desc.blank?
     div.details do
       p { strong "Type: "; span @issue.type.to_s }
-      foul = Sheila.project.releases.map { |r| r.name }.index @issue.release
       p do
         strong "Release: "
         if @issue.release
