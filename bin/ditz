@@ -134,7 +134,7 @@ when "reconfigure" # might not be able to load the project
   op.do cmd, nil, config, ARGV
   exit
 when "help"
-  op.do cmd, nil, nil, ARGV
+  op.do cmd, nil, config, ARGV
   exit
 end
 
