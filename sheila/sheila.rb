@@ -4,8 +4,6 @@ require 'socket'
 require 'trollop'
 require 'fastthread'
 
-## require ditz's camping
-# $:.push File.expand_path(File.join(File.dirname(__FILE__), "../camping/lib"))
 require 'camping'
 require 'camping/server'
 
