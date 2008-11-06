@@ -418,7 +418,22 @@ module Sheila::Views
     h4 "Log"
     a :name => "log"
 
-    ul.events { event_log @release.log_events }
+    table.log { event_log @release.log_events }
+  end
+
+  def commit_log commits
+    commits.each do |at, email, hash, message|
+      tr.logentry do
+        td.ago "#{at.ago} ago"
+        td.who email.obfu
+        td do
+          text message
+          text " ["
+          a hash, :href => Sheila.config.git_commit_url_prefix + hash
+          text "]"
+        end
+      end
+    end
   end
 
   def ticket
@@ -441,13 +456,23 @@ module Sheila::Views
       p { strong "Status: "; span @issue.status.to_s }
     end
 
+    if @issue.respond_to?(:git_commits)
+      commits = @issue.git_commits
+      unless commits.empty?
+        h4 "Commits"
+        a :name => "commits"
+
+        table.log { commit_log commits }
+      end
+    end
+
     h4 "Log"
     a :name => "log"
 
-    ul.events do
-      event_log @issue.log_events
+    table.log { event_log @issue.log_events }
+    div do
       a :name => "new-comment"
-      li { issue_comment_form @issue, @errors }
+      issue_comment_form @issue, @errors
     end
   end
 
@@ -459,13 +484,13 @@ module Sheila::Views
 
   def event_log log
     log.each do |at, name, action, comment|
-      li do
-        div.ago "#{at.ago} ago"
-        div.who name.obfu
-        div.action action
-        div.comment do
-          text link_issue_names(comment)
-        end unless comment.blank?
+      tr.logentry do
+        td.ago "#{at.ago} ago"
+        td.who name.obfu
+        td.action action
+      end
+      unless comment.blank?
+        tr { td.comment(:colspan => 3) { text link_issue_names(comment) } }
       end
     end
   end
@@ -616,7 +641,7 @@ div.fielddesc {
 h1.header {
   background-color: #660;
   margin: 0; padding: 4px 16px;
-  width: 740px;
+  width: 800px;
   margin: 0 auto;
 }
 h1.header a {
@@ -679,7 +704,7 @@ div.right {
 }
 div.content {
   padding: 10px;
-  width: 740px;
+  width: 800px;
   margin: 0 auto;
 }
 p.error {
@@ -694,34 +719,37 @@ h4 {
   color: white;
   background-color: #ccc;
   padding: 2px 6px;
-  margin-top: 1.0em;
+  margin-top: 2.0em;
   margin-bottom: 1.0em;
 }
-ul.events li {
+
+table.log {
+  width: 100%;
+}
+
+table.log td {
   border-bottom: solid 1px #eee;
-  list-style: none;
-  padding: 10px 0;
+}
+
+tr.logentry {
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: small;
 }
 div.description {
   padding: 10px;
   white-space: pre;
   font-size: large;
 }
-div.ago {
+td.ago {
   font-weight: bold;
 }
-div.action {
+td.action {
   color: #a09;
 }
-ul.events div.ago,
-ul.events div.who {
-  display: block;
-  padding-right: 20px;
-  float: left;
-}
-ul.events div.comment {
+td.comment {
   background-color: #ffc;
-  padding: 3px;
+  padding: 10px;
   color: #777;
   white-space: pre;
 }
@@ -737,11 +765,11 @@ form.filters {
 }
 
 .progress_meter_done {
-  background-color: #03af00;
+  background-color: #50a9d1;
 }
 
-.progress_meter_undone {
-  background-color: #ddd;
+.progress_meter {
+  border: solid 1px #bbb;
 }
 
 td.release_name  {
