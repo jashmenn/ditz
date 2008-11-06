@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: show recent git commits for issues
+desc: just like the static html
+type: :feature
+component: sheila
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-06 01:29:21.412524 Z
+references: []
+
+id: 6d55ffa75ac0e76061ba3e2614da5297fc307255
+log_events: 
+- - 2008-11-06 01:29:21.413024 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

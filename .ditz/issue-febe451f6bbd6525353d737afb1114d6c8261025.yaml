@@ -5,8 +5,8 @@ type: :task
 component: sheila
 release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :wontfix
 creation_time: 2008-11-01 20:32:23.252836 Z
 references: []
 
@@ -16,5 +16,12 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-11-06 01:43:01.342128 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition wontfix
+  - |-
+    it's possible to get conflicts (multiple people commenting on the same
+    issue comes to mind), so it's going to have to be a manual process for
+    now.
 git_branch: 
 claimer: 
