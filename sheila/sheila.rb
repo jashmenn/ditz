@@ -452,6 +452,7 @@ module Sheila::Views
           text "unassigned"
         end
       end
+      p { strong "Component: "; span @issue.component } if Sheila.project.components.size > 1
       p { strong "Status: "; span @issue.status.to_s }
     end
 
