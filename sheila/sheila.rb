@@ -146,7 +146,7 @@ module Sheila::Controllers
       @show_add_link = true
 
       ## go!
-      @releases = Sheila.project.releases
+      @releases = Sheila.project.releases.select { |r| r.unreleased? }
       render :index
     end
   end
@@ -289,7 +289,7 @@ module Sheila::Views
   end
 
   def index
-    release_table @releases
+    unreleased_release_table @releases
     ticket_table @issues, :show_add_link => @show_add_link, :add_link_params => @add_link_params
   end
 
@@ -340,37 +340,12 @@ module Sheila::Views
     end
   end
 
-  def release_table releases
-    h4 "Release".pluralize(releases.size).capitalize
+  def unreleased_release_table releases
+    h4 "Upcoming Releases"
 
     table.releases do
       releases.select { |r| r.unreleased? }.each do |r|
         unreleased_release_row r
-      end
-
-      releases.select { |r| r.released? }.sort_by { |r| r.release_time }.reverse.each do |r|
-        tr do
-          td.release_name do
-            a r.name, :href => make_release_link(r)
-            text " "
-            a.filter "[filter]", :href => R(Index) + "?release=#{r.name}"
-          end
-          td.release_desc do
-            span "released #{r.release_time.strftime '%Y-%m-%d'}"
-          end
-        end
-      end
-
-      unassigned_issues = Sheila.project.unassigned_issues
-      unassigned_open_issues = unassigned_issues.select { |i| i.open? }
-      tr do
-        td.release_name do
-          text "Unassigned "
-          a.filter "[filter]", :href => R(Index) + "?release=unassigned"
-        end
-        td.release_desc do
-          text "#{"open issue".pluralize unassigned_open_issues.size} "
-        end
       end
     end
   end
@@ -379,7 +354,7 @@ module Sheila::Views
     show_add_link = opts[:show_add_link]
     add_link_params = opts[:add_link_params]
 
-    h4 "Issue".pluralize(issues.size).capitalize
+    h4 "Issues"
     filter_list
 
     table.tickets! do
