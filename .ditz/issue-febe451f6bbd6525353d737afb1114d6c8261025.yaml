@@ -34,5 +34,9 @@ log_events:
     it's possible to get conflicts (multiple people commenting on the same
     issue comes to mind), so it's going to have to be a manual process for
     now.
+- - 2008-11-06 04:20:38.138273 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - maybe once {issue 738933ad98319fa510a8fe02176902378e5df6f0} is done, it will make sense to revisit this.
 git_branch: 
 claimer: 

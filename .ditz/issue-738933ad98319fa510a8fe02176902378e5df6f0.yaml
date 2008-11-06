@@ -20,5 +20,9 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-11-06 04:20:52.573584 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - maybe revisit {issue febe451f6bbd6525353d737afb1114d6c8261025} once this is done.
 git_branch: 
 claimer: 
