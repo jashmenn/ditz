@@ -438,7 +438,7 @@ module Sheila::Views
     div.description do
       d = link_issue_names desc
       if desc =~ /\n/
-        pre d
+        text d.gsub(/\r?\n/, "<br/>")
       else
         text d
       end
