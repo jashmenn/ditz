@@ -9,10 +9,10 @@ desc: |-
   via sheila itself are not wrapped.)
 type: :bugfix
 component: sheila
-release: 
+release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-11-01 21:47:58.551102 Z
 references: []
 
@@ -21,6 +21,14 @@ log_events:
 - - 2008-11-01 21:47:58.551590 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
+  - ""
+- - 2008-11-06 04:12:35.604677 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - assigned to release 0.6 from unassigned
+  - ""
+- - 2008-11-06 04:12:43.493121 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
   - ""
 git_branch: 
 claimer: 

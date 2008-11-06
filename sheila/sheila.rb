@@ -405,9 +405,7 @@ module Sheila::Views
       h3 "Started #{@created.ago} ago"
     end if @release
 
-    div.description do
-      text link_issue_names(@desc)
-    end unless @desc.blank?
+    description @desc
 
     p do
       text "issue".pluralize(@issues.size).capitalize
@@ -436,12 +434,23 @@ module Sheila::Views
     end
   end
 
+  def description desc
+    div.description do
+      d = link_issue_names desc
+      if desc =~ /\n/
+        pre d
+      else
+        text d
+      end
+    end unless desc.blank?
+  end
+
   def ticket
     h2 @issue.title
     h3 { span.unique.right @issue.id.prefix; span "created #{@issue.creation_time.ago} ago by #{@issue.reporter.obfu}" }
-    div.description do
-      text link_issue_names(@issue.desc)
-    end unless @issue.desc.blank?
+
+    description @issue.desc
+
     div.details do
       p { strong "Type: "; span @issue.type.to_s }
       p do
@@ -738,7 +747,6 @@ tr.logentry {
 }
 div.description {
   padding: 10px;
-  white-space: pre;
   font-size: large;
 }
 td.ago {
