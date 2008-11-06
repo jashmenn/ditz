@@ -88,14 +88,15 @@ class Operator
     end
   end
 
-  operation :claim, "Claim an issue for yourself", :issue do
+  operation :claim, "Claim an issue for yourself", :issue, :maybe_dev do
     opt :force, "Claim this issue even if someone else has claimed it", :default => false
   end
-  def claim project, config, opts, issue
-    puts "Claiming issue #{issue.name}: #{issue.title}."
+  def claim project, config, opts, issue, dev = nil
+    new_claimer = dev || config.user
+    puts "Claiming issue #{issue.name}: #{issue.title} for #{new_claimer}."
     comment = ask_multiline_or_editor "Comments" unless $opts[:no_comment]
-    issue.claim config.user, comment, opts[:force]
-    puts "Issue #{issue.name} marked as claimed by #{config.user}"
+    issue.claim new_claimer, comment, opts[:force]
+    puts "Issue #{issue.name} marked as claimed by #{new_claimer}"
   end
 
   operation :unclaim, "Unclaim a claimed issue", :issue do
