@@ -6,7 +6,7 @@
 ## you're working on.
 ##
 ## Commands added:
-##   ditz claim: claim an issue for yourself
+##   ditz claim: claim an issue for yourself or a dev specified in your ditz config
 ##   ditz unclaim: unclaim a claimed issue
 ##   ditz mine: show all issues claimed by you
 ##   ditz claimed: show all claimed issues, by developer
@@ -15,9 +15,20 @@
 ## Usage:
 ##   1. add a line "- issue-claiming" to the .ditz-plugins file in the project
 ##      root
-##   2. use the above commands to abandon
+##   2. add a 'devs' key to ditz-config, e.g:
+## devs: 
+##   :roy: Roy Baty <roy@marsproject.com>
+##   :pris: Pris Stratton <pris@marsproject.com>
+
+##   3. use the above commands to abandon
 
 module Ditz
+
+class Config
+  field :devs, :prompt => "Hash of developer nicknames (as symbols) to email addresses",
+               :default => {:roy => "Roy Baty <roy@marsproject.com>"}
+end
+
 class Issue
   field :claimer, :ask => false
 
@@ -92,11 +103,15 @@ class Operator
     opt :force, "Claim this issue even if someone else has claimed it", :default => false
   end
   def claim project, config, opts, issue, dev = nil
-    new_claimer = dev || config.user
-    puts "Claiming issue #{issue.name}: #{issue.title} for #{new_claimer}."
+    if dev
+      dev_full_email = config.devs ? config.devs[dev.to_sym] : nil
+      raise Error, "no nickname :#{dev} has been defined in .ditz-config" unless dev_full_email
+    end
+    dev_full_email ||= config.user
+    puts "Claiming issue #{issue.name}: #{issue.title} for #{dev_full_email}."
     comment = ask_multiline_or_editor "Comments" unless $opts[:no_comment]
-    issue.claim new_claimer, comment, opts[:force]
-    puts "Issue #{issue.name} marked as claimed by #{new_claimer}"
+    issue.claim dev_full_email, comment, opts[:force]
+    puts "Issue #{issue.name} marked as claimed by #{dev_full_email}"
   end
 
   operation :unclaim, "Unclaim a claimed issue", :issue do
