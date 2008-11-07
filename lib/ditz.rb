@@ -65,7 +65,7 @@ module_function :home_dir, :find_dir_containing, :find_ditz_file, :load_plugins
 end
 
 # Git-style automatic pagination of all output.
-# Call run_pa	ger from any opperator needing pagination.
+# Call run_pager from any opperator needing pagination.
 # Yoinked from http://nex-3.com/posts/73-git-style-automatic-paging-in-ruby#comments
 def run_pager config
   return if PLATFORM =~ /win32/
@@ -89,7 +89,7 @@ def run_pager config
 
   if config.paginate == 'auto'
     ENV['LESS'] = '' unless ENV['LESS']  # += doesn't work on undefined var
-    ENV['LESS'] += ' FSRX'  # Don't page if the input is short enough
+    ENV['LESS'] += 'FRX'  # Don't page if the input is short enough
   end
 
   Kernel.select [STDIN] # Wait until we have input before we start the pager
