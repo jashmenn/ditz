@@ -25,5 +25,9 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - commented
   - see {issue f7abe2e7731b378bfeeebe6800f6e8c99823c9ec} as a dependent
+- - 2008-11-06 04:19:33.541127 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - also see {issue 738933ad98319fa510a8fe02176902378e5df6f0}, a sister issue.
 git_branch: 
 claimer: 

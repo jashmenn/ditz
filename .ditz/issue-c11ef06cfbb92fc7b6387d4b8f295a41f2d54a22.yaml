@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: have pages for components as well as issues and releases
+desc: ""
+type: :feature
+component: sheila
+release: 
+reporter: William Morgan <wmorgan-ditz@masanjin.net>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-06 04:01:26.115321 Z
+references: []
+
+id: c11ef06cfbb92fc7b6387d4b8f295a41f2d54a22
+log_events: 
+- - 2008-11-06 04:01:26.115907 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - created
+  - ""
+git_branch: 
+claimer: 

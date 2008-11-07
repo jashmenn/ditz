@@ -5,8 +5,8 @@ type: :task
 component: sheila
 release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :wontfix
 creation_time: 2008-11-01 20:32:23.252836 Z
 references: []
 
@@ -16,5 +16,27 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-11-01 21:52:59.572749 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - |-
+    actually it's a little more complicated than that, because the working directory doesn't
+    get automatically updated when you push. so either sheila has to poll every once in a while,
+    or it has to reset the working directory when differences are detected.
+    
+    probably the latter is the best approach because it doesn't incur any unnecessary network traffic.
+    
+    (submitted via Sheila by 68.127.146.40 ())
+- - 2008-11-06 01:43:01.342128 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition wontfix
+  - |-
+    it's possible to get conflicts (multiple people commenting on the same
+    issue comes to mind), so it's going to have to be a manual process for
+    now.
+- - 2008-11-06 04:20:38.138273 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - commented
+  - maybe once {issue 738933ad98319fa510a8fe02176902378e5df6f0} is done, it will make sense to revisit this.
 git_branch: 
 claimer: 

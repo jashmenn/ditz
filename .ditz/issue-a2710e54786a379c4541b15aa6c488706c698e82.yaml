@@ -5,8 +5,8 @@ type: :feature
 component: sheila
 release: 
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-11-01 20:38:02.908993 Z
 references: []
 
@@ -15,6 +15,10 @@ log_events:
 - - 2008-11-01 20:38:02.909494 Z
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
+  - ""
+- - 2008-11-06 01:26:03.649062 Z
+  - William Morgan <wmorgan-ditz@masanjin.net>
+  - closed with disposition fixed
   - ""
 git_branch: 
 claimer: 

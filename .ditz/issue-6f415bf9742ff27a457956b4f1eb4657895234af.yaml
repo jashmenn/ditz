@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Store email address in cookie
+desc: Would probably make sense to do this so users aren't re-entering it for each issue/comment.
+type: :feature
+component: sheila
+release: 
+reporter: Nolan Darilek <nolan@thewordnerd.info>
+status: :unstarted
+disposition: 
+creation_time: 2008-11-04 22:20:24.641143 Z
+references: []
+
+id: 6f415bf9742ff27a457956b4f1eb4657895234af
+log_events: 
+- - 2008-11-04 22:20:24.641529 Z
+  - Nolan Darilek <nolan@thewordnerd.info>
+  - created
+  - Created via Sheila by  (71.113.240.197)
+git_branch: 
+claimer: 
