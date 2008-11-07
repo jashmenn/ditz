@@ -6,7 +6,7 @@
 ## you're working on.
 ##
 ## Commands added:
-##   ditz claim: claim an issue for yourself or a dev specified in your ditz config
+##   ditz claim: claim an issue for yourself or a dev specified in project.yaml
 ##   ditz unclaim: unclaim a claimed issue
 ##   ditz mine: show all issues claimed by you
 ##   ditz claimed: show all claimed issues, by developer
@@ -15,7 +15,7 @@
 ## Usage:
 ##   1. add a line "- issue-claiming" to the .ditz-plugins file in the project
 ##      root
-##   2. add a 'devs' key to ditz-config, e.g:
+##   2. (optional:) add a 'devs' key to project.yaml, e.g:
 ## devs: 
 ##   :roy: Roy Baty <roy@marsproject.com>
 ##   :pris: Pris Stratton <pris@marsproject.com>
@@ -24,7 +24,7 @@
 
 module Ditz
 
-class Config
+class Project
   field :devs, :prompt => "Hash of developer nicknames (as symbols) to email addresses",
                :default => {:roy => "Roy Baty <roy@marsproject.com>"}
 end
@@ -44,7 +44,7 @@ class Issue
     if claimer == who
       log "issue unclaimed", who, comment
     else
-      log "unassigned from #{claimer}", who, comment
+      log "unclaimed from #{claimer}", who, comment
     end
     self.claimer = nil
   end
@@ -104,8 +104,8 @@ class Operator
   end
   def claim project, config, opts, issue, dev = nil
     if dev
-      dev_full_email = config.devs ? config.devs[dev.to_sym] : nil
-      raise Error, "no nickname :#{dev} has been defined in .ditz-config" unless dev_full_email
+      dev_full_email = project.devs ? project.devs[dev.to_sym] : nil
+      raise Error, "no nickname :#{dev} has been defined in project.yaml" unless dev_full_email
     end
     dev_full_email ||= config.user
     puts "Claiming issue #{issue.name}: #{issue.title} for #{dev_full_email}."
