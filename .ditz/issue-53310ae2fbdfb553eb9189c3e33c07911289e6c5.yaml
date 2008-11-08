@@ -16,5 +16,18 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - created
   - ""
+- - 2008-11-08 23:34:43.447303 Z
+  - Matt Wilson <matt@tplus1.com>
+  - commented
+  - |-
+    I'm not very familiar with yaml, but it seems like yaml requires that the text for the description field, for example, starts indented two characters in.
+    
+    So, if yaml requires that indentation, then that might not play nice with some of these markup systems that depend on being in the first character in the line.
+    
+    If this is true, what about storing the description text in a separate file, and in the yaml, just storing the path to that file?
+    
+    
+    
+    (submitted via Sheila by 99.161.134.95 ())
 git_branch: 
 claimer: 
