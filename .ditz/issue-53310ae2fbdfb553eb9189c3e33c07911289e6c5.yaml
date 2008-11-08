@@ -29,5 +29,14 @@ log_events:
     
     
     (submitted via Sheila by 99.161.134.95 ())
+- - 2008-11-08 23:39:37.124039 Z
+  - Matt Wilson <matt@tplus1.com>
+  - commented
+  - |-
+    Actually, never mind.  As long as when the textile is rendered, it's pulled out and adjusted, then it can be safely stored.
+    
+    I think maybe ditz edit might be better if it broke the issue into components, and then opened each in a temp.  Or maybe there could be a ditz edit-description that just does that.
+    
+    (submitted via Sheila by 99.161.134.95 ())
 git_branch: 
 claimer: 
