@@ -30,7 +30,7 @@ class ScreenView < View
     else
       "\n" + issue.desc.gsub(/^/, "  ") + "\n"
     end
-    run_pager
+    run_pager @config
     @device.puts <<EOS
 #{"Issue #{issue.name}".underline}
       Title: #{issue.title}

@@ -138,6 +138,7 @@ class Operator
     if issues.empty?
       puts "No issues."
     else
+      run_pager config
       print_todo_list_by_release_for project, issues
     end
   end
@@ -160,6 +161,7 @@ class Operator
     if issues.empty?
       puts "No issues."
     else
+      run_pager config
       issues.keys.sort.each do |c|
         puts "#{c}:"
         puts todo_list_for(issues[c], :show_release => true)
@@ -182,6 +184,7 @@ class Operator
     if issues.empty?
       puts "No issues."
     else
+      run_pager config
       print_todo_list_by_release_for project, issues
     end
   end

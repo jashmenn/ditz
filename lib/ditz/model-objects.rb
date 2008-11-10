@@ -332,11 +332,17 @@ class Config < ModelObject
   field :email, :prompt => "Your email address", :default_generator => :get_default_email
   field :issue_dir, :prompt => "Directory to store issues state in", :default => ".ditz"
   field :use_editor_if_possible, :interactive_generator => :get_use_editor
+  field :paginate, :interactive_generator => :get_paginate
 
   def user; "#{name} <#{email}>" end
 
   def validate! whence, context
     self.use_editor_if_possible = true if self.use_editor_if_possible.nil?
+  end
+
+  def get_paginate
+    page = ask "Paginate output (always/never/auto)?", :restrict => /^(always|never|auto)$/i
+    page.downcase
   end
 
   def get_use_editor

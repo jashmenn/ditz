@@ -134,7 +134,11 @@ when "reconfigure" # might not be able to load the project
   op.do cmd, nil, config, ARGV
   exit
 when "help"
-  op.do cmd, nil, nil, ARGV
+  begin
+    op.do cmd, nil, config, ARGV
+  rescue Ditz::Operator::Error => e
+    die "#{e.message}"
+  end
   exit
 end
 
