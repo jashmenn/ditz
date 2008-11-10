@@ -94,6 +94,15 @@ rescue SystemCallError => e
   Ditz::debug "can't load plugins file: #{e.message}"
 end
 
+def die_gently
+  begin
+    yield
+  rescue Interrupt
+    puts
+    exit 1
+  end
+end
+
 config = begin
   Ditz::debug "loading config from #{$opts[:config_file]}"
   Ditz::Config.from $opts[:config_file]
@@ -108,7 +117,7 @@ rescue SystemCallError => e
 I wasn't able to find a configuration file #{$opts[:config_file]}.
 We'll set it up right now.
 EOS
-    Ditz::Config.create_interactively.save! $opts[:config_file]
+    die_gently { Ditz::Config.create_interactively.save! $opts[:config_file] }
   end
 end
 
@@ -124,14 +133,15 @@ end
 case cmd # some special commands not handled by Ditz::Operator
 when "init"
   die "#{issue_dir} directory already exists" if issue_dir.exist?
+  project = nil
+  die_gently { project = op.init }
   issue_dir.mkdir
   fn = issue_dir + Ditz::FileStorage::PROJECT_FN
-  project = op.init
   project.save! fn
   puts "Ok, #{issue_dir} directory created successfully."
   exit
 when "reconfigure" # might not be able to load the project
-  op.do cmd, nil, config, ARGV
+  die_gently { op.do cmd, nil, config, ARGV }
   exit
 when "help"
   begin
