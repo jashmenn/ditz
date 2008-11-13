@@ -120,6 +120,7 @@ module Lowline
         f.puts default
         f.puts
       end
+      f.puts
       f.puts q.gsub(/^/, "## ")
       f.puts "##"
       f.puts "## Enter your text above. Lines starting with a '#' will be ignored."
