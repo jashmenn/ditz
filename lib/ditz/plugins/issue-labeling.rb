@@ -56,7 +56,7 @@ class Issue
   field :labels, :multi => true, :interactive_generator => :get_labels
 
   def get_labels config, project
-    ask_for_selection(project.labels, "label", :name, true).map {|x|x.name}
+    ask_for_selection(project.labels, "label", :name, true).map {|x|x}
   end
 
   def apply_labels new_labels, who, comment
