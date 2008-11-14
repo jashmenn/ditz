@@ -109,7 +109,7 @@ class Operator
   def label project, config, issue, label_names
     labels = project.labels_for label_names
     puts "Adding labels #{label_names} to issue #{issue.name}: #{issue.title}."
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = ask_multiline_or_editor "Comments" unless $opts[:no_comment]
     issue.apply_labels labels, config.user, comment
     show_labels issue
   end
@@ -123,7 +123,7 @@ class Operator
                puts "Removing labels from issue #{issue.name}: #{issue.title}."
               nil
              end
-    comment = ask_multiline "Comments" unless $opts[:no_comment]
+    comment = ask_multiline_or_editor "Comments" unless $opts[:no_comment]
     issue.remove_labels labels, config.user, comment
     show_labels issue
   end
