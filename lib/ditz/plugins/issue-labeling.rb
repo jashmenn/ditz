@@ -79,7 +79,7 @@ end
 
 class ScreenView
   add_to_view :issue_summary do |issue, config|
-    " Labels: #{(issue.labeled?)? issue.labels.map{|l|l.name}.join(', ') : 'none'}\n"
+    "     Labels: #{(issue.labeled?)? issue.labels.map{|l|l.name}.join(', ') : 'none'}\n"
   end
 end
 
