@@ -60,8 +60,8 @@ class Issue
   end
 
   def apply_labels new_labels, who, comment
-    log "issue labeled", who, comment
     new_labels.each { |l| add_label l }
+    log "issue labeled", who, comment
   end
 
   def remove_labels labels_to_remove, who, comment
@@ -101,8 +101,12 @@ class Operator
   def new_label project, config, maybe_label
     puts "Adding label #{maybe_label}." if maybe_label
     label = Label.create_interactively(:args => [project, config], :with => { :name => maybe_label }) or return
-    project.add_label label
-    puts "Added label #{label.name}."
+    begin
+      project.add_label label
+      puts "Added label #{label.name}."
+    rescue Ditz::ModelError => e
+      puts "Error: Project #{e}"
+    end
   end
 
   operation :label, "Apply labels to an issue", :issue, :labels
@@ -110,7 +114,12 @@ class Operator
     labels = project.labels_for label_names
     puts "Adding labels #{label_names} to issue #{issue.name}: #{issue.title}."
     comment = ask_multiline_or_editor "Comments" unless $opts[:no_comment]
-    issue.apply_labels labels, config.user, comment
+    begin
+      issue.apply_labels labels, config.user, comment
+    rescue Ditz::ModelError => e
+      puts "Error: Issue #{e}"
+      return
+    end
     show_labels issue
   end
 
