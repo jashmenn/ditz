@@ -10,7 +10,7 @@ op = Ditz::Operator.new
 ## a secret option for shell completion
 if ARGV.include? '--commands'
   puts op.class.operations.map { |name, _| name }
-  exit 0
+  exit
 end
 
 begin
@@ -94,10 +94,11 @@ rescue SystemCallError => e
   Ditz::debug "can't load plugins file: #{e.message}"
 end
 
+## prevent ctrl-c and borken pipes from printing a useless backtrace
 def die_gently
   begin
     yield
-  rescue Interrupt
+  rescue Interrupt, Errno::EPIPE
     puts
     exit 1
   end
@@ -130,6 +131,7 @@ unless op.has_operation? cmd
   die "no such command: #{cmd}"
 end
 
+## TODO: refactor so that three 'exit' statements aren't required
 case cmd # some special commands not handled by Ditz::Operator
 when "init"
   die "#{issue_dir} directory already exists" if issue_dir.exist?
@@ -166,14 +168,17 @@ end
 Ditz::HookManager.run :startup, project, config
 
 Ditz::debug "executing command #{cmd}"
-begin
-  op.do cmd, project, config, ARGV
-rescue Ditz::Operator::Error, Ditz::Release::Error, Ditz::Project::Error, Ditz::Issue::Error => e
-  $stderr.puts "Error: #{e.message}"
-  exit(-1)
-rescue Errno::EPIPE, Interrupt
-  puts
-  exit 1
+die_gently do
+  begin
+    op.do cmd, project, config, ARGV
+    ## TODO: make these errors have a common ancestor so that this rescue
+    ## statement isn't so stupid
+  rescue Ditz::Operator::Error, Ditz::Release::Error, Ditz::Project::Error, Ditz::Issue::Error => e
+    ## don't use 'die' here (which is Trollop::die) because this is not a
+    ## problem with the command-line arguments.
+    $stderr.puts "Error: #{e.message}"
+    exit 1
+  end
 end
 
 changed_issues = project.issues.select { |i| i.changed? }
