@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: shell completion and plugins
+desc: Shell completion doesn't expand plugin-provided commands.
+type: :bugfix
+component: ditz
+release: 
+reporter: "Daniel Kal\xC3\xB8r <daniel@kalor.dk>"
+status: :unstarted
+disposition: 
+creation_time: 2008-11-11 10:46:13.494510 Z
+references: []
+
+id: 124366a44d339a0e4c200948d5a8a8eec90f1eef
+log_events: 
+- - 2008-11-11 10:46:13.537765 Z
+  - "Daniel Kal\xC3\xB8r <daniel@kalor.dk>"
+  - created
+  - Created via Sheila by  (82.211.215.253)
+git_branch: 
+claimer: 
