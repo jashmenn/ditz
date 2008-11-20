@@ -118,7 +118,6 @@ module Lowline
     fn = run_editor do |f|
       if default
         f.puts default
-        f.puts
       end
       f.puts
       f.puts q.gsub(/^/, "## ")
@@ -152,7 +151,7 @@ module Lowline
         when "/reset"
           return ask_multiline(q)
         when "/edit"
-          return ask_via_editor(q, ans)
+          return ask_via_editor(q, :default => ans)
         else
           ans << line + "\n"
         end
