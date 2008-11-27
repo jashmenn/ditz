@@ -90,7 +90,7 @@ end
 
 begin
   Ditz::load_plugins $opts[:plugins_file]
-rescue SystemCallError => e
+rescue LoadError => e
   Ditz::debug "can't load plugins file: #{e.message}"
 end
 

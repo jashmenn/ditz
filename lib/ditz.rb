@@ -46,7 +46,7 @@ end
 ## my brilliant solution to the 'gem datadir' problem
 def find_ditz_file fn
   dir = $:.find { |p| File.exist? File.expand_path(File.join(p, fn)) }
-  raise "can't find #{fn} in any load path" unless dir
+  raise LoadError, "can't find #{fn} in any load path" unless dir
   File.expand_path File.join(dir, fn)
 end
 
