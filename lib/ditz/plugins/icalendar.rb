@@ -10,7 +10,7 @@
 ## released.
 ##
 ## Commands added:
-##   ditz todo-ics: set the git branch of an issue
+##   ditz todo-ics: generate full todo list in iCalendar format
 ##
 ## Usage: 
 ##   1. add a line "- icalendar" to the .ditz-plugins file in the project root
