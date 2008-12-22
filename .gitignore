@@ -1,2 +1,5 @@
 *.swp
 .ditz-config
+bin/ditz
+/.config
+/InstalledFiles

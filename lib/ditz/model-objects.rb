@@ -184,13 +184,13 @@ class Issue < ModelObject
 
     if field == :log_events
       value.map do |time, who, what, comment|
-        comment = @project.issues.inject(comment) do |s, i|
+        comment = @project.issues.inject(comment || '') do |s, i|
           s.gsub(/\b#{i.name}\b/, "{issue #{i.id}}")
         end
         [time, who, what, comment]
       end
     else
-      @project.issues.inject(value) do |s, i|
+      @project.issues.inject(value || '') do |s, i|
         s.gsub(/\b#{i.name}\b/, "{issue #{i.id}}")
       end
     end
