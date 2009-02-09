@@ -520,6 +520,12 @@ EOS
     HtmlView.new(project, config, dir).render_all
   end
 
+  operation :rdf, "Generate baetle file", :maybe_dir
+  def rdf project, config, dir
+    dir ||= "baetle"
+    BaetleView.new(project, config, dir).render_all
+  end
+
   operation :validate, "Validate project status"
   def validate project, config
     ## a no-op
