@@ -252,21 +252,24 @@ class ModelObject
       @fields.each do |name, field_opts|
         val = if opts[:with] && opts[:with][name]
           opts[:with][name]
-        elsif(found, v = generate_field_value(o, field_opts, generator_args, :interactive => true)) && found
-          v
         else
-          q = field_opts[:prompt] || name.to_s.capitalize
-          if field_opts[:multiline]
-            ## multiline options currently aren't allowed to have a default
-            ## value, so just ask.
-            ask_multiline_or_editor q
+          found, v = generate_field_value(o, field_opts, generator_args, :interactive => true)
+          if found
+            v
           else
-            default = if opts[:defaults_from] && opts[:defaults_from].respond_to?(name) && (x = opts[:defaults_from].send(name))
-              x
+            q = field_opts[:prompt] || name.to_s.capitalize
+            if field_opts[:multiline]
+              ## multiline options currently aren't allowed to have a default
+              ## value, so just ask.
+              ask_multiline_or_editor q
             else
-              default = generate_field_default o, field_opts, generator_args
+              default = if opts[:defaults_from] && opts[:defaults_from].respond_to?(name) && (x = opts[:defaults_from].send(name))
+                x
+              else
+                default = generate_field_default o, field_opts, generator_args
+              end
+              ask q, :default => default
             end
-            ask q, :default => default
           end
         end
         o.send "#{name}=", val
@@ -282,10 +285,13 @@ class ModelObject
       @fields.each do |fname, fopts|
         val = if(x = vals[fname] || vals[fname.to_s])
           x
-        elsif(found, x = generate_field_value(o, fopts, generator_args, :interactive => false)) && found
-          x
-        elsif !fopts[:nil_ok]
-          raise ModelError, "missing required field #{fname.inspect} on #{self.name} object (got #{vals.keys.inspect})"
+        else
+          found, x = generate_field_value(o, fopts, generator_args, :interactive => false)
+          if found
+            x
+          elsif !fopts[:nil_ok]
+            raise ModelError, "missing required field #{fname.inspect} on #{self.name} object (got #{vals.keys.inspect})"
+          end
         end
         o.send "#{fname}=", val if val
       end
