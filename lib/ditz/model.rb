@@ -1,5 +1,9 @@
 require 'yaml'
+if RUBY_VERSION >= '1.9.0'
+require 'digest/sha1'
+else
 require 'sha1'
+end
 require "ditz/lowline"; include Lowline
 require "ditz/util"
 
