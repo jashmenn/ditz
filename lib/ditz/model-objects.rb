@@ -147,7 +147,7 @@ class Issue < ModelObject
   field :reporter, :prompt => "Issue creator", :default_generator => lambda { |config, proj| config.user }
   field :status, :ask => false, :default => :unstarted
   field :disposition, :ask => false
-  field :creation_time, :ask => false, :generator => lambda { Time.now }
+  field :creation_time, :ask => false, :generator => Proc.new { Time.now }
   field :references, :ask => false, :multi => true
   field :id, :ask => false, :generator => :make_id
   changes_are_logged
@@ -215,7 +215,11 @@ class Issue < ModelObject
 
   ## make a unique id
   def make_id config, project
-    SHA1.hexdigest [Time.now, rand, creation_time, reporter, title, desc].join("\n")
+    if RUBY_VERSION >= '1.9.0'
+      Digest::SHA1.hexdigest [Time.now, rand, creation_time, reporter, title, desc].join("\n")
+    else
+      SHA1.hexdigest [Time.now, rand, creation_time, reporter, title, desc].join("\n")
+    end
   end
 
   def sort_order; [STATUS_SORT_ORDER[status], creation_time] end
