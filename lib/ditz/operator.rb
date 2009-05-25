@@ -520,6 +520,26 @@ EOS
     HtmlView.new(project, config, dir).render_all
   end
 
+  COL_ID = "ID"
+  COL_NAME = "NAME"
+  COL_RELEASE = "RELEASE"
+  operation :list, "Generate html status pages"
+  def list project, config
+    issues = project.issues
+    return if issues.empty?
+
+    run_pager config
+    name_len = issues.max_of { |i| i.name.length }
+    name_len = COL_NAME.length if name_len < COL_NAME.length
+    release_len = project.releases.max_of { |i| i.name.length }
+    release_len = COL_RELEASE.length if release_len < COL_RELEASE.length
+    s = "  #{COL_ID.ljust(40)} #{COL_NAME.ljust(name_len)} #{COL_RELEASE.ljust(release_len)} TITLE\n"
+    issues.map do |i|
+      s += sprintf "%s %s %-#{name_len}s %-#{release_len}s %s\n", i.status_widget, i.id, i.name, i.release, i.title
+    end.join
+    puts s
+  end
+
   operation :validate, "Validate project status"
   def validate project, config
     ## a no-op
