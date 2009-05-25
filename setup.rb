@@ -1157,7 +1157,7 @@ end   # class ToplevelInstallerMulti
 
 class Installer
 
-  FILETYPES = %w( bin lib ext data conf man )
+  FILETYPES = %w( bin lib ext share conf man )
 
   include FileOperations
   include HookScriptAPI
@@ -1230,7 +1230,7 @@ class Installer
     extconf if extdir?(curr_srcdir())
   end
 
-  alias config_dir_data noop
+  alias config_dir_share noop
   alias config_dir_conf noop
   alias config_dir_man noop
 
@@ -1258,7 +1258,7 @@ class Installer
     make if extdir?(curr_srcdir())
   end
 
-  alias setup_dir_data noop
+  alias setup_dir_share noop
   alias setup_dir_conf noop
   alias setup_dir_man noop
 
@@ -1357,7 +1357,7 @@ class Installer
                   0555
   end
 
-  def install_dir_data(rel)
+  def install_dir_share(rel)
     install_files targetfiles(), "#{config('datadir')}/#{rel}", 0644
   end
 
@@ -1479,7 +1479,7 @@ class Installer
 
   alias clean_dir_bin noop
   alias clean_dir_lib noop
-  alias clean_dir_data noop
+  alias clean_dir_share noop
   alias clean_dir_conf noop
   alias clean_dir_man noop
 
@@ -1506,7 +1506,7 @@ class Installer
     make 'distclean' if File.file?('Makefile')
   end
 
-  alias distclean_dir_data noop
+  alias distclean_dir_share noop
   alias distclean_dir_conf noop
   alias distclean_dir_man noop
 
