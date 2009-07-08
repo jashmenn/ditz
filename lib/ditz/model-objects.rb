@@ -122,7 +122,7 @@ EOS
     prefixes = components.map { |c| [c.name, c.name.gsub(/^\s+/, "-").downcase] }.to_h
     ids = components.map { |c| [c.name, 0] }.to_h
     issues.sort_by { |i| i.creation_time }.each do |i|
-      i.name = "#{prefixes[i.component]}-#{ids[i.component] += 1}"
+      i.name = components.length > 1 ? "#{prefixes[i.component]}-#{ids[i.component] += 1}" : "##{ids[i.component] += 1}"
     end
   end
 
