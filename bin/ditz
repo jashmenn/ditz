@@ -89,7 +89,7 @@ if $opts[:list_hooks]
 end
 
 begin
-  Ditz::load_plugins $opts[:plugins_file]
+  Ditz::load_plugins $opts[:plugins_file] if File.exist? $opts[:plugins_file]
 rescue LoadError => e
   Ditz::debug "can't load plugins file: #{e.message}"
 end
