@@ -57,6 +57,7 @@ class Operator
           ## in the single-component case, translate #N style issue names
           if project.components.size == 1
             val = val.sub(Regexp.new("\\A#{project.components.first.name}-(\\d+)\\Z"), '#\1')
+            val = val.sub(/\A(\d+)\Z/, '#\1')
           end
           ## issue completion sticks the title on there, so this will strip it off
           valr = val.sub(/\A(\w+-\d+)_.*$/,'\1')
