@@ -52,6 +52,7 @@ end
 
 def load_plugins fn
   Ditz::debug "loading plugins from #{fn}"
+  return unless File.exist?(fn)
   plugins = YAML::load_file fn
   plugins.each do |p|
     fn = Ditz::find_ditz_file "ditz/plugins/#{p}.rb"
