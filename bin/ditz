@@ -4,6 +4,8 @@ $LOAD_PATH.unshift(File.expand_path("#{File.dirname($0)}/../lib"))
 
 ## requires are split in two for efficiency reasons: ditz should be really
 ## fast when using it for completion.
+$KCODE = "u"
+
 require 'ditz/operator'
 op = Ditz::Operator.new
 
@@ -15,6 +17,9 @@ end
 
 begin
   require 'rubygems'
+  # list version dependant gems here.
+  gem 'kakutani-yaml_waml', '>= 0.3'
+  gem 'trollop', '>= 1.9'
 rescue LoadError
 end
 

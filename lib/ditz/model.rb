@@ -1,4 +1,5 @@
 require 'yaml'
+require "yaml_waml"
 require 'sha1'
 require "ditz/lowline"; include Lowline
 require "ditz/util"
@@ -216,7 +217,7 @@ class ModelObject
   end
 
   def to_yaml opts={}
-    YAML::quick_emit(object_id, opts) do |out|
+    ret = YAML::quick_emit(object_id, opts) do |out|
       out.map(taguri, nil) do |map|
         self.class.fields.each do |f, fops|
           v = if @serialized_values.member?(f)
@@ -229,6 +230,7 @@ class ModelObject
         end
       end
     end
+    YamlWaml.decode(ret)
   end
 
   def changed?; @changed ||= false end
