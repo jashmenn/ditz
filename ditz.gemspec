@@ -25,13 +25,13 @@ Gem::Specification.new do |s|
 
     if current_version >= 3 then
       s.add_runtime_dependency(%q<trollop>, [">= 1.9"])
-      s.add_runtime_dependency(%q<kakutani-yaml_waml>, [">= 0.3"])
+      s.add_runtime_dependency(%q<yaml_waml>, [">= 0.3"])
     else
       s.add_dependency(%q<trollop>, [">= 1.9"])
-      s.add_dependency(%q<kakutani-yaml_waml>, [">= 0.3"])
+      s.add_dependency(%q<yaml_waml>, [">= 0.3"])
     end
   else
     s.add_dependency(%q<trollop>, [">= 1.9"])
-    s.add_dependency(%q<kakutani-yaml_waml>, [">= 0.3"])
+    s.add_dependency(%q<yaml_waml>, [">= 0.3"])
   end
 end
