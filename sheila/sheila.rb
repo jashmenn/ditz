@@ -480,6 +480,12 @@ module Sheila::Views
       end
       p { strong "Component: "; span @issue.component } if Sheila.project.components.size > 1
       p { strong "Status: "; span @issue.status.to_s }
+      p do
+        strong "References: "
+        @issue.references.each do |ref|
+          a ref, :href => ref
+        end
+      end
     end
 
     if @issue.respond_to?(:git_commits)
