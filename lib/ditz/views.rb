@@ -1,5 +1,6 @@
 require "ditz/view"
 require "ditz/html"
+require 'time'
 
 module Ditz
 
