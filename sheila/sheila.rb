@@ -175,7 +175,9 @@ module Sheila::Controllers
 
       if @errors.empty?
         comment = @input.resolve "comment[text]"
-        comment += "\n\n(submitted via Sheila by #{@env['REMOTE_ADDR']} (#{@env['REMOTE_HOST']}))"
+        unless Sheila.private
+          comment += "\n\n(submitted via Sheila by #{@env['REMOTE_ADDR']} (#{@env['REMOTE_HOST']}))"
+        end
 
         Sheila.add_comment! @issue, @input.resolve("comment[author]"), comment
         @input["comment"] = {} # clear fields
