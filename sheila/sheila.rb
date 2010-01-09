@@ -6,12 +6,18 @@ require 'fastthread'
 
 require 'camping'
 require 'camping/server'
+require 'digest/md5'
 
 Camping.goes :Sheila
 
 class String
   def obfu; gsub(/( <.+?)@.+>$/, '\1@...>') end
   def prefix; self[0,8] end
+  def gravatar(s=20)
+    email = split.last
+    email = email[1, email.size - 2] if email[0, 1] == '<'
+    "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=#{s}"
+  end
 end
 
 class Ditz::Release
@@ -406,6 +412,7 @@ module Sheila::Views
                 span what
                 strong " #{whenn.ago} ago"
                 span " by #{who.obfu} "
+                img :src => who.gravatar
               end
             end
             comments = issue.log_events.select { |e| e[2] == "commented" } # :(
@@ -448,7 +455,7 @@ module Sheila::Views
     commits.each do |at, email, hash, message|
       tr.logentry do
         td.ago "#{at.ago} ago"
-        td.who email.obfu
+        td.who { span email.obfu; img :src => email.gravatar }
         td do
           text message
           text " ["
@@ -472,7 +479,7 @@ module Sheila::Views
 
   def ticket
     h2 @issue.title
-    h3 { span.unique.right @issue.id.prefix; span "created #{@issue.creation_time.ago} ago by #{@issue.reporter.obfu}" }
+    h3 { span.unique.right @issue.id.prefix; span "created #{@issue.creation_time.ago} ago by #{@issue.reporter.obfu}"; img :src => @issue.reporter.gravatar }
 
     description @issue.desc
 
@@ -526,7 +533,7 @@ module Sheila::Views
     log.each do |at, name, action, comment|
       tr.logentry do
         td.ago "#{at.ago} ago"
-        td.who name.obfu
+        td.who { span name.obfu; img :src => name.gravatar }
         td.action action
       end
       unless comment.blank?
