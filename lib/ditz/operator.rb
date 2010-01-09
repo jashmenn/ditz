@@ -193,12 +193,16 @@ EOS
   operation :add, "Add an issue" do
     opt :comment, "Specify a comment", :short => 'm', :type => String
     opt :quick, "Just one line issue", :short => 'q', :type => String
+    opt :component, "Specify a component", :short => 'c', :type => String
+    opt :release, "Specify a release", :short => 'r', :type => String
     opt :ask_for_comment, "Ask for a comment", :default => false
   end
   def add project, config, opts
+    component = opts[:component] ||  project.components.first.name
+    release = opts[:release] || project.releases.first.name
     with = if opts[:quick]
-      {:title => opts[:quick], :desc => '', :type => :task, :component => 'todo',
-        :reporter => config.user}
+      {:title => opts[:quick], :desc => '', :type => :task, :component => component,
+        :reporter => config.user, :release => release}
     end
     issue = Issue.create_interactively(:args => [config, project], :with => with)
     issue or return
