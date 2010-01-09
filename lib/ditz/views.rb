@@ -136,4 +136,55 @@ class HtmlView < View
   end
 end
 
+class BaetleView < View
+  def initialize project, config, dir
+    @project = project
+    @config = config
+    @dir = dir
+  end
+  
+  def render_all
+    Dir.mkdir @dir unless File.exists? @dir
+    fn = File.join @dir, "baetle.rdf"
+    File.open(fn, "w") { |f| 
+        f.puts <<EOS
+@prefix baetle: <http://xmlns.com/baetle/#> .
+@prefix wf: <http://www.w3.org/2005/01/wf/flow#> .
+@prefix sioc: <http://rdfs.org/sioc/ns#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix : <#> .
+
+EOS
+        @project.issues.each do |issue|
+          # id
+          f.print ":#{issue.id} a "
+          f.print case issue.type 
+                when :bugfix, :bug: "baetle:Bug"
+                when :feature: "baetle:Enhancement"
+                when :task: "wf:Task"
+                end
+          f.puts " ;"
+          # title
+          f.puts "    baetle:title #{issue.title.dump} ;"
+          # summary
+          f.puts "    baetle:description #{issue.desc.dump} ; "
+          # state
+          f.print "    wf:state baetle:" 
+          f.print case issue.status
+                  when :unstarted: "New"
+                  when :in_progress: "Started"
+                  when :closed: "Closed"
+                  when :paused: "Later"
+                  end
+          f.puts " ;"
+          # created
+          f.puts "    baetle:created #{issue.creation_time.xmlschema.dump}^^xsd:dateTime ."
+          f.puts
+        end
+      }
+    puts "Local generated URL: file://#{File.expand_path(fn)}"
+  end
+end
+
 end
