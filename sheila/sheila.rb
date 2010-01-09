@@ -223,7 +223,8 @@ module Sheila::Controllers
       if @errors.empty?
         begin 
           @issue = Ditz::Issue.create @input['ticket'], [Sheila.config, Sheila.project]
-          @issue.log "created", @input.resolve("ticket[reporter]"), "Created via Sheila by #{@env['REMOTE_HOST']} (#{@env['REMOTE_ADDR']})"
+          comment = "(Created via Sheila by #{@env['REMOTE_HOST']} (#{@env['REMOTE_ADDR']}))" unless Sheila.private
+          @issue.log "created", @input.resolve("ticket[reporter]"), comment
           Sheila.add_issue! @issue
         rescue Ditz::ModelError => e
           @errors << e.message
