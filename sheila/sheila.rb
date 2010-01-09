@@ -48,8 +48,8 @@ end
 
 ## config holders
 class << Sheila
-  attr_reader :project, :config, :storage
-  def create
+  attr_reader :project, :config, :storage, :private, :reporter
+  def create opts
     ## load plugins
     plugin_fn = File.join Ditz::find_dir_containing(PLUGIN_FN) || ".", PLUGIN_FN
     Ditz::load_plugins(plugin_fn) if File.exist?(plugin_fn)
@@ -57,9 +57,14 @@ class << Sheila
     ## load config
     config_fn = File.join Ditz::find_dir_containing(CONFIG_FN) || ".", CONFIG_FN
     Ditz::debug "loading config from #{config_fn}"
+    @private = opts[:private]
     @config = Ditz::Config.from config_fn
-    @config.name = GIT_AUTHOR_NAME # just overwrite these two fields
-    @config.email = GIT_AUTHOR_EMAIL
+    if @private
+      @reporter = "#{@config.name} <#{@config.email}>"
+    else
+      @config.name = GIT_AUTHOR_NAME # just overwrite these two fields
+      @config.email = GIT_AUTHOR_EMAIL
+    end
 
     ## load project
     @storage = Ditz::FileStorage.new File.join(File.dirname(config_fn), @config.issue_dir)
@@ -191,7 +196,7 @@ module Sheila::Controllers
       quote = @input['s']
       desc = url
       desc = "#{url} \"#{quote}\"" if quote && quote.size > 0
-      reporter = @input['r']
+      reporter = @input['r'] || Sheila.reporter
       type = @input['y']
       component = @input['c']
       release = @input['R']
@@ -528,6 +533,10 @@ module Sheila::Views
   end
 
   def issue_comment_form issue, errors
+    reporter = @input['r'] || Sheila.reporter
+    @input['comment'] = {
+      'author' => reporter,
+    }
     form :method => 'POST', :action => R(TicketX, issue.id) + "#new-comment" do
       fieldset do
         div.required do
@@ -823,6 +832,7 @@ opts = Trollop::options do
   opt :host, "Host on which to run", :default => "0.0.0.0"
   opt :port, "Port on which to run", :default => 1234
   opt :server, "Camping server type to use (mongrel, webrick, console, any)", :default => "any"
+  opt :private, "Private mode", :default => false
 end
 
 Ditz::verbose = opts[:verbose]
@@ -850,7 +860,7 @@ when "webrick"
   [Rack::Handler::WEBrick, {:Port => opts[:port], :BindAddress => opts[:host]}]
 end
 
-Sheila.create
+Sheila.create opts
 rapp = Sheila
 rapp = Rack::Lint.new rapp
 rapp = Camping::Server::XSendfile.new rapp
