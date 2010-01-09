@@ -186,6 +186,23 @@ module Sheila::Controllers
     end
 
     def get
+      url = @input['u']
+      title = @input['t']
+      quote = @input['s']
+      desc = url
+      desc = "#{url} \"#{quote}\"" if quote && quote.size > 0
+      reporter = @input['r']
+      type = @input['y']
+      component = @input['c']
+      release = @input['R']
+      @input['ticket'] = {
+        'title' => title,
+        'desc' => desc,
+        'reporter' => reporter,
+        'type' => type,
+        'component' => component,
+        'release' => release,
+      }
       render :editor
     end
     def post
