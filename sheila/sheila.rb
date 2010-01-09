@@ -545,7 +545,7 @@ module Sheila::Views
           textarea.standard @input.resolve("comment[text]"), :name => 'comment[text]'
         end
         div.required do
-          label.fieldname 'Your name & email', :for => 'ticket[reporter]'
+          label.fieldname 'Your name & email', :for => 'comment[author]'
           div.fielddesc { "In standard email format, e.g. \"Bob Bobson &lt;bob@bobson.com&gt;\"" }
           input.standard :name => 'comment[author]', :type => 'text', :value => @input.resolve("comment[author]")
         end
