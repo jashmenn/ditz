@@ -1,0 +1,57 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: empty description from editor kills ditz
+desc: |-
+  If i close the editor without ever entering a description, I get an
+  exception in ruby:
+  
+  lib/ditz/model-objects.rb:194:in `serialized_form_of': private method `gsub' called for nil:NilClass (NoMethodError)
+  	from /usr/lib/ruby/site_ruby/1.8/rubygems/custom_require.rb:31:in `inject'
+  	from /home/travis/projects/ditz/lib/ditz/model-objects.rb:193:in `each'
+  	from /home/travis/projects/ditz/lib/ditz/model-objects.rb:193:in `inject'
+  	from /home/travis/projects/ditz/lib/ditz/model-objects.rb:193:in `serialized_form_of'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:225:in `to_yaml'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:221:in `each'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:221:in `to_yaml'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:220:in `map'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:220:in `to_yaml'
+  	from /usr/lib/ruby/1.8/yaml.rb:391:in `call'
+  	from /usr/lib/ruby/1.8/yaml.rb:391:in `emit'
+  	from /usr/lib/ruby/1.8/yaml.rb:391:in `quick_emit'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:219:in `to_yaml'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:214:in `save!'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:214:in `open'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:214:in `save!'
+  	from /home/travis/projects/ditz/lib/ditz/file-storage.rb:40:in `save'
+  	from /home/travis/projects/ditz/lib/ditz/file-storage.rb:37:in `each'
+  	from /home/travis/projects/ditz/lib/ditz/file-storage.rb:37:in `save'
+  	from /home/travis/projects/ditz/bin/ditz:187
+  
+  and it creates the issue-hash.yaml file, but doesn't populate it, so after that every attempt
+  to invoke ditz just produces:
+  
+  lib/ditz/model.rb:180:in `from': error loading from yaml file ".ditz/issue-6b4cd6eda140b621a6911a689a437790d059f852.yaml": expected a Ditz::Issue, got a FalseClass (Ditz::ModelError)
+  	from /home/travis/projects/ditz/lib/ditz/util.rb:2:in `returning'
+  	from /home/travis/projects/ditz/lib/ditz/model.rb:179:in `from'
+  	from /home/travis/projects/ditz/lib/ditz/file-storage.rb:21:in `load'
+  	from /home/travis/projects/ditz/lib/ditz/file-storage.rb:21:in `map'
+  	from /home/travis/projects/ditz/lib/ditz/file-storage.rb:21:in `load'
+  	from /home/travis/projects/ditz/bin/ditz:163
+  
+  until the offending yaml file is deleted
+type: :bugfix
+component: ditz
+release: 
+reporter: Travis Parker <travis.parker@gmail.com>
+status: :unstarted
+disposition: 
+creation_time: 2009-07-12 07:15:02.123083 Z
+references: []
+
+id: 046c98d6ba5ac3c5fc2d18e1836f3604a012e0e9
+log_events: 
+- - 2009-07-12 07:15:02.123359 Z
+  - Travis Parker <travis.parker@gmail.com>
+  - created
+  - ""
+git_branch: 
+claimer: 
