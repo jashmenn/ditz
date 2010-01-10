@@ -538,7 +538,7 @@ EOS
   COL_ID = "ID"
   COL_NAME = "NAME"
   COL_RELEASE = "RELEASE"
-  operation :list, "Generate html status pages"
+  operation :list, "Show all issues"
   def list project, config
     issues = project.issues
     return if issues.empty?
