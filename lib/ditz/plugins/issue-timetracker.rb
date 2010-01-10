@@ -38,8 +38,10 @@ class ScreenView
   def self.get_time_spent(issue)
     if issue.status == :paused
       issue.time_spent
-    else
+    elsif issue.time_spent && issue.mark_time
       issue.time_spent + (Time.now - issue.mark_time)
+    else
+      0
     end
   end
   add_to_view :issue_summary do |issue, config|
