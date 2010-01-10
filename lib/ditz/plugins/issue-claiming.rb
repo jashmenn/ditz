@@ -6,7 +6,7 @@
 ## you're working on.
 ##
 ## Commands added:
-##   ditz claim: claim an issue for yourself
+##   ditz claim: claim an issue for yourself or a dev specified in project.yaml
 ##   ditz unclaim: unclaim a claimed issue
 ##   ditz mine: show all issues claimed by you
 ##   ditz claimed: show all claimed issues, by developer
@@ -15,9 +15,20 @@
 ## Usage:
 ##   1. add a line "- issue-claiming" to the .ditz-plugins file in the project
 ##      root
-##   2. use the above commands to abandon
+##   2. (optional:) add a 'devs' key to project.yaml, e.g:
+## devs: 
+##   :roy: Roy Baty <roy@marsproject.com>
+##   :pris: Pris Stratton <pris@marsproject.com>
+
+##   3. use the above commands to abandon
 
 module Ditz
+
+class Project
+  field :devs, :prompt => "Hash of developer nicknames (as symbols) to email addresses",
+               :default => {:roy => "Roy Baty <roy@marsproject.com>"}
+end
+
 class Issue
   field :claimer, :ask => false
 
@@ -33,7 +44,7 @@ class Issue
     if claimer == who
       log "issue unclaimed", who, comment
     else
-      log "unassigned from #{claimer}", who, comment
+      log "unclaimed from #{claimer}", who, comment
     end
     self.claimer = nil
   end
@@ -88,14 +99,19 @@ class Operator
     end
   end
 
-  operation :claim, "Claim an issue for yourself", :issue do
+  operation :claim, "Claim an issue for yourself", :issue, :maybe_dev do
     opt :force, "Claim this issue even if someone else has claimed it", :default => false
   end
-  def claim project, config, opts, issue
-    puts "Claiming issue #{issue.name}: #{issue.title}."
+  def claim project, config, opts, issue, dev = nil
+    if dev
+      dev_full_email = project.devs ? project.devs[dev.to_sym] : nil
+      raise Error, "no nickname :#{dev} has been defined in project.yaml" unless dev_full_email
+    end
+    dev_full_email ||= config.user
+    puts "Claiming issue #{issue.name}: #{issue.title} for #{dev_full_email}."
     comment = ask_multiline_or_editor "Comments" unless $opts[:no_comment]
-    issue.claim config.user, comment, opts[:force]
-    puts "Issue #{issue.name} marked as claimed by #{config.user}"
+    issue.claim dev_full_email, comment, opts[:force]
+    puts "Issue #{issue.name} marked as claimed by #{dev_full_email}"
   end
 
   operation :unclaim, "Unclaim a claimed issue", :issue do
