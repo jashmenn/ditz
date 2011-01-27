@@ -19,6 +19,7 @@ lib/ditz/hook.rb
 lib/ditz/html.rb
 share/ditz/index.rhtml
 share/ditz/issue.rhtml
+share/ditz/feed.rhtml
 share/ditz/issue_table.rhtml
 lib/ditz/lowline.rb
 lib/ditz/model-objects.rb
