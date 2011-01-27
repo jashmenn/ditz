@@ -76,6 +76,7 @@ class HtmlView < View
     @project.components.each { |c| links[c] = "component-#{c.name}.html" }
     links["unassigned"] = "unassigned.html" # special case: unassigned
     links["index"] = "index.html" # special case: index
+    links["feed"]= "feed.rss" # special case: feed
 
     @project.issues.each do |issue|
       fn = File.join @dir, links[issue]
@@ -121,6 +122,12 @@ class HtmlView < View
       f.puts ErbHtml.new(@template_dir, links,
         :issues => @project.unassigned_issues, :project => @project).
         render_template("unassigned")
+    end
+    fn = File.join @dir, links["feed"]
+    #puts "Generating #{fn}..."
+    File.open(fn, "w") do |f|
+      f.puts ErbHtml.new(@template_dir, links, :project => @project).
+        render_template("feed")
     end
 
     past_rels, upcoming_rels = @project.releases.partition { |r| r.released? }

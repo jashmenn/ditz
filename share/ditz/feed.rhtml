@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <atom:link href="./" rel="self" type="application/rss+xml" />
+    <title>Latest ditz updates for <%= project.name %></title>
+    <link>./index.html</link>
+    <description>Latest updates to the distributed issue tracker for <%= project.name %></description>
+    <language>en-us</language>
+    <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+  <% project.issues.map { |i| i.log_events.map { |e| [e, i] } }.
+        flatten_one_level.
+        sort_by { |e| e.first.first }.
+        reverse[0 ... 25].
+        each_with_index do |((date, who, what, comment), i), idx| %>
+    <item>
+      <title><%= who %> <%= what %> <%= i.title %></title> 
+      <link>issue-<%= i.id %>.html</link>
+      <description><%= comment %></description>
+      <pubDate><%= date.pretty_date %></pubDate>
+      <dc:creator><%= who %></dc:creator>
+    </item>
+  <% end %>
+  </channel>
+</rss>
