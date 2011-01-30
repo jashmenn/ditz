@@ -5,8 +5,8 @@ type: :feature
 component: ditz
 release: 
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-07-26 23:29:41.913206 Z
 references: []
 
@@ -20,5 +20,12 @@ log_events:
   - Matt Katz <ditz@morelightmorelight.com>
   - issue claimed
   - claiming rss of recent activity
+- - 2011-01-30 19:08:52.733722 Z
+  - Matt Katz <ditz@morelightmorelight.com>
+  - closed with disposition fixed
+  - |-
+    we have a new template feed.rhtml that gets generated every time ditz html is run
+    
+    Still not very clever in specifiying things like LINK item etc because we can't give fully qualified urls
 git_branch: 
 claimer: Matt Katz <ditz@morelightmorelight.com>
