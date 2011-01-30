@@ -76,7 +76,7 @@ class HtmlView < View
     @project.components.each { |c| links[c] = "component-#{c.name}.html" }
     links["unassigned"] = "unassigned.html" # special case: unassigned
     links["index"] = "index.html" # special case: index
-    links["feed"]= "feed.rss" # special case: feed
+    links["feed"]= "feed.xml" # special case: feed
 
     @project.issues.each do |issue|
       fn = File.join @dir, links[issue]
