@@ -1,3 +1,10 @@
+## mercurial ditz plugin
+##
+## This plugin allows ditz issues to be associated with mercurial commits
+## It is currently lacking adequate developer documentation, but we are looking forward to somene helping out as soon as possible with this.
+## Usage: 
+##   1. add a line "- mercurial" to the .ditz-plugins file in the
+##   project root
 require 'time'
 
 module Ditz

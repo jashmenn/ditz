@@ -22,6 +22,9 @@ lib/ditz/plugins/git.rb
 lib/ditz/plugins/issue-claiming.rb
 lib/ditz/plugins/issue-labeling.rb
 lib/ditz/plugins/issue-timetracker.rb
+lib/ditz/plugins/icalendar.rb
+lib/ditz/plugins/mercurial.rb
+lib/ditz/plugins/sha-names.rb
 lib/ditz/util.rb
 lib/ditz/view.rb
 lib/ditz/views.rb
