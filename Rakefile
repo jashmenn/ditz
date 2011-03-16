@@ -28,7 +28,7 @@ end
 
 task :upload_report do |t|
   sh "ruby -Ilib bin/ditz html ditz"
-  sh "rsync -essh -cavz ditz wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
+  sh "rsync -essh -cavz ditz mattkatz@rubyforge.org:/var/www/gforge-projects/ditz/"
 end
 
 task :plugins  do |t|
