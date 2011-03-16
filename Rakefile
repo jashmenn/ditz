@@ -23,7 +23,7 @@ end
 WWW_FILES = FileList["www/*"] + %w(README.txt PLUGINS.txt)
 
 task :upload_webpage => WWW_FILES do |t|
-  sh "rsync -essh -cavz #{t.prerequisites * ' '} wmorgan@rubyforge.org:/var/www/gforge-projects/ditz/"
+  sh "rsync -essh -cavz #{t.prerequisites * ' '} mattkatz@rubyforge.org:/var/www/gforge-projects/ditz/"
 end
 
 task :upload_report do |t|
