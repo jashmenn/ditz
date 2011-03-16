@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: Fix the changelog
+desc: ditz changelog crashes on comparison of Fixnum with nil failed
+type: :bugfix
+component: ditz
+release: "0.6"
+reporter: Matt Katz <ditz@morelightmorelight.com>
+status: :unstarted
+disposition: 
+creation_time: 2011-03-16 23:01:18.071865 Z
+references: []
+
+id: 3fbb97572f3745a8cf791f0a177e6302c2354c86
+log_events: 
+- - 2011-03-16 23:01:18.072416 Z
+  - Matt Katz <ditz@morelightmorelight.com>
+  - created
+  - ""
+git_branch: 
+claimer: 
