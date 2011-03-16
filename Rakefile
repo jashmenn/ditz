@@ -38,7 +38,7 @@ end
 task :really_check_manifest do |t|
   f1 = Tempfile.new "manifest"; f1.close
   f2 = Tempfile.new "manifest"; f2.close
-  sh "git ls-files | egrep -v \"^bugs/\" | sort > #{f1.path}"
+  sh "git ls-files | egrep -v \"^.ditz/\" | sort > #{f1.path}"
   sh "sort Manifest.txt > #{f2.path}"
 
   f3 = Tempfile.new "manifest"; f3.close
