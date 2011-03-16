@@ -192,11 +192,20 @@ EOS
 
   operation :add, "Add an issue" do
     opt :comment, "Specify a comment", :short => 'm', :type => String
+    opt :quick, "Just one line issue", :short => 'q', :type => String
+    opt :component, "Specify a component", :short => 'c', :type => String
+    opt :release, "Specify a release", :short => 'r', :type => String
     opt :ask_for_comment, "Ask for a comment", :default => false
   end
   def add project, config, opts
-    issue = Issue.create_interactively(:args => [config, project]) or return
-
+    component = opts[:component] ||  project.components.first.name
+    release = opts[:release] || project.releases.first.name
+    with = if opts[:quick]
+      {:title => opts[:quick], :desc => '', :type => :task, :component => component,
+        :reporter => config.user, :release => release}
+    end
+    issue = Issue.create_interactively(:args => [config, project], :with => with)
+    issue or return
     comment = if opts[:comment]
       opts[:comment]
     elsif opts[:ask_for_comment]
@@ -518,6 +527,32 @@ EOS
   def html project, config, dir
     dir ||= "html"
     HtmlView.new(project, config, dir).render_all
+  end
+
+  operation :rdf, "Generate baetle file", :maybe_dir
+  def rdf project, config, dir
+    dir ||= "baetle"
+    BaetleView.new(project, config, dir).render_all
+  end
+
+  COL_ID = "ID"
+  COL_NAME = "NAME"
+  COL_RELEASE = "RELEASE"
+  operation :list, "Show all issues"
+  def list project, config
+    issues = project.issues
+    return if issues.empty?
+
+    run_pager config
+    name_len = issues.max_of { |i| i.name.length }
+    name_len = COL_NAME.length if name_len < COL_NAME.length
+    release_len = project.releases.max_of { |i| i.name.length }
+    release_len = COL_RELEASE.length if !release_len || release_len < COL_RELEASE.length
+    s = "  #{COL_ID.ljust(40)} #{COL_NAME.ljust(name_len)} #{COL_RELEASE.ljust(release_len)} TITLE\n"
+    issues.map do |i|
+      s += sprintf "%s %s %-#{name_len}s %-#{release_len}s %s\n", i.status_widget, i.id, i.name, i.release, i.title
+    end.join
+    puts s
   end
 
   operation :validate, "Validate project status"

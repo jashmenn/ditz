@@ -52,6 +52,7 @@ end
 
 def load_plugins fn
   Ditz::debug "loading plugins from #{fn}"
+  return unless File.exist?(fn)
   plugins = YAML::load_file fn
   plugins.each do |p|
     fn = Ditz::find_ditz_file "ditz/plugins/#{p}.rb"
@@ -68,7 +69,11 @@ end
 # Call run_pager from any opperator needing pagination.
 # Yoinked from http://nex-3.com/posts/73-git-style-automatic-paging-in-ruby#comments
 def run_pager config
-  return if PLATFORM =~ /win32/
+  if RUBY_VERSION >= '1.9.0'
+     return if RUBY_PLATFORM =~ /win32/
+  else
+     return if PLATFORM =~ /win32/
+  end
   return unless STDOUT.tty?
   return if config.paginate == 'never'
 

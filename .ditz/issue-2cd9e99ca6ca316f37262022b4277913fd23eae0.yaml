@@ -13,8 +13,8 @@ type: :feature
 component: ditz
 release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2008-08-06 16:22:40.961795 Z
 references: []
 
@@ -34,5 +34,11 @@ log_events:
   - William Morgan <wmorgan-ditz@masanjin.net>
   - assigned to release 0.6 from unassigned
   - ""
+- - 2009-07-08 23:42:07.505820 Z
+  - Travis Parker <travis.parker@gmail.com>
+  - closed with disposition fixed
+  - |-
+    if there is only one component, canonically use the short version and translate
+    long versions to short ones in the argument-parsing code
 git_branch: 
 claimer: 

@@ -6,12 +6,18 @@ require 'fastthread'
 
 require 'camping'
 require 'camping/server'
+require 'digest/md5'
 
 Camping.goes :Sheila
 
 class String
   def obfu; gsub(/( <.+?)@.+>$/, '\1@...>') end
   def prefix; self[0,8] end
+  def gravatar(s=20)
+    email = split.last
+    email = email[1, email.size - 2] if email[0, 1] == '<'
+    "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(email)}?s=#{s}"
+  end
 end
 
 class Ditz::Release
@@ -48,8 +54,8 @@ end
 
 ## config holders
 class << Sheila
-  attr_reader :project, :config, :storage
-  def create
+  attr_reader :project, :config, :storage, :private, :reporter
+  def create opts
     ## load plugins
     plugin_fn = File.join Ditz::find_dir_containing(PLUGIN_FN) || ".", PLUGIN_FN
     Ditz::load_plugins(plugin_fn) if File.exist?(plugin_fn)
@@ -57,9 +63,14 @@ class << Sheila
     ## load config
     config_fn = File.join Ditz::find_dir_containing(CONFIG_FN) || ".", CONFIG_FN
     Ditz::debug "loading config from #{config_fn}"
+    @private = opts[:private]
     @config = Ditz::Config.from config_fn
-    @config.name = GIT_AUTHOR_NAME # just overwrite these two fields
-    @config.email = GIT_AUTHOR_EMAIL
+    if @private
+      @reporter = "#{@config.name} <#{@config.email}>"
+    else
+      @config.name = GIT_AUTHOR_NAME # just overwrite these two fields
+      @config.email = GIT_AUTHOR_EMAIL
+    end
 
     ## load project
     @storage = Ditz::FileStorage.new File.join(File.dirname(config_fn), @config.issue_dir)
@@ -170,7 +181,9 @@ module Sheila::Controllers
 
       if @errors.empty?
         comment = @input.resolve "comment[text]"
-        comment += "\n\n(submitted via Sheila by #{@env['REMOTE_ADDR']} (#{@env['REMOTE_HOST']}))"
+        unless Sheila.private
+          comment += "\n\n(submitted via Sheila by #{@env['REMOTE_HOST']} (#{@env['REMOTE_ADDR']}))"
+        end
 
         Sheila.add_comment! @issue, @input.resolve("comment[author]"), comment
         @input["comment"] = {} # clear fields
@@ -186,6 +199,23 @@ module Sheila::Controllers
     end
 
     def get
+      url = @input['u']
+      title = @input['t']
+      quote = @input['s']
+      desc = url
+      desc = "#{url} \"#{quote}\"" if quote && quote.size > 0
+      reporter = @input['r'] || Sheila.reporter
+      type = @input['y']
+      component = @input['c']
+      release = @input['R']
+      @input['ticket'] = {
+        'title' => title,
+        'desc' => desc,
+        'reporter' => reporter,
+        'type' => type,
+        'component' => component,
+        'release' => release,
+      }
       render :editor
     end
     def post
@@ -199,7 +229,8 @@ module Sheila::Controllers
       if @errors.empty?
         begin 
           @issue = Ditz::Issue.create @input['ticket'], [Sheila.config, Sheila.project]
-          @issue.log "created", @input.resolve("ticket[reporter]"), "Created via Sheila by #{@env['REMOTE_HOST']} (#{@env['REMOTE_ADDR']})"
+          comment = "(Created via Sheila by #{@env['REMOTE_HOST']} (#{@env['REMOTE_ADDR']}))" unless Sheila.private
+          @issue.log "created", @input.resolve("ticket[reporter]"), comment
           Sheila.add_issue! @issue
         rescue Ditz::ModelError => e
           @errors << e.message
@@ -381,6 +412,7 @@ module Sheila::Views
                 span what
                 strong " #{whenn.ago} ago"
                 span " by #{who.obfu} "
+                img :src => who.gravatar
               end
             end
             comments = issue.log_events.select { |e| e[2] == "commented" } # :(
@@ -423,7 +455,7 @@ module Sheila::Views
     commits.each do |at, email, hash, message|
       tr.logentry do
         td.ago "#{at.ago} ago"
-        td.who email.obfu
+        td.who { span email.obfu; img :src => email.gravatar }
         td do
           text message
           text " ["
@@ -447,7 +479,7 @@ module Sheila::Views
 
   def ticket
     h2 @issue.title
-    h3 { span.unique.right @issue.id.prefix; span "created #{@issue.creation_time.ago} ago by #{@issue.reporter.obfu}" }
+    h3 { span.unique.right @issue.id.prefix; span "created #{@issue.creation_time.ago} ago by #{@issue.reporter.obfu}"; img :src => @issue.reporter.gravatar }
 
     description @issue.desc
 
@@ -463,6 +495,12 @@ module Sheila::Views
       end
       p { strong "Component: "; span @issue.component } if Sheila.project.components.size > 1
       p { strong "Status: "; span @issue.status.to_s }
+      p do
+        strong "References: "
+        @issue.references.each do |ref|
+          a ref, :href => ref
+        end
+      end
     end
 
     if @issue.respond_to?(:git_commits)
@@ -495,7 +533,7 @@ module Sheila::Views
     log.each do |at, name, action, comment|
       tr.logentry do
         td.ago "#{at.ago} ago"
-        td.who name.obfu
+        td.who { span name.obfu; img :src => name.gravatar }
         td.action action
       end
       unless comment.blank?
@@ -505,6 +543,10 @@ module Sheila::Views
   end
 
   def issue_comment_form issue, errors
+    reporter = @input['r'] || Sheila.reporter
+    @input['comment'] = {
+      'author' => reporter,
+    }
     form :method => 'POST', :action => R(TicketX, issue.id) + "#new-comment" do
       fieldset do
         div.required do
@@ -513,7 +555,7 @@ module Sheila::Views
           textarea.standard @input.resolve("comment[text]"), :name => 'comment[text]'
         end
         div.required do
-          label.fieldname 'Your name & email', :for => 'ticket[reporter]'
+          label.fieldname 'Your name & email', :for => 'comment[author]'
           div.fielddesc { "In standard email format, e.g. \"Bob Bobson &lt;bob@bobson.com&gt;\"" }
           input.standard :name => 'comment[author]', :type => 'text', :value => @input.resolve("comment[author]")
         end
@@ -800,6 +842,7 @@ opts = Trollop::options do
   opt :host, "Host on which to run", :default => "0.0.0.0"
   opt :port, "Port on which to run", :default => 1234
   opt :server, "Camping server type to use (mongrel, webrick, console, any)", :default => "any"
+  opt :private, "Private mode", :default => false
 end
 
 Ditz::verbose = opts[:verbose]
@@ -827,7 +870,7 @@ when "webrick"
   [Rack::Handler::WEBrick, {:Port => opts[:port], :BindAddress => opts[:host]}]
 end
 
-Sheila.create
+Sheila.create opts
 rapp = Sheila
 rapp = Rack::Lint.new rapp
 rapp = Camping::Server::XSendfile.new rapp

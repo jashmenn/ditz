@@ -4,6 +4,8 @@ $LOAD_PATH.unshift(File.expand_path("#{File.dirname($0)}/../lib"))
 
 ## requires are split in two for efficiency reasons: ditz should be really
 ## fast when using it for completion.
+$KCODE = "u"
+
 require 'ditz/operator'
 op = Ditz::Operator.new
 
@@ -15,6 +17,9 @@ end
 
 begin
   require 'rubygems'
+  # list version dependant gems here.
+  gem 'kakutani-yaml_waml', '>= 0.3'
+  gem 'trollop', '>= 1.9'
 rescue LoadError
 end
 
@@ -39,7 +44,7 @@ See 'ditz help' for a list of commands.
 Global options are:
 EOS
 
-  opt :issue_dir, "Issue database dir", :default => ".ditz"
+  opt :issue_dir, "Issue database dir", :type => :string
   opt :config_file, "Configuration file", :default => File.join(config_dir || ".", CONFIG_FN)
   opt :plugins_file, "Plugins file", :default => File.join(plugin_dir || ".", PLUGIN_FN)
   opt :verbose, "Verbose output", :default => false
@@ -89,7 +94,7 @@ if $opts[:list_hooks]
 end
 
 begin
-  Ditz::load_plugins $opts[:plugins_file]
+  Ditz::load_plugins $opts[:plugins_file] if File.exist? $opts[:plugins_file]
 rescue LoadError => e
   Ditz::debug "can't load plugins file: #{e.message}"
 end

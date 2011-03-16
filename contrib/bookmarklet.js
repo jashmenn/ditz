@@ -1,0 +1,1 @@
+javascript:var%20d=document,w=window,e=w.getSelection,k=d.getSelection,x=d.selection,s=(e?e():(k)?k():(x?x.createRange().text:0)),f='http://localhost:1234/new',l=d.location,e=encodeURIComponent,p='?u='+e(l.href)%20+'&t='+e(d.title)%20+'&s='+e(s)+'&y=task&r='+e('First%20Last%20<foo@example.com>')+'&R=2010&c=idea',u=f+p;l.href=u;

@@ -1,0 +1,31 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: .ditz-plugins file should be optional
+desc: |-
+  plugins should just initialize to an empty array if no .ditz-plugins file is found, instead of this:
+  
+  /usr/lib/ruby/1.8/yaml.rb:143:in `initialize': No such file or directory - ./.ditz-plugins (Errno::ENOENT)
+  	from /usr/lib/ruby/1.8/yaml.rb:143:in `open'
+  	from /usr/lib/ruby/1.8/yaml.rb:143:in `load_file'
+  	from /usr/lib/ruby/site_ruby/1.8/ditz.rb:55:in `load_plugins'
+  	from /usr/bin/ditz:92
+type: :bugfix
+component: ditz
+release: 
+reporter: Travis Parker <travis.parker@gmail.com>
+status: :closed
+disposition: :fixed
+creation_time: 2009-07-08 21:14:36.212712 Z
+references: []
+
+id: 4d05c780343b3ab02755132463c592076aa2f6c8
+log_events: 
+- - 2009-07-08 21:14:36.212971 Z
+  - Travis Parker <travis.parker@gmail.com>
+  - created
+  - ""
+- - 2009-07-08 22:07:08.124165 Z
+  - Travis Parker <travis.parker@gmail.com>
+  - closed with disposition fixed
+  - add 'if File.exists? pluginfile' to bin/ditz, mirroring sheila/sheila.rb
+git_branch: 
+claimer: 

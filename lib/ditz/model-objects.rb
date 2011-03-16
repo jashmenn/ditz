@@ -122,7 +122,7 @@ EOS
     prefixes = components.map { |c| [c.name, c.name.gsub(/^\s+/, "-").downcase] }.to_h
     ids = components.map { |c| [c.name, 0] }.to_h
     issues.sort_by { |i| i.creation_time }.each do |i|
-      i.name = "#{prefixes[i.component]}-#{ids[i.component] += 1}"
+      i.name = components.length > 1 ? "#{prefixes[i.component]}-#{ids[i.component] += 1}" : "##{ids[i.component] += 1}"
     end
   end
 
@@ -147,7 +147,7 @@ class Issue < ModelObject
   field :reporter, :prompt => "Issue creator", :default_generator => lambda { |config, proj| config.user }
   field :status, :ask => false, :default => :unstarted
   field :disposition, :ask => false
-  field :creation_time, :ask => false, :generator => lambda { Time.now }
+  field :creation_time, :ask => false, :generator => Proc.new { Time.now }
   field :references, :ask => false, :multi => true
   field :id, :ask => false, :generator => :make_id
   changes_are_logged
@@ -184,13 +184,13 @@ class Issue < ModelObject
 
     if field == :log_events
       value.map do |time, who, what, comment|
-        comment = @project.issues.inject(comment) do |s, i|
+        comment = @project.issues.inject(comment || '') do |s, i|
           s.gsub(/\b#{i.name}\b/, "{issue #{i.id}}")
         end
         [time, who, what, comment]
       end
     else
-      @project.issues.inject(value) do |s, i|
+      @project.issues.inject(value || '') do |s, i|
         s.gsub(/\b#{i.name}\b/, "{issue #{i.id}}")
       end
     end
@@ -215,7 +215,11 @@ class Issue < ModelObject
 
   ## make a unique id
   def make_id config, project
-    SHA1.hexdigest [Time.now, rand, creation_time, reporter, title, desc].join("\n")
+    if RUBY_VERSION >= '1.9.0'
+      Digest::SHA1.hexdigest [Time.now, rand, creation_time, reporter, title, desc].join("\n")
+    else
+      SHA1.hexdigest [Time.now, rand, creation_time, reporter, title, desc].join("\n")
+    end
   end
 
   def sort_order; [STATUS_SORT_ORDER[status], creation_time] end
