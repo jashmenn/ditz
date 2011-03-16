@@ -3,7 +3,7 @@ title: rss feed for recent activity
 desc: who knows, might be cool
 type: :feature
 component: ditz
-release: 
+release: "0.6"
 reporter: William Morgan <wmorgan-ditz@masanjin.net>
 status: :closed
 disposition: :fixed
@@ -27,5 +27,9 @@ log_events:
     we have a new template feed.rhtml that gets generated every time ditz html is run
     
     Still not very clever in specifiying things like LINK item etc because we can't give fully qualified urls
+- - 2011-03-15 17:03:48.630619 Z
+  - Matt Katz <ditz@morelightmorelight.com>
+  - assigned to release 0.6 from unassigned
+  - it will go in the next release
 git_branch: 
 claimer: Matt Katz <ditz@morelightmorelight.com>
