@@ -8,10 +8,10 @@ desc: !binary |
 
 type: :bugfix
 component: ditz
-release: 
+release: "0.6"
 reporter: Andrei Dziahel <develop7@develop7.info>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-09-28 14:08:39.882356 Z
 references: []
 
@@ -24,5 +24,13 @@ log_events:
     0JrQvtC80LzQtdC90YLQsNGA0LjQuSDQuiDRgtC10YHRgtC+0LLQvtC5INCx
     0LDQs9C1
 
+- - 2011-03-17 22:39:39.440871 Z
+  - Matt Katz <ditz@morelightmorelight.com>
+  - assigned to release 0.6 from unassigned
+  - looks like this is fixed in 0.6
+- - 2011-03-17 22:40:58.512929 Z
+  - Matt Katz <ditz@morelightmorelight.com>
+  - closed with disposition fixed
+  - ""
 git_branch: 
 claimer: 

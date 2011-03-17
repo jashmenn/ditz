@@ -1,0 +1,20 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: "can we render the spanish n \xC3\xB1"
+desc: hopefully the spanish n will show up in the YAML now
+type: :bugfix
+component: ditz
+release: "0.6"
+reporter: Matt Katz <ditz@morelightmorelight.com>
+status: :unstarted
+disposition: 
+creation_time: 2011-03-17 22:38:18.112919 Z
+references: []
+
+id: 3da0b9b5cb59a720849a9cc5b35da51d150606e3
+log_events: 
+- - 2011-03-17 22:38:18.113465 Z
+  - Matt Katz <ditz@morelightmorelight.com>
+  - created
+  - ""
+git_branch: 
+claimer: 

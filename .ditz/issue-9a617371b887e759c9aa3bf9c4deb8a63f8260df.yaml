@@ -23,10 +23,10 @@ desc: |-
   I'd also suggest this issue should be addressed to upstream YAML implementation but I'm not sure, since I'm not using Ruby.
 type: :bugfix
 component: ditz
-release: 
+release: "0.6"
 reporter: Andrei Dziahel <develop7@develop7.info>
-status: :unstarted
-disposition: 
+status: :closed
+disposition: :fixed
 creation_time: 2010-09-28 14:26:32.010919 Z
 references: []
 
@@ -36,5 +36,13 @@ log_events:
   - Andrei Dziahel <develop7@develop7.info>
   - created
   - ""
+- - 2011-03-17 22:41:21.104923 Z
+  - Matt Katz <ditz@morelightmorelight.com>
+  - assigned to release 0.6 from unassigned
+  - ""
+- - 2011-03-17 22:41:40.409853 Z
+  - Matt Katz <ditz@morelightmorelight.com>
+  - closed with disposition fixed
+  - fixed by change to yaml-waml
 git_branch: 
 claimer: 
