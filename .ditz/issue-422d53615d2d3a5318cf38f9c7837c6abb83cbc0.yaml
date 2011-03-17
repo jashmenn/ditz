@@ -1,0 +1,28 @@
+--- !ditz.rubyforge.org,2008-03-06/issue 
+title: !binary |
+  0KLQtdGB0YLQvtCy0LDRjyDQsdCw0LPQsCwg0LTQu9GPINC/0YDQvtCy0LXR
+  gNC60Lgg0L/QvtC00LTQtdGA0LbQutC4IFVURjg=
+
+desc: !binary |
+  0J7Qv9C40YHQsNC90LjQtSDRgtC10YHRgtC+0LLQvtC5INCx0LDQs9C4
+
+type: :bugfix
+component: ditz
+release: 
+reporter: Andrei Dziahel <develop7@develop7.info>
+status: :unstarted
+disposition: 
+creation_time: 2010-09-28 14:08:39.882356 Z
+references: []
+
+id: 422d53615d2d3a5318cf38f9c7837c6abb83cbc0
+log_events: 
+- - 2010-09-28 14:08:52.630495 Z
+  - Andrei Dziahel <develop7@develop7.info>
+  - created
+  - !binary |
+    0JrQvtC80LzQtdC90YLQsNGA0LjQuSDQuiDRgtC10YHRgtC+0LLQvtC5INCx
+    0LDQs9C1
+
+git_branch: 
+claimer: 
